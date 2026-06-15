@@ -2,25 +2,24 @@
 import ParticlesBackground from "./ParticlesBackground";
 
 const footerLinks = {
-  Organization: [
-    { label: "About Us", href: "#" },
-    { label: "Conferences", href: "#" },
-    { label: "Our Partners", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Contact", href: "#" },
+  CONFERENCES: [
+    { label: "Upcoming",              href: "#calendar" },
+    { label: "Portfolio",             href: "#conferences" },
+    { label: "Calendar",              href: "#calendar" },
+    { label: "Researcher Community",  href: "#" },
   ],
-  Resources: [
-    { label: "Call for Papers", href: "#" },
-    { label: "Author Guidelines", href: "#" },
-    { label: "Registration", href: "#" },
-    { label: "Visa Information", href: "#" },
-    { label: "FAQs", href: "#" },
+  "GR ECOSYSTEM": [
+    { label: "GR Journals",           href: "#" },
+    { label: "GR Connect",            href: "#" },
+    { label: "GR Quotient",           href: "#" },
+    { label: "GR Author Services",    href: "#" },
   ],
-  Policies: [
-    { label: "Terms & Conditions", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Cancellation Policy", href: "#" },
-    { label: "Code of Conduct", href: "#" },
+  RESOURCES: [
+    { label: "Archives",              href: "#archives" },
+    { label: "Partners",              href: "#partners" },
+    { label: "FAQs",                  href: "#" },
+    { label: "Policies",              href: "#" },
+    { label: "Contact",               href: "#" },
   ],
 };
 
@@ -28,26 +27,30 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#0a0b18] pt-24 pb-12 overflow-hidden border-t border-white/5">
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(157,120,226,0.15)_0%,transparent_70%)] translate-x-1/4 translate-y-1/4 pointer-events-none" />
-      
+
       {/* Particles effect */}
       <ParticlesBackground id="footer-particles" density={30} linkOpacity={0.05} />
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-        
+
         {/* Stay Updated strip */}
-        <div className="relative mb-10  border-white/10 pb-10">
-          <div className="relative rounded-3xl overflow-hidden p-6 md:p-8"
-            style={{ background: "linear-gradient(135deg, rgba(157,120,226,0.1) 0%, rgba(181,143,253,0.05) 100%)", border: "1px solid rgba(157,120,226,0.18)" }}
+        <div className="relative mb-10 border-white/10 pb-10">
+          <div
+            className="relative rounded-3xl overflow-hidden p-6 md:p-8"
+            style={{
+              background: "linear-gradient(135deg, rgba(157,120,226,0.1) 0%, rgba(181,143,253,0.05) 100%)",
+              border: "1px solid rgba(157,120,226,0.18)",
+            }}
           >
-            {/* shimmer top */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#9d78e2]/50 to-transparent" />
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-[100px] bg-[#9d78e2]/10 pointer-events-none" />
 
             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
-
-              {/* left — copy */}
               <div className="lg:max-w-md">
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2" style={{ letterSpacing: "-0.02em", fontFamily: "'Inter',sans-serif" }}>
+                <h2
+                  className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2"
+                  style={{ letterSpacing: "-0.02em", fontFamily: "'Inter',sans-serif" }}
+                >
                   Stay Updated With{" "}
                   <span className="bg-gradient-to-r from-[#9d78e2] to-[#b58ffd] bg-clip-text text-transparent">
                     Our Events
@@ -58,7 +61,6 @@ export default function Footer() {
                 </p>
               </div>
 
-              {/* right — form */}
               <div className="flex flex-col sm:flex-row gap-3 w-full lg:max-w-lg">
                 <input
                   type="email"
@@ -68,9 +70,21 @@ export default function Footer() {
                 />
                 <button
                   className="shrink-0 px-7 py-3.5 rounded-xl font-bold text-sm text-white tracking-wide transition-all"
-                  style={{ background: "linear-gradient(135deg, #9d78e2, #b58ffd)", boxShadow: "0 4px 20px rgba(157,120,226,0.35)", fontFamily: "'Inter',sans-serif" }}
-                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 8px 30px rgba(157,120,226,0.55)"; el.style.transform = "translateY(-2px)"; }}
-                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 4px 20px rgba(157,120,226,0.35)"; el.style.transform = "translateY(0)"; }}
+                  style={{
+                    background: "linear-gradient(135deg, #9d78e2, #b58ffd)",
+                    boxShadow: "0 4px 20px rgba(157,120,226,0.35)",
+                    fontFamily: "'Inter',sans-serif",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = "0 8px 30px rgba(157,120,226,0.55)";
+                    el.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = "0 4px 20px rgba(157,120,226,0.35)";
+                    el.style.transform = "translateY(0)";
+                  }}
                 >
                   Subscribe →
                 </button>
@@ -79,30 +93,59 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#9d78e2] to-[#b58ffd] flex items-center justify-center">
+        {/* ── Main footer grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+
+          {/* Brand column */}
+          <div className="md:col-span-1">
+            {/* Logo */}
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#9d78e2] to-[#b58ffd] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#9d78e2]/30">
                 <span className="text-white font-extrabold text-sm tracking-widest">GR</span>
               </div>
-              <h2 className="font-extrabold text-white text-xl tracking-wide uppercase leading-none">
-                Conferences
-              </h2>
+              <div>
+                <div className="text-white font-extrabold text-base leading-none tracking-wide">
+                  GR Conferences
+                </div>
+                <div className="text-[#9491ab] text-[10px] mt-0.5 font-medium">Global Research Network</div>
+              </div>
             </div>
-            <p className="text-[#b3b0cb] text-sm leading-relaxed mb-3">
-              London, UK<br/>Bangkok, TH<br/>New Delhi, IN
+
+            {/* Tagline */}
+            <p
+              className="text-[#9491ab] text-sm leading-relaxed mb-5"
+              style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}
+            >
+              Connecting Researchers.<br />
+              Inspiring Innovation.<br />
+              Advancing Knowledge.
             </p>
-            <p className="text-[#9d78e2] font-semibold text-sm">info@grconferences.com</p>
+
+            <a
+              href="mailto:info@grconferences.com"
+              className="text-[#9d78e2] font-semibold text-xs hover:text-[#b58ffd] transition-colors"
+            >
+              info@grconferences.com
+            </a>
           </div>
 
+          {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-white font-bold uppercase tracking-wider mb-3">{title}</h4>
-              <ul className="flex flex-col gap-2">
-                {links.map((link, idx) => (
-                  <li key={idx}>
-                    <a href={link.href} className="text-[#b3b0cb] hover:text-[#9d78e2] transition-colors text-sm font-semibold">
+              <h4
+                className="text-white font-bold text-xs uppercase tracking-[0.12em] mb-4"
+                style={{ fontFamily: "'Inter',sans-serif" }}
+              >
+                {title}
+              </h4>
+              <ul className="flex flex-col gap-2.5">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-[#b3b0cb] hover:text-[#9d78e2] transition-colors text-sm"
+                      style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}
+                    >
                       {link.label}
                     </a>
                   </li>
@@ -112,11 +155,15 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center text-[#b3b0cb] text-xs font-semibold tracking-wide border-t border-white/5 pt-5">
+        {/* ── Bottom bar ── */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-[#b3b0cb] text-xs font-semibold tracking-wide border-t border-white/5 pt-6 gap-4">
           <p>© {new Date().getFullYear()} GR Foundation. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+          <div className="flex gap-6">
+            {["Privacy Policy", "Terms of Service", "Cookie Policy", "Sitemap"].map((item) => (
+              <a key={item} href="#" className="hover:text-white transition-colors">
+                {item}
+              </a>
+            ))}
           </div>
         </div>
 

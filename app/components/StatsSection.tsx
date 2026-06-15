@@ -5,11 +5,11 @@ import ParticlesBackground from "./ParticlesBackground";
 import { fadeUp, staggerContainer, staggerFast, viewport } from "../lib/animations";
 
 const stats = [
-  { value: 10, suffix: "+", title: "Years of Legacy", label: "Conference Excellence" },
-  { value: 12, suffix: "+", title: "Conference Brands", label: "Conferences Held" },
-  { value: 50, suffix: "+", title: "Countries", label: "Reached Worldwide" },
-  { value: 500, suffix: "+", title: "Research Papers", label: "Papers Presented" },
-  { value: 12000, suffix: "+", title: "Members", label: "Growing Community" },
+  { value: 10, suffix: "+", title: "Years of Legacy" },
+  { value: 12, suffix: "+", title: "Conference Brands" },
+  { value: 50, suffix: "+", title: "Countries" },
+  { value: 500, suffix: "+", title: "Research Papers" },
+  { value: 12000, suffix: "+", title: "Members" },
 ];
 
 function Counter({ target, suffix }: { target: number; suffix: string }) {
@@ -87,7 +87,6 @@ export default function StatsSection() {
                 <Counter target={stat.value} suffix={stat.suffix} />
               </div>
               <div className="text-white text-base font-bold uppercase tracking-wider mb-1">{stat.title}</div>
-              <div className="text-[#b3b0cb] text-xs uppercase tracking-widest font-semibold">{stat.label}</div>
               <div className="w-8 h-0.5 bg-[#9d78e2]/50 mt-5 rounded-full"></div>
             </motion.div>
           ))}

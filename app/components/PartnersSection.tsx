@@ -75,7 +75,7 @@ export default function PartnersSection() {
           <span className="bg-gradient-to-r from-[#9d78e2] via-[#b58ffd] to-[#38bdf8] bg-clip-text text-transparent">Institutions Worldwide</span>
         </motion.h2>
         <motion.p variants={fadeUp} className="text-[#7c7a9a] text-base mt-4 max-w-lg mx-auto leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-          Partnering with the world's leading universities, publishers and research bodies.
+          Partnering with the world&apos;s leading universities, publishers and research bodies.
         </motion.p>
       </motion.div>
 

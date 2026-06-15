@@ -76,7 +76,7 @@ export default function TestimonialsSection() {
                 </div>
                 <h3 className="text-white font-bold text-xl mb-3 tracking-wide leading-tight drop-shadow-sm">{t.title}</h3>
                 <p className="text-[#9492a8] text-sm leading-relaxed mb-6 group-hover:text-[#a5a3b8] transition-colors">{t.desc}</p>
-              </div>
+                </div>
               <div className="flex items-center gap-4 mt-auto relative z-10">
                 <div className="relative">
                   <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover shadow-[0_0_15px_rgba(0,0,0,0.5)]" />

@@ -1,97 +1,187 @@
 "use client";
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import ParticlesBackground from "./ParticlesBackground";
-import { fadeUp, staggerContainer, staggerFast, viewport } from "../lib/animations";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
-  { value: 10, suffix: "+", title: "Years of Legacy" },
-  { value: 12, suffix: "+", title: "Conference Brands" },
-  { value: 50, suffix: "+", title: "Countries" },
-  { value: 500, suffix: "+", title: "Research Papers" },
-  { value: 12000, suffix: "+", title: "Members" },
+  { value: 12,  suffix: "+",  title: "Conference Brands", desc: "Active across various academic and tech disciplines globally." },
+  { value: 50,  suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
+  { value: 500, suffix: "+",  title: "Research Papers",   desc: "High-quality academic publications and impactful journals." },
+  { value: 12,  suffix: "K+", title: "Global Members",    desc: "A rapidly growing community of dedicated researchers." },
 ];
 
-function Counter({ target, suffix }: { target: number; suffix: string }) {
+function Counter({ target, suffix, inView }: { target: number; suffix: string; inView: boolean }) {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const duration = 1800;
-          const steps = 60;
-          const increment = target / steps;
-          let current = 0;
+    if (!inView || started.current) return;
+    started.current = true;
 
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              setCount(target);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(current));
-            }
-          }, duration / steps);
-        }
-      },
-      { threshold: 0.3 }
-    );
+    const duration = 2000;
+    const steps    = 80;
+    const increment = target / steps;
+    let current = 0;
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
 
-    return () => observer.disconnect();
-  }, [target]);
+    return () => clearInterval(timer);
+  }, [inView, target]);
 
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
+  return <>{count.toLocaleString()}{suffix}</>;
 }
 
 export default function StatsSection() {
+  const sectionRef = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-120px" });
+
+  // Parallax on image
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], [-24, 24]);
+
   return (
-    <section id="stats" className="relative py-20 bg-[#0a0b18] overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[400px] bg-[radial-gradient(ellipse,rgba(157,120,226,0.1)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-wave opacity-20 pointer-events-none" />
+    <section
+      ref={sectionRef}
+      id="stats"
+      className="relative py-24 lg:py-32 bg-white overflow-hidden border-t border-gray-100"
+    >
+      {/* Subtle bg glow — fades in */}
+      <motion.div
+        className="absolute -left-48 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(255,94,58,0.04) 0%, transparent 70%)" }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+      />
 
-      {/* Particles effect */}
-      <ParticlesBackground id="stats-particles" density={40} linkOpacity={0.1} />
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
+        <div className="flex flex-col lg:flex-row items-stretch gap-16 lg:gap-20">
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center flex flex-col items-center">
-        
-        <motion.div variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewport} className="flex flex-col items-center">
-          <motion.span variants={fadeUp} className="text-[#9d78e2] text-sm font-bold tracking-widest uppercase mb-4 block">
-            Global Impact
-          </motion.span>
-          <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-extrabold text-white mb-20 uppercase tracking-wider">
-            Our Growing Network
-          </motion.h2>
-        </motion.div>
+          {/* ── LEFT — Header + Image ── */}
+          <div className="w-full lg:w-[45%] flex flex-col justify-between">
 
-        {/* Numbers Grid */}
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12 w-full"
-          variants={staggerFast} initial="hidden" whileInView="show" viewport={viewport}
-        >
-          {stats.map((stat, index) => (
-            <motion.div key={index} variants={fadeUp} className="flex flex-col items-center text-center">
-              <div className="text-5xl md:text-6xl font-extrabold text-[#9d78e2] mb-3 font-serif">
-                <Counter target={stat.value} suffix={stat.suffix} />
+            <div className="mb-12">
+              {/* Badge — drops from top */}
+              <motion.span
+                initial={{ opacity: 0, y: -16 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, ease, delay: 0.05 }}
+                className="text-[#FF5E3A] font-bold tracking-[0.12em] uppercase text-[11px] mb-4 block"
+              >
+                Let numbers say instead of us
+              </motion.span>
+
+              {/* Heading — each word blur+scale in */}
+              <div className="mb-6">
+                {["Our", "Growing", "Network"].map((word, i) => (
+                  <motion.div
+                    key={word}
+                    initial={{ opacity: 0, filter: "blur(10px)", scale: 1.06 }}
+                    animate={isInView ? { opacity: 1, filter: "blur(0px)", scale: 1 } : {}}
+                    transition={{ duration: 0.65, ease, delay: 0.1 + i * 0.1 }}
+                    className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-[#111111] leading-[1.15] tracking-tight"
+                  >
+                    {word}
+                  </motion.div>
+                ))}
               </div>
-              <div className="text-white text-base font-bold uppercase tracking-wider mb-1">{stat.title}</div>
-              <div className="w-8 h-0.5 bg-[#9d78e2]/50 mt-5 rounded-full"></div>
-            </motion.div>
-          ))}
-        </motion.div>
 
+              {/* Description — clip-path curtain */}
+              <motion.p
+                initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                animate={isInView ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
+                transition={{ duration: 0.9, ease, delay: 0.4 }}
+                className="text-[#2e2f2f] text-base leading-[1.8] max-w-[480px]"
+              >
+                For over 10+ years, we've established a global legacy, empowering researchers, academicians, and institutions with world-class conferences and publications.
+              </motion.p>
+            </div>
+
+            {/* Image — parallax + fade+scale in */}
+            <motion.div
+              className="relative w-full h-[300px] sm:h-[400px] lg:h-auto lg:flex-1 rounded-[4px] overflow-hidden"
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.9, ease, delay: 0.3 }}
+              style={{ y: imageY }}
+            >
+              <img
+                src="/ourgrowingnetwork.jpg"
+                alt="Conference Audience"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              {/* Subtle shimmer overlay on load */}
+              <motion.div
+                className="absolute inset-0 bg-white pointer-events-none"
+                initial={{ opacity: 0.3 }}
+                animate={isInView ? { opacity: 0 } : {}}
+                transition={{ duration: 1.2, ease, delay: 0.3 }}
+              />
+            </motion.div>
+          </div>
+
+          {/* ── RIGHT — 2×2 Stats Grid ── */}
+          <div className="w-full lg:w-[55%] flex items-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2">
+              {stats.map((stat, index) => {
+                let borderClasses = "border-gray-100";
+                if (index === 0) borderClasses += " border-b sm:border-r";
+                else if (index === 1) borderClasses += " border-b";
+                else if (index === 2) borderClasses += " border-b sm:border-b-0 sm:border-r";
+
+                // Each stat cell: slides from its quadrant direction
+                const directions = [
+                  { x: -30, y: -30 }, // top-left
+                  { x:  30, y: -30 }, // top-right
+                  { x: -30, y:  30 }, // bottom-left
+                  { x:  30, y:  30 }, // bottom-right
+                ];
+                const dir = directions[index];
+
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: dir.x, y: dir.y }}
+                    animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+                    transition={{ duration: 0.7, ease, delay: 0.2 + index * 0.12 }}
+                    className={`py-12 sm:p-10 lg:p-12 flex flex-col justify-center border ${borderClasses}`}
+                  >
+                    {/* Counter — large number */}
+                    <motion.div
+                      className="text-[4.5rem] lg:text-[5rem] font-extrabold text-[#111111] leading-none mb-3 tracking-tighter"
+                      initial={{ opacity: 0, scale: 0.7 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ duration: 0.6, ease, delay: 0.35 + index * 0.12 }}
+                    >
+                      <Counter target={stat.value} suffix={stat.suffix} inView={isInView} />
+                    </motion.div>
+
+                    {/* Orange underline draws in */}
+                    <motion.div
+                      className="h-[2px] bg-[#FF5E3A] rounded-full mb-3"
+                      initial={{ width: 0 }}
+                      animate={isInView ? { width: 32 } : {}}
+                      transition={{ duration: 0.6, ease, delay: 0.5 + index * 0.12 }}
+                    />
+
+                    <h3 className="text-[#111111] text-lg font-bold mb-2">{stat.title}</h3>
+                    <p className="text-[#6B7280] text-sm leading-relaxed max-w-[250px]">{stat.desc}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

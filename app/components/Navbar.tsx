@@ -2,111 +2,257 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
+  { label: "Home",        href: "#home" },
+  { label: "About",       href: "#about" },
+  { label: "Services",    href: "#services" },
   { label: "Conferences", href: "#conferences" },
-  { label: "Calendar", href: "#calendar" },
-  { label: "Archives", href: "#archives" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Partners", href: "#partners" },
+  { label: "Stats",       href: "#stats" },
+  { label: "FAQ",         href: "#faq" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0b18]/90 backdrop-blur-md py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]' : 'bg-transparent py-5'}`}>
-      <nav className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      style={{
+        background: scrolled
+          ? "rgba(10,10,10,0.92)"
+          : "transparent",
+        backdropFilter:       scrolled ? "blur(20px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
+        boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.4)" : "none",
+      }}
+    >
+      {/* ── Main bar ── */}
+      <div
+        className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center justify-between"
+        style={{ height: 72 }}
+      >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#9d78e2] to-[#b58ffd] flex items-center justify-center">
-            <span className="text-white font-extrabold text-sm tracking-widest">GR</span>
+        <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <div
+            className="h-9 w-9 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+            style={{
+              background: "#EE4E34",
+              boxShadow: "0 4px 18px rgba(238,78,52,0.35)",
+            }}
+          >
+            <span className="text-white font-black text-xs tracking-wider">GR</span>
           </div>
+
           <div>
-            <h2 className="font-extrabold text-white text-xl tracking-wide uppercase leading-none">
-              Conferences
-            </h2>
+            <div
+              className="font-bold leading-tight"
+              style={{ color: "#FFFFFF", fontSize: 15 }}
+            >
+              GR Conferences
+            </div>
+            <div
+              className="leading-tight tracking-widest uppercase"
+              style={{ color: "#949A9A", fontSize: 10 }}
+            >
+              Global Research Network
+            </div>
           </div>
         </Link>
 
-        {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center gap-2">
-          {navLinks.map((link, index) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  index === 0 ? 'text-white' : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </a>
-            </li>
+        {/* Desktop nav links */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <NavLink key={link.label} href={link.href}>
+              {link.label}
+            </NavLink>
           ))}
-        </ul>
+        </nav>
 
-        {/* Right CTA */}
-        <div className="hidden lg:flex items-center">
+        {/* Desktop right side */}
+        <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
           <a
-            href="#conferences"
-            className="px-6 py-2.5 rounded-full font-bold text-white border border-white/30 hover:bg-white hover:text-[#0a0b18] transition-all duration-300 text-sm tracking-wide"
+            href="#"
+            className="text-sm font-medium transition-colors duration-200"
+            style={{ color: "#949A9A" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#E4E4E4"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#949A9A"; }}
           >
-            Submit Paper
+            Sign In
           </a>
+
+          <CTAButton href="#conferences">Submit Paper</CTAButton>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile toggle */}
         <button
-          className="lg:hidden text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen((v) => !v)}
+          className="lg:hidden flex items-center justify-center rounded-xl transition-all duration-200"
+          style={{
+            width: 40,
+            height: 40,
+            border:     "1px solid #333333",
+            background: menuOpen ? "rgba(238,78,52,0.10)" : "rgba(255,255,255,0.03)",
+            color:      "#E4E4E4",
+          }}
+          aria-label="Toggle navigation"
         >
-          {menuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-[#0a0b18] border-t border-white/10 p-5 shadow-2xl">
-          <div className="flex flex-col gap-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all duration-300 font-medium"
+          <AnimatePresence mode="wait" initial={false}>
+            {menuOpen ? (
+              <motion.svg
+                key="close"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.15 }}
+                width={20} height={20} viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth={2}
+                strokeLinecap="round" strokeLinejoin="round"
               >
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <a
-            href="#conferences"
-            className="block mt-4 text-center px-5 py-3 rounded-xl text-[#0a0b18] font-bold bg-white"
+                <path d="M6 18L18 6M6 6l12 12" />
+              </motion.svg>
+            ) : (
+              <motion.svg
+                key="open"
+                initial={{ opacity: 0, rotate: 90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: -90 }}
+                transition={{ duration: 0.15 }}
+                width={20} height={20} viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth={2}
+                strokeLinecap="round" strokeLinejoin="round"
+              >
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </motion.svg>
+            )}
+          </AnimatePresence>
+        </button>
+      </div>
+
+      {/* ── Mobile menu ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            style={{
+              background: "rgba(10,10,10,0.97)",
+              borderTop:  "1px solid rgba(255,255,255,0.07)",
+              overflow:   "hidden",
+            }}
           >
-            Submit Paper
-          </a>
-        </div>
-      )}
-    </div>
+            <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col gap-1">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, x: -14 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.045, duration: 0.2 }}
+                  className="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200"
+                  style={{ color: "#E4E4E4" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.color      = "#FFFFFF";
+                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.color      = "#E4E4E4";
+                    (e.currentTarget as HTMLElement).style.background = "transparent";
+                  }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.045 + 0.05, duration: 0.2 }}
+                className="mt-2"
+              >
+                <CTAButton href="#conferences" onClick={() => setMenuOpen(false)} block>
+                  Submit Paper
+                </CTAButton>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
+
+/* ── Shared sub-components ─────────────────────────────────────── */
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      className="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+      style={{ color: "#E4E4E4" }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.color      = "#FFFFFF";
+        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.color      = "#E4E4E4";
+        (e.currentTarget as HTMLElement).style.background = "transparent";
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+function CTAButton({
+  href,
+  children,
+  onClick,
+  block,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  block?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      className={`${block ? "block text-center w-full" : "inline-flex"} items-center justify-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200`}
+      style={{
+        background: "#EE4E34",
+        boxShadow:  "0 4px 18px rgba(238,78,52,0.30)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.background = "#FF4C4C";
+        (e.currentTarget as HTMLElement).style.boxShadow  = "0 6px 24px rgba(255,76,76,0.42)";
+        (e.currentTarget as HTMLElement).style.transform  = "translateY(-1px)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.background = "#EE4E34";
+        (e.currentTarget as HTMLElement).style.boxShadow  = "0 4px 18px rgba(238,78,52,0.30)";
+        (e.currentTarget as HTMLElement).style.transform  = "translateY(0)";
+      }}
+    >
+      {children}
+    </a>
   );
 }

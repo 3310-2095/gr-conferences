@@ -1,34 +1,52 @@
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
-import CommunitySection from "./components/CommunitySection";
 import AboutSection from "./components/AboutSection";
 import ConferencesSection from "./components/ConferencesSection";
+import GlobalMapSection from "./components/GlobalMapSection";
+import CommunitySection from "./components/CommunitySection";
 import StatsSection from "./components/StatsSection";
-// import UpcomingConferences from "./components/UpcomingConferences";
 import WhySection from "./components/WhySection";
 import PartnersSection from "./components/PartnersSection";
-import TestimonialsSection from "./components/TestimonialsSection";
-import Footer from "./components/Footer";
 import ParticipatingInstitutions from "./components/ParticipatingInstitutions";
-import GlobalMapSection from "./components/GlobalMapSection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import NewsletterStrip from "./components/NewsletterStrip";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <main>
+        {/* 1. Hero — conference visuals, global stats, CTA buttons */}
         <HeroSection />
-        <CommunitySection />
+
         <AboutSection />
-        <GlobalMapSection />
+
+        {/* 2. Featured Upcoming Conferences */}
         <ConferencesSection />
+
+        {/* 3. Global conference map */}
+        {/* <GlobalMapSection /> */}
+
+        {/* 4. Conference Brands / Focus Areas / Disciplines */}
+        <CommunitySection />
+
+        {/* 5. Global Impact counters */}
         <StatsSection />
-        {/* <UpcomingConferences /> */}
+
+        {/* 6. Why GR Conferences */}
         <WhySection />
+
+        {/* 7. Institutional Partner logos */}
         <PartnersSection />
+
+        {/* 8. Author logos */}
         <ParticipatingInstitutions />
+
+        {/* 9. Testimonials */}
         <TestimonialsSection />
       </main>
+      <NewsletterStrip />
       <Footer />
     </>
   );

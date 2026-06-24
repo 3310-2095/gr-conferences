@@ -1,64 +1,189 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
+/* ================================================================
+   GR CONFERENCES — DESIGN SYSTEM
+   Color theme matched to beta-128.webflow.io/home-1
+   ================================================================ */
+
 :root {
-  --primary: #9d78e2;
-  --primary-hover: #8760de;
-  --primary-light: rgba(157, 120, 226, 0.1);
+  /* Backgrounds */
+  --background:   #121212;
+  --surface:      #1A1A1A;
+  --surface-2:    #222222;
+  --footer-bg:    #0A0A0A;
 
-  --accent: #b58ffd;
-  --accent-light: rgba(181, 143, 253, 0.1);
+  /* Light Theme Backgrounds */
+  --bg-light:     #F4F5F7;
+  --surface-light:#FFFFFF;
 
-  --background: #0a0b18;
-  --surface: #14122b;
-  --surface-2: #1e193e;
+  /* Primary Accent — Orange-Red */
+  --primary:        #FF5E3A;
+  --primary-hover:  #FF7B5C;
+  --primary-light:  rgba(255, 94, 58, 0.12);
+  --primary-glow:   rgba(255, 94, 58, 0.28);
+  
+  /* Secondary Accent - Deep Indigo */
+  --secondary:      #4F46E5;
 
-  --foreground: #ffffff;
-  --text-muted: #9491ab;
+  /* Legacy aliases (keeps existing components from breaking) */
+  --accent:         #FF5E3A;
+  --accent-light:   rgba(255, 94, 58, 0.12);
 
-  --border: rgba(255, 255, 255, 0.08);
+  /* Text */
+  --foreground:   #FFFFFF;
+  --text-body:    #D1D5DB;
+  --text-muted:   #9CA3AF;
+
+  /* Borders & Inputs */
+  --border:       #2A2A2A;
+  --border-light: rgba(42, 42, 42, 0.6);
+  --input-bg:     #2A2A2A;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  
-  --color-primary: var(--primary);
+  --color-background:    var(--background);
+  --color-foreground:    var(--foreground);
+  --color-surface:       var(--surface);
+  --color-surface-2:     var(--surface-2);
+  --color-footer-bg:     var(--footer-bg);
+  --color-primary:       var(--primary);
   --color-primary-hover: var(--primary-hover);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
+  --color-accent:        var(--accent);
+  --color-border:        var(--border);
+  --color-text-body:     var(--text-body);
+  --color-text-muted:    var(--text-muted);
 
-  --font-sans: 'Plus Jakarta Sans', sans-serif;
-  --font-heading: 'Inter', sans-serif;
+  --font-sans:    'Outfit', system-ui, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
 }
+
+/* ── Base ─────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
   background-color: var(--background);
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-body);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-feature-settings: 'kern', 'liga', 'calt';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
+p {
+  line-height: 1.7;
+}
+
+/* ── Layout helpers ───────────────────────────────────────────── */
+
 .section-padding {
-  @apply py-24 lg:py-32;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+@media (min-width: 1024px) {
+  .section-padding { padding-top: 8rem; padding-bottom: 8rem; }
 }
 
 .container-custom {
-  @apply max-w-[1400px] mx-auto px-6 lg:px-12;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .container-custom { padding-left: 3rem; padding-right: 3rem; }
 }
 
+/* ── Backgrounds ─────────────────────────────────────────────── */
+
+.bg-surface   { background: var(--surface); }
+.bg-surface-2 { background: var(--surface-2); }
+.bg-footer    { background: var(--footer-bg); }
+
 .bg-pattern {
-  background-image: radial-gradient(circle at 50% 0%, rgba(157, 120, 226, 0.15) 0%, transparent 60%);
+  background-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(238, 78, 52, 0.07) 0%,
+    transparent 65%
+  );
 }
+
+/* ── Text utilities ───────────────────────────────────────────── */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 8px 28px var(--primary-glow);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.card:hover { border-color: var(--primary); }
+
+/* ── Glass surface ───────────────────────────────────────────── */
+
+.glass {
+  background: rgba(46, 47, 47, 0.55);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── Marquee ─────────────────────────────────────────────────── */
 
 @keyframes marquee-left {
   0%   { transform: translateX(0); }
@@ -68,24 +193,27 @@ h1, h2, h3, h4, h5, h6 {
   0%   { transform: translateX(-50%); }
   100% { transform: translateX(0); }
 }
+
 .marquee-left  { animation: marquee-left  28s linear infinite; }
 .marquee-right { animation: marquee-right 28s linear infinite; }
 .marquee-left:hover,
 .marquee-right:hover { animation-play-state: paused; }
 
-.bg-wave {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.15;
-  background-image: repeating-radial-gradient(
-    circle at 50% 50%,
-    transparent 0,
-    transparent 20px,
-    rgba(255,255,255,0.1) 21px,
-    transparent 22px
-  );
-  pointer-events: none;
+/* ── General animations ──────────────────────────────────────── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 18px var(--primary-glow); }
+  50%       { box-shadow: 0 0 36px var(--primary-glow); }
+}
+
+.animate-fade-up   { animation: fade-up   0.55s ease-out both; }
+.animate-fade-in   { animation: fade-in   0.4s  ease-out both; }
+.animate-glow-pulse { animation: glow-pulse 2.4s ease-in-out infinite; }

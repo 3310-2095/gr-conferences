@@ -71,7 +71,7 @@ export default function HeroSection() {
       >
         {/* Actual image — loads instantly with priority */}
         <Image
-          src="/banner.jpg"
+          src="/hero.jpg"
           alt=""
           fill
           priority

@@ -34,14 +34,12 @@ export default function Footer() {
           {/* Left Column: Brand & Newsletter */}
           <div className="w-full lg:w-[35%] flex flex-col">
             {/* Brand Logo */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF5E3A] to-[#e04020] flex items-center justify-center shadow-lg shadow-[#FF5E3A]/20">
-                <span className="text-white font-extrabold text-sm tracking-widest">GR</span>
-              </div>
-              <div>
-                <div className="text-white font-extrabold text-xl tracking-wide leading-none">GR Conferences</div>
-                <div className="text-[#9CA3AF] text-[11px] mt-1.5 font-medium uppercase tracking-widest">Global Research Network</div>
-              </div>
+            <div className="flex items-center mb-8">
+              <img
+                src="/white.png"
+                alt="GR Conferences"
+                className="h-12 w-auto object-contain"
+              />
             </div>
             
             {/* Newsletter Text */}
@@ -64,13 +62,13 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="flex gap-4">
               <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
-                <FaFacebookF className="text-[#FF5E3A] text-xl group-hover:scale-110 transition-transform" />
+                <FaFacebookF className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
               </a>
               <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
-                <FaTwitter className="text-[#FF5E3A] text-xl group-hover:scale-110 transition-transform" />
+                <FaTwitter className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
               </a>
               <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
-                <FaLinkedinIn className="text-[#FF5E3A] text-xl group-hover:scale-110 transition-transform" />
+                <FaLinkedinIn className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
               </a>
             </div>
           </div>

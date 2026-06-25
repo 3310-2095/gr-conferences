@@ -31,8 +31,8 @@ const maskStyle: React.CSSProperties = {
 
 function PartnerPill({ name, index }: { name: string; index: number }) {
   return (
-    <div className="flex items-center gap-3 px-5 py-3 mx-2.5 shrink-0 bg-white/[0.04] border border-white/[0.08] hover:bg-[#FF5E3A]/10 hover:border-[#FF5E3A]/40 transition-all duration-300 group cursor-default">
-      <span className="text-[10px] font-black text-[#FF5E3A]/60 group-hover:text-[#FF5E3A] transition-colors tabular-nums w-5">
+    <div className="flex items-center gap-3 px-5 py-3 mx-2.5 shrink-0 bg-white/[0.04] border border-white/[0.08] hover:bg-[#6B04A8]/10 hover:border-[#520380]/40 transition-all duration-300 group cursor-default">
+      <span className="text-[10px] font-black text-[#520380]/60 group-hover:text-[#520380] transition-colors tabular-nums w-5">
         {String(index + 1).padStart(2, "0")}
       </span>
       <span className="w-px h-3 bg-white/10" />
@@ -48,7 +48,7 @@ function InstitutionPill({ name, icon, color }: { name: string; icon: React.Reac
   const isSpringer = name === "Springer";
   return (
     <div
-      className="flex items-center gap-3 px-6 py-3.5 mx-3 shrink-0 border border-white/[0.08] hover:border-[#FF5E3A]/40 transition-all duration-300 cursor-default group"
+      className="flex items-center gap-3 px-6 py-3.5 mx-3 shrink-0 border border-white/[0.08] hover:border-[#520380]/40 transition-all duration-300 cursor-default group"
       style={{ background: "rgba(255,255,255,0.03)" }}
     >
       <span style={{ color }} className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
@@ -79,7 +79,7 @@ export default function PartnersSection() {
     <section id="partners" className="relative bg-[#111111] overflow-hidden">
 
       {/* Top edge */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#FF5E3A]/30 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#520380]/30 to-transparent" />
 
       <div className="flex flex-col lg:flex-row">
 
@@ -89,15 +89,16 @@ export default function PartnersSection() {
           variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewport}
         >
           {/* Glow blob */}
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#FF5E3A]/8 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#520380]/8 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="relative z-10">
-            <motion.span variants={fadeUp} className="text-[#FF5E3A] font-bold tracking-[0.14em] uppercase text-[11px] mb-5 block">
+            <motion.span variants={fadeUp} className="text-[#520380] font-bold tracking-[0.14em] uppercase text-[11px] mb-5 flex items-center gap-2">
+              <span className="text-[#520380] text-xs">♦</span>
               Partners & Institutions
             </motion.span>
             <motion.h2 variants={fadeUp} className="text-3xl xl:text-4xl font-extrabold text-white tracking-tight leading-tight mb-6">
               Trusted By The<br />
-              <span className="text-[#FF5E3A]">World's Best</span>
+              <span className="text-[#520380]">World's Best</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-white/40 text-sm leading-relaxed mb-10 max-w-xs">
               Partnering with leading universities, publishers, research bodies and global institutions worldwide.
@@ -124,21 +125,21 @@ export default function PartnersSection() {
                 padding:       "16px 36px",
                 fontSize:      15,
                 letterSpacing: "0.01em",
-                background:    "linear-gradient(135deg, #FF5E3A 0%, #e04020 100%)",
+                background:    "linear-gradient(135deg, #520380 0%, #3A025B 100%)",
                 borderRadius:  10,
-                boxShadow:     "0 4px 24px rgba(255,94,58,0.30), inset 0 1px 0 rgba(255,255,255,0.15)",
+                boxShadow:     "0 4px 24px rgba(82,3,128,0.30), inset 0 1px 0 rgba(255,255,255,0.15)",
                 transition:    "box-shadow 0.3s ease, transform 0.3s ease",
               }}
               whileHover="hover"
               whileTap={{ scale: 0.96 }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 0 0 3px rgba(255,94,58,0.25), 0 14px 48px rgba(255,94,58,0.55), inset 0 1px 0 rgba(255,255,255,0.15)";
+                el.style.boxShadow = "0 0 0 3px rgba(82,3,128,0.25), 0 14px 48px rgba(82,3,128,0.55), inset 0 1px 0 rgba(255,255,255,0.15)";
                 el.style.transform = "translateY(-3px)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 4px 24px rgba(255,94,58,0.30), inset 0 1px 0 rgba(255,255,255,0.15)";
+                el.style.boxShadow = "0 4px 24px rgba(82,3,128,0.30), inset 0 1px 0 rgba(255,255,255,0.15)";
                 el.style.transform = "translateY(0)";
               }}
             >

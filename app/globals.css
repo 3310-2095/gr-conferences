@@ -17,18 +17,18 @@
   --bg-light:     #F4F5F7;
   --surface-light:#FFFFFF;
 
-  /* Primary Accent — Orange-Red */
-  --primary:        #FF5E3A;
-  --primary-hover:  #FF7B5C;
-  --primary-light:  rgba(255, 94, 58, 0.12);
-  --primary-glow:   rgba(255, 94, 58, 0.28);
+  /* Primary Accent — Dark Purple */
+  --primary:        #520380;
+  --primary-hover:  #6B04A8;
+  --primary-light:  rgba(82,3,128,0.12);
+  --primary-glow:   rgba(82,3,128,0.35);
   
   /* Secondary Accent - Deep Indigo */
   --secondary:      #4F46E5;
 
   /* Legacy aliases (keeps existing components from breaking) */
-  --accent:         #FF5E3A;
-  --accent-light:   rgba(255, 94, 58, 0.12);
+  --accent:         #520380;
+  --accent-light:   rgba(82,3,128,0.12);
 
   /* Text */
   --foreground:   #FFFFFF;
@@ -115,7 +115,7 @@ p {
 .bg-pattern {
   background-image: radial-gradient(
     ellipse at 50% 0%,
-    rgba(238, 78, 52, 0.07) 0%,
+    rgba(82,3,128,0.08) 0%,
     transparent 65%
   );
 }

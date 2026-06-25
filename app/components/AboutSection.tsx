@@ -47,7 +47,7 @@ export default function AboutSection() {
       {/* Subtle bg glow */}
       <motion.div
         className="absolute -right-40 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(255,94,58,0.05) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(82,3,128,0.05) 0%, transparent 70%)" }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
@@ -72,7 +72,8 @@ export default function AboutSection() {
                 show:   { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.5, ease } },
               }}
             >
-              <span className="inline-flex items-center gap-2 px-4 py-[7px] rounded-xl text-[11px] font-bold tracking-[0.12em] uppercase border border-[#FF5E3A]/40 text-[#FF5E3A]">
+              <span className="inline-flex items-center gap-2 px-4 py-[7px]  text-[11px] font-bold tracking-[0.12em] uppercase  text-[#520380]">
+                <span className="text-[#520380] text-xs">♦</span>
                 About Us
               </span>
             </motion.div>
@@ -114,7 +115,7 @@ export default function AboutSection() {
 
             {/* Divider — draws from left */}
             <motion.div
-              className="h-[3px] rounded-full bg-[#FF5E3A]"
+              className="h-[3px] rounded-full bg-[#520380]"
               initial={{ width: 0, opacity: 0 }}
               whileInView={{ width: 64, opacity: 1 }}
               transition={{ duration: 0.8, ease, delay: 0.4 }}
@@ -131,12 +132,12 @@ export default function AboutSection() {
               <motion.a
                 href="#conferences"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm"
-                style={{ background: "linear-gradient(135deg, #FF5E3A 0%, #e04020 100%)", boxShadow: "0 6px 24px rgba(255,94,58,0.35)" }}
-                whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(255,94,58,0.50)" }}
+                style={{ background: "linear-gradient(135deg, #520380 0%, #3A025B 100%)", boxShadow: "0 6px 24px rgba(82,3,128,0.35)" }}
+                whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(82,3,128,0.50)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.2 }}
               >
-                Explore Conferences
+               Learn More
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}

@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { label: "Home",        href: "#home" },
   { label: "About",       href: "#about" },
-  { label: "Services",    href: "#services" },
   { label: "Conferences", href: "#conferences" },
-  { label: "Stats",       href: "#stats" },
-  { label: "FAQ",         href: "#faq" },
+  { label: "Calendar",    href: "#calendar" },
+  { label: "Archives",    href: "#archives" },
+  { label: "Members",     href: "#members" },
+  { label: "Gallery",     href: "#gallery" },
+  { label: "Partners",    href: "#partners" },
 ];
 
 export default function Navbar() {
@@ -48,30 +50,11 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-          <div
-            className="h-9 w-9 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
-            style={{
-              background: "#EE4E34",
-              boxShadow: "0 4px 18px rgba(238,78,52,0.35)",
-            }}
-          >
-            <span className="text-white font-black text-xs tracking-wider">GR</span>
-          </div>
-
-          <div>
-            <div
-              className="font-bold leading-tight"
-              style={{ color: "#FFFFFF", fontSize: 15 }}
-            >
-              GR Conferences
-            </div>
-            <div
-              className="leading-tight tracking-widest uppercase"
-              style={{ color: "#949A9A", fontSize: 10 }}
-            >
-              Global Research Network
-            </div>
-          </div>
+          <img
+            src="/white.png"
+            alt="GR Conferences"
+            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </Link>
 
         {/* Desktop nav links */}
@@ -85,16 +68,6 @@ export default function Navbar() {
 
         {/* Desktop right side */}
         <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
-          <a
-            href="#"
-            className="text-sm font-medium transition-colors duration-200"
-            style={{ color: "#949A9A" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#E4E4E4"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#949A9A"; }}
-          >
-            Sign In
-          </a>
-
           <CTAButton href="#conferences">Submit Paper</CTAButton>
         </div>
 
@@ -106,7 +79,7 @@ export default function Navbar() {
             width: 40,
             height: 40,
             border:     "1px solid #333333",
-            background: menuOpen ? "rgba(238,78,52,0.10)" : "rgba(255,255,255,0.03)",
+            background: menuOpen ? "rgba(82,3,128,0.10)" : "rgba(255,255,255,0.03)",
             color:      "#E4E4E4",
           }}
           aria-label="Toggle navigation"
@@ -238,17 +211,17 @@ function CTAButton({
       onClick={onClick}
       className={`${block ? "block text-center w-full" : "inline-flex"} items-center justify-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200`}
       style={{
-        background: "#EE4E34",
-        boxShadow:  "0 4px 18px rgba(238,78,52,0.30)",
+        background: "#520380",
+        boxShadow:  "0 4px 18px rgba(82,3,128,0.30)",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.background = "#FF4C4C";
-        (e.currentTarget as HTMLElement).style.boxShadow  = "0 6px 24px rgba(255,76,76,0.42)";
+        (e.currentTarget as HTMLElement).style.background = "#6B04A8";
+        (e.currentTarget as HTMLElement).style.boxShadow  = "0 6px 24px rgba(107,4,168,0.42)";
         (e.currentTarget as HTMLElement).style.transform  = "translateY(-1px)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.background = "#EE4E34";
-        (e.currentTarget as HTMLElement).style.boxShadow  = "0 4px 18px rgba(238,78,52,0.30)";
+        (e.currentTarget as HTMLElement).style.background = "#520380";
+        (e.currentTarget as HTMLElement).style.boxShadow  = "0 4px 18px rgba(82,3,128,0.30)";
         (e.currentTarget as HTMLElement).style.transform  = "translateY(0)";
       }}
     >

@@ -1,198 +1,403 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import {
-  HiOutlineDocumentText,
-  HiOutlineMagnifyingGlass,
-  HiOutlineMicrophone,
-  HiOutlineUserGroup,
-  HiOutlineAcademicCap,
-  HiOutlineBuildingOffice2,
-  HiArrowUpRight,
-} from "react-icons/hi2";
+import { useRef, useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
+};
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 40 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease, delay: i * 0.1 },
+  }),
+};
 
 const cards = [
-  { icon: HiOutlineDocumentText,    label: "Submit Your Paper",     sub: "Present your research to a global audience. We connect your work with peer reviewers and readers across 50+ countries.", tag: "Authors"  },
-  { icon: HiOutlineMagnifyingGlass, label: "Join as Reviewer",      sub: "Shape academic quality by reviewing submissions in your discipline.",                                                     tag: "Reviewers" },
-  { icon: HiOutlineMicrophone,      label: "Speak at a Conference",  sub: "Deliver a keynote or workshop at one of our flagship global events.",                                                    tag: "Speakers"  },
-  { icon: HiOutlineUserGroup,       label: "Chair a Session",        sub: "Lead and moderate high-impact research discussions across disciplines.",                                                  tag: "Chairs"    },
-  { icon: HiOutlineAcademicCap,     label: "Advisory Board",         sub: "Guide our direction and shape the future of academic conferencing.",                                                     tag: "Advisors"  },
+  {
+    num: "01",
+    role: "For Authors",
+    title: "Submit & Publish Your Research",
+    desc: "Share your work with a global readership through a rigorous, transparent, and efficient editorial process built around your needs.",
+    links: [{ label: "Submit Your Article", href: "/submissions/" }],
+  },
+  {
+    num: "02",
+    role: "For Reviewers",
+    title: "Champion Quality Research",
+    desc: "Join a network of experts supporting academic excellence through constructive, timely peer review.",
+    links: [{ label: "Join as Reviewer", href: "/join/reviewer" }],
+  },
+  {
+    num: "03",
+    role: "For Editors",
+    title: "Shape Our Editorial Direction",
+    desc: "Lead academic direction from the front — join our editorial leadership and help define the standards of excellence we uphold.",
+    links: [{ label: "Join Editorial Board", href: "/join/editorial-board" }],
+  },
+  {
+    num: "04",
+    role: "For Institutions",
+    title: "Partner for Lasting Impact",
+    desc: "Establish a meaningful institutional partnership for research, publishing, and broad academic collaboration across disciplines.",
+    links: [{ label: "Institutional Partnership", href: "/join/institution" }],
+  },
 ];
 
-/* Card style tokens — change these two lines to retheme all cards */
-const CARD_BG     = "bg-[#EEECEA]";      /* warm light gray */
-const CARD_BORDER = "border-[#DEDAD6]";  /* slightly darker border */
-
 export default function CommunitySection() {
-  const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const scrollTo = (i: number) => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const card = slider.children[i] as HTMLElement;
+    slider.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+    setActive(i);
+  };
+
+  const onScroll = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const idx = Math.round(slider.scrollLeft / slider.offsetWidth);
+    setActive(idx);
+  };
 
   return (
-    <section
-      ref={ref}
-      id="community"
-      className="bg-white py-24 lg:py-32 overflow-hidden"
-    >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+    <section className="engage-section">
+      <div className="engage-shell">
 
-        {/* ── Header ── */}
-        <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-end mb-14 lg:mb-16">
+        {/* Label */}
+        <motion.p
+          className="section-label-engage"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease }}
+          viewport={{ once: true, margin: "-60px" }}
+        >
+          <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
+          Engage With Us
+        </motion.p>
 
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, ease }}
-              className="flex items-center gap-3 mb-5"
+        {/* Intro grid */}
+        <motion.div
+          className="engage-intro-grid"
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+        >
+          <motion.h2 variants={fadeUp} className="engage-heading">
+            Discover your role.<br />Connect. Publish.<br />Grow.
+          </motion.h2>
+       
+        </motion.div>
+
+        {/* Desktop grid */}
+        <div className="engage-cards-grid">
+          {cards.map((card, i) => (
+            <motion.article
+              key={card.num}
+              className="engage-card-new"
+              custom={i}
+              variants={cardVariant}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              whileHover={{ y: -4, transition: { duration: 0.25, ease } }}
             >
-              <span className="block w-5 h-px bg-[#FF5E3A]" />
-              <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#FF5E3A]">
-                Join the network
-              </span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-[72px] font-black tracking-tight leading-[0.93] text-[#111]"
-            >
-              Built by researchers.
-              <br />
-              <span className="text-[#CCCAC7]">For researchers.</span>
-            </motion.h2>
-          </div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.2 }}
-            className="flex lg:flex-col gap-8 lg:gap-5 pb-1"
-          >
-        
-          </motion.div>
+              <motion.div
+                className="engage-num"
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease, delay: 0.15 + i * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {card.num}
+              </motion.div>
+              <p className="engage-role">{card.role}</p>
+              <h3 className="engage-title">{card.title}</h3>
+              <p className="engage-desc">{card.desc}</p>
+              <div className="engage-links">
+                {card.links.map((link) => (
+                  <Link key={link.href} href={link.href} className="engage-link-new">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.article>
+          ))}
         </div>
 
-        {/* ── Bento grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-
-          {/* Featured card — col-span-2 */}
-          <motion.a
-            href="#join"
-            initial={{ opacity: 0, y: 36 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.3 }}
-            className={`group relative overflow-hidden rounded-2xl cursor-pointer md:col-span-2 lg:col-span-2 ${CARD_BG} border ${CARD_BORDER} p-8 lg:p-10 flex flex-col justify-between min-h-[280px] lg:min-h-[300px] hover:border-[#FF5E3A]/40 hover:shadow-[0_8px_40px_rgba(255,94,58,0.10)] transition-all duration-500`}
-          >
-            {/* Halftone dot field */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                backgroundImage: "radial-gradient(circle, #FF5E3A 1.2px, transparent 1.2px)",
-                backgroundSize: "22px 22px",
-                opacity: 0.05,
-              }}
-            />
-            {/* Left sweep */}
-            <span aria-hidden="true" className="absolute left-0 top-0 w-[3px] h-0 bg-[#FF5E3A] group-hover:h-full transition-all duration-500 rounded-sm" />
-
-            <div className="relative z-10 flex items-start justify-between mb-auto">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#FF5E3A]/10 border border-[#FF5E3A]/25 group-hover:bg-[#FF5E3A]/20 transition-colors duration-300">
-                <HiOutlineDocumentText className="text-[#FF5E3A] text-xl" />
+        {/* Mobile slider */}
+        <div className="engage-slider" ref={sliderRef} onScroll={onScroll}>
+          {cards.map((card) => (
+            <article key={card.num} className="engage-slide">
+              <div className="engage-num">{card.num}</div>
+              <p className="engage-role">{card.role}</p>
+              <h3 className="engage-title">{card.title}</h3>
+              <p className="engage-desc">{card.desc}</p>
+              <div className="engage-links">
+                {card.links.map((link) => (
+                  <Link key={link.href} href={link.href} className="engage-link-new">
+                    {link.label}
+                  </Link>
+                ))}
               </div>
-              <span className={`text-[10px] font-bold tracking-[0.12em] uppercase text-[#B8B5B2] border ${CARD_BORDER} px-2.5 py-1 rounded-full`}>
-                Authors
-              </span>
-            </div>
-
-            <div className="relative z-10 mt-8">
-              <h3 className="text-2xl lg:text-[28px] font-black text-[#111] mb-2.5 tracking-tight leading-tight">
-                Submit Your Paper
-              </h3>
-              <p className="text-[#6B7280] text-sm leading-relaxed max-w-md">
-                Present your research to a global audience. We connect your work with peer reviewers and readers across 50+ countries.
-              </p>
-              <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-[#111]/25 group-hover:text-[#FF5E3A] transition-colors duration-300">
-                Get started
-                <HiArrowUpRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </div>
-            </div>
-          </motion.a>
-
-          {/* 4 normal cards */}
-          {cards.slice(1).map((card, i) => (
-            <motion.a
-              href="#join"
-              key={i}
-              initial={{ opacity: 0, y: 36 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease, delay: 0.35 + i * 0.07 }}
-              className={`group relative overflow-hidden rounded-2xl cursor-pointer ${CARD_BG} border ${CARD_BORDER} p-7 flex flex-col justify-between min-h-[210px] hover:border-[#FF5E3A]/35 hover:shadow-[0_8px_32px_rgba(255,94,58,0.08)] transition-all duration-500`}
-            >
-              <span aria-hidden="true" className="absolute left-0 top-0 w-[3px] h-0 bg-[#FF5E3A] group-hover:h-full transition-all duration-500 rounded-sm" />
-
-              <div className="flex items-start justify-between">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-white/60 border ${CARD_BORDER} group-hover:border-[#FF5E3A]/30 group-hover:bg-[#FF5E3A]/10 transition-all duration-300`}>
-                  <card.icon className="text-[#FF5E3A] text-lg" />
-                </div>
-                <span className="text-[9px] font-bold tracking-[0.1em] uppercase text-[#C0BDB9]">
-                  {card.tag}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-[15px] font-bold text-[#111] mb-1.5 tracking-tight leading-snug">
-                  {card.label}
-                </h3>
-                <p className="text-[#9CA3AF] text-xs leading-relaxed">
-                  {card.sub}
-                </p>
-                <div className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-[#111]/20 group-hover:text-[#FF5E3A] transition-colors duration-300">
-                  Get started
-                  <HiArrowUpRight size={11} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </div>
-            </motion.a>
+            </article>
           ))}
+        </div>
 
-          {/* Partner strip — full width */}
-          <motion.a
-            href="#join"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.65 }}
-            className={`group relative overflow-hidden rounded-2xl cursor-pointer col-span-1 md:col-span-2 lg:col-span-3 ${CARD_BG} border ${CARD_BORDER} px-8 py-5 flex items-center justify-between gap-6 hover:border-[#FF5E3A]/35 hover:shadow-[0_8px_32px_rgba(255,94,58,0.08)] transition-all duration-500`}
-          >
-            <span aria-hidden="true" className="absolute left-0 top-0 w-[3px] h-0 bg-[#FF5E3A] group-hover:h-full transition-all duration-500 rounded-sm" />
-
-            <div className="flex items-center gap-5 relative z-10">
-              <div className={`w-11 h-11 flex-shrink-0 rounded-xl flex items-center justify-center bg-white/60 border ${CARD_BORDER} group-hover:border-[#FF5E3A]/30 group-hover:bg-[#FF5E3A]/10 transition-all duration-300`}>
-                <HiOutlineBuildingOffice2 className="text-[#FF5E3A] text-xl" />
-              </div>
-              <div>
-                <h3 className="text-[15px] font-bold text-[#111] tracking-tight">Partner with Us</h3>
-                <p className="text-[#9CA3AF] text-xs mt-0.5">
-                  Institutional and corporate partnerships with our growing global research network.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 flex items-center gap-2.5 text-xs font-bold text-[#111]/20 group-hover:text-[#FF5E3A] transition-colors duration-300 relative z-10">
-              <span className="hidden sm:inline">Enquire</span>
-              <div className={`w-9 h-9 rounded-full border ${CARD_BORDER} flex items-center justify-center group-hover:border-[#FF5E3A]/40 group-hover:bg-[#FF5E3A]/10 transition-all duration-300`}>
-                <HiArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </div>
-            </div>
-          </motion.a>
-
+        {/* Dots */}
+        <div className="engage-dots">
+          {cards.map((_, i) => (
+            <button
+              key={i}
+              className={`engage-dot${active === i ? " engage-dot-active" : ""}`}
+              onClick={() => scrollTo(i)}
+              aria-label={`Go to card ${i + 1}`}
+            />
+          ))}
         </div>
       </div>
+
+      <style>{`
+        .engage-section {
+          padding: 64px 0;
+          background: #F9F9F9;
+          border-top: 1px solid #ebebeb;
+        }
+        .engage-shell {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 48px;
+        }
+
+        /* ── Label ── */
+        .section-label-engage {
+          font-size: 11px;
+          letter-spacing: .18em;
+          text-transform: uppercase;
+          color: #520380;
+          font-weight: 700;
+          margin-bottom: 32px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .section-label-engage::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background: #e0d6e8;
+        }
+
+        /* ── Intro ── */
+        .engage-intro-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: end;
+          margin-bottom: 40px;
+        }
+        .engage-heading {
+          font-size: clamp(32px, 3.5vw, 52px);
+          font-weight: 800;
+          line-height: 1.1;
+          color: #111111;
+          margin: 0;
+          letter-spacing: -0.02em;
+        }
+        .engage-intro-text {
+          font-size: 15px;
+          color: #6B7280;
+          line-height: 1.75;
+          margin: 0;
+        }
+
+        /* ── Desktop grid ── */
+        .engage-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          border: 1px solid #e0d6e8;
+          border-radius: 2px;
+          overflow: hidden;
+        }
+        .engage-card-new {
+          padding: 44px 36px;
+          border-right: 1px solid #e0d6e8;
+          transition: background .25s, box-shadow .25s;
+          display: flex;
+          flex-direction: column;
+          background: #ffffff;
+        }
+        .engage-card-new:last-child { border-right: none; }
+        .engage-card-new:hover {
+          background: #f5eeff;
+          box-shadow: inset 0 3px 0 0 #520380;
+        }
+        .engage-card-new:hover .engage-num { color: #520380; opacity: .3; }
+        .engage-card-new:hover .engage-title { color: #3A025B; }
+
+        /* ── Mobile slider (hidden on desktop) ── */
+        .engage-slider { display: none; }
+        .engage-dots   { display: none; }
+
+        /* ── Shared card internals ── */
+        .engage-num {
+          font-size: 64px;
+          font-weight: 800;
+          color: #e0d6e8;
+          line-height: 1;
+          margin-bottom: 20px;
+          transition: color .25s;
+          letter-spacing: -0.04em;
+        }
+        .engage-role {
+          font-size: 11px;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          color: #520380;
+          font-weight: 700;
+          margin-bottom: 10px;
+        }
+        .engage-title {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 1.25;
+          margin-bottom: 14px;
+          color: #111111;
+          transition: color .25s;
+          letter-spacing: -0.01em;
+        }
+        .engage-desc {
+          font-size: 13.5px;
+          color: #6B7280;
+          line-height: 1.7;
+          margin-bottom: 28px;
+          flex: 1;
+        }
+        .engage-links {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: auto;
+        }
+        .engage-link-new {
+          font-size: 11px;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: #520380;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          border: 1px solid #520380;
+          padding: 9px 16px;
+          align-self: flex-start;
+          background: transparent;
+          transition: background .2s, color .2s, gap .2s;
+        }
+        .engage-link-new::after { content: '→'; transition: transform .2s; }
+        .engage-link-new:hover {
+          background: #520380;
+          color: #fff;
+        }
+        .engage-link-new:hover::after { transform: translateX(4px); }
+
+        /* ── 1024px ── */
+        @media (max-width: 1024px) {
+          .engage-shell { padding: 0 36px; }
+          .engage-intro-grid { gap: 48px; }
+          .engage-card-new { padding: 36px 28px; }
+        }
+
+        /* ── 900px — 2-col grid ── */
+        @media (max-width: 900px) {
+          .engage-shell { padding: 0 28px; }
+          .engage-intro-grid { grid-template-columns: 1fr; gap: 20px; margin-bottom: 32px; }
+          .engage-cards-grid { grid-template-columns: 1fr 1fr; }
+          .engage-card-new:nth-child(odd)  { border-right: 1px solid #e0d6e8; }
+          .engage-card-new:nth-child(even) { border-right: none; }
+          .engage-card-new { border-bottom: 1px solid #e0d6e8; }
+          .engage-card-new:nth-last-child(-n+2) { border-bottom: none; }
+        }
+
+        /* ── 640px — hide grid, show slider ── */
+        @media (max-width: 640px) {
+          .engage-section { padding: 48px 0; }
+          .engage-shell { padding: 0; }
+          .section-label-engage { padding: 0 24px; }
+          .engage-intro-grid { padding: 0 24px; margin-bottom: 40px; }
+          .engage-heading { font-size: clamp(28px, 8vw, 38px); }
+
+          .engage-cards-grid { display: none; }
+
+          .engage-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 0;
+            border-top: 1px solid #e0d6e8;
+            border-bottom: 1px solid #e0d6e8;
+          }
+          .engage-slider::-webkit-scrollbar { display: none; }
+
+          .engage-slide {
+            flex: 0 0 85vw;
+            scroll-snap-align: start;
+            padding: 36px 28px;
+            border-right: 1px solid #e0d6e8;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            min-height: 360px;
+          }
+          .engage-slide:last-child { border-right: none; }
+
+          .engage-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 0 24px;
+          }
+          .engage-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: #e0d6e8;
+            cursor: pointer;
+            padding: 0;
+            transition: background .2s, width .2s;
+          }
+          .engage-dot-active {
+            background: #520380;
+            width: 22px;
+            border-radius: 4px;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .engage-slide { flex: 0 0 92vw; padding: 28px 20px; }
+        }
+      `}</style>
     </section>
   );
 }

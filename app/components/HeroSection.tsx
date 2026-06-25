@@ -84,7 +84,7 @@ export default function HeroSection() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: `radial-gradient(rgba(238,78,52,0.15) 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(rgba(82,3,128,0.15) 1px, transparent 1px)`,
             backgroundSize: "30px 30px",
           }}
         />
@@ -97,7 +97,7 @@ export default function HeroSection() {
         style={{
           inset:      "0 0 auto 0",
           height:     "70vh",
-          background: "radial-gradient(ellipse 75% 55% at 50% -5%, rgba(255,94,58,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 75% 55% at 50% -5%, rgba(82,3,128,0.15) 0%, transparent 70%)",
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -159,7 +159,7 @@ export default function HeroSection() {
             }}
           >
             Connecting Global<br />
-            <span style={{ color: "#FF5E3A" }}>Research Communities</span>
+            <span style={{ color: "#520380" }}>Research Communities</span>
           </motion.h1>
 
           {/* Sub-heading */}
@@ -220,19 +220,19 @@ function PrimaryBtn({ href, children }: { href: string; children: React.ReactNod
       href={href}
       className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300"
       style={{
-        background:  "linear-gradient(135deg, #FF5E3A 0%, #e04020 100%)",
-        boxShadow:   "0 4px 24px rgba(255,94,58,0.40), inset 0 1px 0 rgba(255,255,255,0.15)",
+        background:  "linear-gradient(135deg, #520380 0%, #3A025B 100%)",
+        boxShadow:   "0 4px 24px rgba(82,3,128,0.40), inset 0 1px 0 rgba(255,255,255,0.15)",
         letterSpacing: "0.01em",
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
         el.style.transform = "translateY(-2px)";
-        el.style.boxShadow = "0 8px 32px rgba(255,94,58,0.55), inset 0 1px 0 rgba(255,255,255,0.15)";
+        el.style.boxShadow = "0 8px 32px rgba(82,3,128,0.55), inset 0 1px 0 rgba(255,255,255,0.15)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
         el.style.transform = "translateY(0)";
-        el.style.boxShadow = "0 4px 24px rgba(255,94,58,0.40), inset 0 1px 0 rgba(255,255,255,0.15)";
+        el.style.boxShadow = "0 4px 24px rgba(82,3,128,0.40), inset 0 1px 0 rgba(255,255,255,0.15)";
       }}
     >
       {children}
@@ -254,10 +254,10 @@ function OutlineBtn({ href, children }: { href: string; children: React.ReactNod
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = "rgba(255,94,58,0.5)";
-        el.style.background  = "rgba(255,94,58,0.08)";
+        el.style.borderColor = "rgba(82,3,128,0.5)";
+        el.style.background  = "rgba(82,3,128,0.08)";
         el.style.transform   = "translateY(-2px)";
-        el.style.color       = "#FF5E3A";
+        el.style.color       = "#520380";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;

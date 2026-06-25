@@ -23,8 +23,8 @@ export default function NewsletterStrip() {
         <div
           className="w-full max-w-[960px] rounded-xl px-10 py-10 lg:px-16 lg:py-12 relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, #FF5E3A 0%, #c0330f 100%)",
-            boxShadow: "0 24px 64px rgba(255,94,58,0.35), 0 4px 16px rgba(0,0,0,0.15)",
+            background: "linear-gradient(135deg, #520380 0%, #3A025B 100%)",
+            boxShadow: "0 24px 64px rgba(82,3,128,0.35), 0 4px 16px rgba(0,0,0,0.15)",
           }}
         >
           {/* Background decoration circles */}
@@ -62,7 +62,7 @@ export default function NewsletterStrip() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email address"
                       required
-                      className="w-full pl-10 pr-4 py-4 rounded-xl text-sm text-[#111111] bg-white outline-none border-2 border-transparent focus:border-[#FF5E3A] transition-colors duration-200 placeholder:text-[#9CA3AF] shadow-sm"
+                      className="w-full pl-10 pr-4 py-4 rounded-xl text-sm text-[#111111] bg-white outline-none border-2 border-transparent focus:border-[#520380] transition-colors duration-200 placeholder:text-[#9CA3AF] shadow-sm"
                     />
                   </div>
                   <button

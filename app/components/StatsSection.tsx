@@ -52,12 +52,12 @@ export default function StatsSection() {
     <section
       ref={sectionRef}
       id="stats"
-      className="relative py-24 lg:py-32 bg-white overflow-hidden border-t border-gray-100"
+      className="relative py-16 lg:py-20 bg-white overflow-hidden border-t border-gray-100"
     >
       {/* Subtle bg glow — fades in */}
       <motion.div
         className="absolute -left-48 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(255,94,58,0.04) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(82,3,128,0.04) 0%, transparent 70%)" }}
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 1.4, ease: "easeOut" }}
@@ -75,23 +75,26 @@ export default function StatsSection() {
                 initial={{ opacity: 0, y: -16 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, ease, delay: 0.05 }}
-                className="text-[#FF5E3A] font-bold tracking-[0.12em] uppercase text-[11px] mb-4 block"
+                className="text-[#520380] font-bold tracking-[0.12em] uppercase text-[11px] mb-4 flex items-center gap-2"
               >
+                <span className="text-[#520380] text-xs">♦</span>
                 Let numbers say instead of us
               </motion.span>
 
-              {/* Heading — each word blur+scale in */}
-              <div className="mb-6">
+              {/* Heading — staggered slide-up with skew */}
+              <div className="mb-6 overflow-hidden">
                 {["Our", "Growing", "Network"].map((word, i) => (
-                  <motion.div
-                    key={word}
-                    initial={{ opacity: 0, filter: "blur(10px)", scale: 1.06 }}
-                    animate={isInView ? { opacity: 1, filter: "blur(0px)", scale: 1 } : {}}
-                    transition={{ duration: 0.65, ease, delay: 0.1 + i * 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-[#111111] leading-[1.15] tracking-tight"
-                  >
-                    {word}
-                  </motion.div>
+                  <div key={word} className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: "100%", skewY: 6, opacity: 0 }}
+                      animate={isInView ? { y: "0%", skewY: 0, opacity: 1 } : {}}
+                      transition={{ duration: 0.7, ease, delay: 0.1 + i * 0.12 }}
+                      className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-[#111111] leading-[1.15] tracking-tight"
+                      style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                    >
+                      {word}
+                    </motion.div>
+                  </div>
                 ))}
               </div>
 
@@ -101,6 +104,7 @@ export default function StatsSection() {
                 animate={isInView ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
                 transition={{ duration: 0.9, ease, delay: 0.4 }}
                 className="text-[#2e2f2f] text-base leading-[1.8] max-w-[480px]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic" }}
               >
                 For over 10+ years, we've established a global legacy, empowering researchers, academicians, and institutions with world-class conferences and publications.
               </motion.p>
@@ -155,19 +159,22 @@ export default function StatsSection() {
                     transition={{ duration: 0.7, ease, delay: 0.2 + index * 0.12 }}
                     className={`py-12 sm:p-10 lg:p-12 flex flex-col justify-center border ${borderClasses}`}
                   >
-                    {/* Counter — large number */}
-                    <motion.div
-                      className="text-[4.5rem] lg:text-[5rem] font-extrabold text-[#111111] leading-none mb-3 tracking-tighter"
-                      initial={{ opacity: 0, scale: 0.7 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                      transition={{ duration: 0.6, ease, delay: 0.35 + index * 0.12 }}
-                    >
-                      <Counter target={stat.value} suffix={stat.suffix} inView={isInView} />
-                    </motion.div>
+                    {/* Counter — flip up from below */}
+                    <div className="overflow-hidden mb-3">
+                      <motion.div
+                        className="text-[3.5rem] font-extrabold text-[#111111] leading-none tracking-tighter"
+                        style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                        initial={{ y: "80%", opacity: 0, rotateX: 45 }}
+                        animate={isInView ? { y: "0%", opacity: 1, rotateX: 0 } : {}}
+                        transition={{ duration: 0.65, ease, delay: 0.25 + index * 0.14 }}
+                      >
+                        <Counter target={stat.value} suffix={stat.suffix} inView={isInView} />
+                      </motion.div>
+                    </div>
 
                     {/* Orange underline draws in */}
                     <motion.div
-                      className="h-[2px] bg-[#FF5E3A] rounded-full mb-3"
+                      className="h-[2px] bg-[#520380] rounded-full mb-3"
                       initial={{ width: 0 }}
                       animate={isInView ? { width: 32 } : {}}
                       transition={{ duration: 0.6, ease, delay: 0.5 + index * 0.12 }}

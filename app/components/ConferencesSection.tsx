@@ -86,8 +86,8 @@ export default function ConferencesSection() {
                 hidden: { opacity: 0, y: -20 },
                 show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
               }}
-              className="inline-block text-[13px] font-semibold tracking-[0.1em] uppercase text-[#111] mb-6 self-start"
-              style={{ background: "linear-gradient(to top, #FF5E3A 42%, transparent 32%)" }}
+              className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.1em] uppercase text-[#111] mb-6 self-start"
+              style={{ background: "linear-gradient(to top, #520380 42%, transparent 32%)" }}
             >
               Conferences 2025
             </motion.span>
@@ -129,8 +129,8 @@ export default function ConferencesSection() {
               <motion.a
                 href="#conferences"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm self-start"
-                style={{ background: "linear-gradient(135deg, #FF5E3A 0%, #e04020 100%)", boxShadow: "0 6px 24px rgba(255,94,58,0.35)" }}
-                whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(255,94,58,0.50)" }}
+                style={{ background: "linear-gradient(135deg, #520380 0%, #3A025B 100%)", boxShadow: "0 6px 24px rgba(82,3,128,0.35)" }}
+                whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(82,3,128,0.50)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.2 }}
               >
@@ -176,7 +176,7 @@ export default function ConferencesSection() {
                     </div>
                     <h3 className="text-2xl font-bold mb-1">{conf.name}</h3>
                     <p className="uppercase tracking-widest text-white/70 text-[10px] font-semibold">{conf.subtitle}</p>
-                    <div className="mt-3 flex items-center gap-2 text-[#FF5E3A] font-semibold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 duration-300">
+                    <div className="mt-3 flex items-center gap-2 text-[#520380] font-semibold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 duration-300">
                       Learn More <HiArrowRight size={14} />
                     </div>
                   </div>

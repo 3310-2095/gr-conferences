@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "GR Conferences – Connecting Global Research Communities",
   description:
     "GR Conferences is a central ecosystem platform showcasing 13+ global research conference brands under the GR Foundation umbrella.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

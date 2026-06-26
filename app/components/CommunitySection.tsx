@@ -28,31 +28,31 @@ const cardVariant = {
 const cards = [
   {
     num: "01",
-    role: "For Authors",
-    title: "Submit & Publish Your Research",
-    desc: "Share your work with a global readership through a rigorous, transparent, and efficient editorial process built around your needs.",
-    links: [{ label: "Submit Your Article", href: "/submissions/" }],
+    role: "For Reviewers",
+    title: "Shape the quality of global research.",
+    desc: "Contribute your expertise in evaluating research and supporting quality academic publications across international conferences.",
+    links: [{ label: "Join our Conference Review Committee", href: "/submissions/" }],
   },
   {
     num: "02",
-    role: "For Reviewers",
-    title: "Champion Quality Research",
-    desc: "Join a network of experts supporting academic excellence through constructive, timely peer review.",
-    links: [{ label: "Join as Reviewer", href: "/join/reviewer" }],
+    role: "For Speakers",
+    title: "Share your knowledge with the world.",
+    desc: "Present your insights, innovations, and research with a global audience of researchers, academicians, and industry professionals.",
+    links: [{ label: "Speak at a Conference", href: "/join/reviewer" }],
   },
   {
     num: "03",
-    role: "For Editors",
-    title: "Shape Our Editorial Direction",
-    desc: "Lead academic direction from the front — join our editorial leadership and help define the standards of excellence we uphold.",
-    links: [{ label: "Join Editorial Board", href: "/join/editorial-board" }],
+    role: "For Session Chairs",
+    title: "Lead conversations that inspire change.",
+    desc: "Moderate engaging conference sessions, guide discussions, and connect with researchers across diverse fields.",
+    links: [{ label: "Chair a Session", href: "/join/editorial-board" }],
   },
   {
     num: "04",
-    role: "For Institutions",
-    title: "Partner for Lasting Impact",
-    desc: "Establish a meaningful institutional partnership for research, publishing, and broad academic collaboration across disciplines.",
-    links: [{ label: "Institutional Partnership", href: "/join/institution" }],
+    role: "For Advisory Board",
+    title: "Help shape the future of research collaboration.",
+    desc: "Bring your expertise and vision to strengthen our conference initiatives and global academic ecosystem.",
+    links: [{ label: "Join our Advisory Board", href: "/join/institution" }],
   },
 ];
 
@@ -88,7 +88,7 @@ export default function CommunitySection() {
           viewport={{ once: true, margin: "-60px" }}
         >
           <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
-          Engage With Us
+          Join the Community
         </motion.p>
 
         {/* Intro grid */}
@@ -100,7 +100,7 @@ export default function CommunitySection() {
           viewport={{ once: true, margin: "-60px" }}
         >
           <motion.h2 variants={fadeUp} className="engage-heading">
-            Discover your role.<br />Connect. Publish.<br />Grow.
+            To Become part of <br />a growing international <br />research community.
           </motion.h2>
        
         </motion.div>

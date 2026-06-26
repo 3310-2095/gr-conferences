@@ -68,7 +68,7 @@ export default function Navbar() {
 
         {/* Desktop right side */}
         <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
-          <CTAButton href="#conferences">Submit Paper</CTAButton>
+          <CTAButton href="#conferences">Start Your Own Conference</CTAButton>
         </div>
 
         {/* Mobile toggle */}
@@ -161,7 +161,7 @@ export default function Navbar() {
                 className="mt-2"
               >
                 <CTAButton href="#conferences" onClick={() => setMenuOpen(false)} block>
-                  Submit Paper
+                  Start Your Own Conference
                 </CTAButton>
               </motion.div>
             </div>

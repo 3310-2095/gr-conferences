@@ -5,8 +5,8 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
-  { value: 12,  suffix: "+",  title: "Conference Brands", desc: "Active across various academic and tech disciplines globally." },
-  { value: 50,  suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
+  { value: 12,  suffix: "",  title: "Conference Brands", desc: "Active across various academic and tech disciplines globally." },
+  { value: 100,  suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
   { value: 500, suffix: "+",  title: "Research Papers",   desc: "High-quality academic publications and impactful journals." },
   { value: 12,  suffix: "K+", title: "Global Members",    desc: "A rapidly growing community of dedicated researchers." },
 ];
@@ -52,7 +52,7 @@ export default function StatsSection() {
     <section
       ref={sectionRef}
       id="stats"
-      className="relative py-16 lg:py-20 bg-white overflow-hidden border-t border-gray-100"
+      className="relative py-20 lg:py-20 bg-white overflow-hidden border-t border-gray-100"
     >
       {/* Subtle bg glow — fades in */}
       <motion.div
@@ -83,13 +83,13 @@ export default function StatsSection() {
 
               {/* Heading — staggered slide-up with skew */}
               <div className="mb-6 overflow-hidden">
-                {["Our", "Growing", "Network"].map((word, i) => (
+                {["High-quality research ", "from global academic ", "communities."].map((word, i) => (
                   <div key={word} className="overflow-hidden">
                     <motion.div
                       initial={{ y: "100%", skewY: 6, opacity: 0 }}
                       animate={isInView ? { y: "0%", skewY: 0, opacity: 1 } : {}}
                       transition={{ duration: 0.7, ease, delay: 0.1 + i * 0.12 }}
-                      className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-[#111111] leading-[1.15] tracking-tight"
+                      className="text-3xl md:text-3xl lg:text-[2.70rem] font-extrabold text-[#111111] leading-[1.15] tracking-tight"
                       style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                     >
                       {word}

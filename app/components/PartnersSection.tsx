@@ -1,77 +1,39 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  SiIeee, SiElsevier, SiScopus,
-  SiUpwork, SiShopify,
-} from "react-icons/si";
-import { FaWindows, FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 import { fadeUp, staggerContainer, viewport } from "../lib/animations";
 
-const partners = [
+const partnerLogos = [
   "Oxford University", "MIT", "Stanford University", "Cambridge",
   "Harvard University", "Springer", "Elsevier", "IEEE",
   "ACM Digital", "Nature Publishing", "Scopus", "Clarivate", "DBLP", "PubMed",
 ];
 
-const institutions: { name: string; icon: React.ReactNode; color: string }[] = [
-  { name: "upwork",    icon: <SiUpwork size={20} />,   color: "#14A800" },
-  { name: "Microsoft", icon: <FaWindows size={18} />,  color: "#00A4EF" },
-  { name: "Shopify",   icon: <SiShopify size={20} />,  color: "#95BF47" },
-  { name: "Google",    icon: null,                      color: "#4285F4" },
-  { name: "IEEE",      icon: <SiIeee size={22} />,     color: "#00629B" },
-  { name: "Springer",  icon: null,                      color: "#FF6600" },
-  { name: "Elsevier",  icon: <SiElsevier size={20} />, color: "#FF6600" },
-  { name: "Scopus",    icon: <SiScopus size={20} />,   color: "#E9711C" },
+const institutionLogos = [
+  "University of Tokyo", "ETH Zurich", "NUS Singapore", "TU Munich",
+  "KAIST", "IIT Bombay", "University of Toronto", "EPFL",
+  "Peking University", "Seoul National University", "UNSW Sydney", "UCL London",
 ];
 
 const maskStyle: React.CSSProperties = {
-  maskImage: "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-  WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+  maskImage: "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
 };
 
-function PartnerPill({ name, index }: { name: string; index: number }) {
+function LogoItem({ name, dim }: { name: string; dim?: boolean }) {
   return (
-    <div className="flex items-center gap-3 px-5 py-3 mx-2.5 shrink-0 bg-white/[0.04] border border-white/[0.08] hover:bg-[#6B04A8]/10 hover:border-[#520380]/40 transition-all duration-300 group cursor-default">
-      <span className="text-[10px] font-black text-[#520380]/60 group-hover:text-[#520380] transition-colors tabular-nums w-5">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <span className="w-px h-3 bg-white/10" />
-      <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/50 group-hover:text-white transition-colors whitespace-nowrap">
-        {name}
-      </span>
-    </div>
+    <span
+      className={`mx-10 shrink-0 text-sm font-bold uppercase tracking-[0.18em] whitespace-nowrap transition-colors duration-300 cursor-default ${
+        dim ? "text-white/20 hover:text-white/50" : "text-white/30 hover:text-white/70"
+      }`}
+    >
+      {name}
+    </span>
   );
 }
 
-function InstitutionPill({ name, icon, color }: { name: string; icon: React.ReactNode; color: string }) {
-  const isGoogle = name === "Google";
-  const isSpringer = name === "Springer";
-  return (
-    <div
-      className="flex items-center gap-3 px-6 py-3.5 mx-3 shrink-0 border border-white/[0.08] hover:border-[#520380]/40 transition-all duration-300 cursor-default group"
-      style={{ background: "rgba(255,255,255,0.03)" }}
-    >
-      <span style={{ color }} className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-        {isGoogle ? (
-          <span className="text-lg font-black flex">
-            <span style={{ color: "#4285F4" }}>G</span>
-            <span style={{ color: "#EA4335" }}>o</span>
-            <span style={{ color: "#FBBC05" }}>o</span>
-            <span style={{ color: "#4285F4" }}>g</span>
-            <span style={{ color: "#34A853" }}>l</span>
-            <span style={{ color: "#EA4335" }}>e</span>
-          </span>
-        ) : isSpringer ? (
-          <span className="text-lg font-black" style={{ color: "#FF6600" }}>S</span>
-        ) : icon}
-      </span>
-      {!isGoogle && (
-        <span className="text-white/70 text-sm font-semibold group-hover:text-white transition-colors whitespace-nowrap">
-          {name}
-        </span>
-      )}
-    </div>
-  );
+function Divider() {
+  return <span className="mx-6 shrink-0 text-white/10 text-lg select-none">·</span>;
 }
 
 export default function PartnersSection() {
@@ -79,16 +41,15 @@ export default function PartnersSection() {
     <section id="partners" className="relative bg-[#111111] overflow-hidden">
 
       {/* Top edge */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#520380]/30 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="flex flex-col lg:flex-row">
 
         {/* ── Left: Editorial header ── */}
         <motion.div
-          className="relative lg:w-[400px] xl:w-[450px] flex-shrink-0 flex flex-col justify-between pl-8 lg:pl-14 pr-0 py-16 lg:py-20 border-b lg:border-b-0  border-white/[0.07]"
+          className="relative lg:w-[400px] xl:w-[450px] flex-shrink-0 flex flex-col justify-between pl-8 lg:pl-14 pr-8 py-16 lg:py-20 border-b lg:border-b-0 border-r border-white/[0.07]"
           variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {/* Glow blob */}
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#520380]/8 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="relative z-10">
@@ -104,15 +65,14 @@ export default function PartnersSection() {
               Partnering with leading universities, publishers, research bodies and global institutions worldwide.
             </motion.p>
 
-            {/* Stats row */}
             <motion.div variants={fadeUp} className="flex items-center gap-8 mb-10">
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">50+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">100+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Countries</p>
               </div>
               <div className="w-px h-10 bg-white/10" />
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">120+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">1500+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Institutions</p>
               </div>
             </motion.div>
@@ -120,124 +80,63 @@ export default function PartnersSection() {
             <motion.a
               variants={fadeUp}
               href="#community"
-              className="group relative inline-flex items-center gap-3 overflow-hidden font-bold text-white"
+              className="group inline-flex items-center gap-3 font-bold text-white transition-all duration-300"
               style={{
-                padding:       "16px 36px",
-                fontSize:      15,
-                letterSpacing: "0.01em",
-                background:    "linear-gradient(135deg, #520380 0%, #3A025B 100%)",
-                borderRadius:  10,
-                boxShadow:     "0 4px 24px rgba(82,3,128,0.30), inset 0 1px 0 rgba(255,255,255,0.15)",
-                transition:    "box-shadow 0.3s ease, transform 0.3s ease",
+                padding: "14px 32px",
+                fontSize: 14,
+                background: "linear-gradient(135deg, #520380 0%, #3A025B 100%)",
+                borderRadius: 10,
+                boxShadow: "0 4px 24px rgba(82,3,128,0.30)",
               }}
-              whileHover="hover"
-              whileTap={{ scale: 0.96 }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 0 0 3px rgba(82,3,128,0.25), 0 14px 48px rgba(82,3,128,0.55), inset 0 1px 0 rgba(255,255,255,0.15)";
-                el.style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 4px 24px rgba(82,3,128,0.30), inset 0 1px 0 rgba(255,255,255,0.15)";
-                el.style.transform = "translateY(0)";
-              }}
+              whileHover={{ y: -2, boxShadow: "0 10px 36px rgba(82,3,128,0.50)" }}
+              whileTap={{ scale: 0.97 }}
             >
-              {/* Shimmer sweep */}
-              <motion.span
-                aria-hidden
-                className="absolute top-0 bottom-0 pointer-events-none"
-                style={{
-                  width:      "40%",
-                  left:       "-40%",
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
-                }}
-                variants={{
-                  hover: { x: "360%", transition: { duration: 0.55, ease: "easeInOut" } },
-                }}
-              />
-
-              {/* Pulsing ring on hover */}
-              <motion.span
-                aria-hidden
-                className="absolute inset-0 rounded-[10px] pointer-events-none"
-                style={{ border: "2px solid rgba(255,255,255,0.0)" }}
-                variants={{
-                  hover: {
-                    borderColor: "rgba(255,255,255,0.2)",
-                    scale: 1.06,
-                    opacity: 0,
-                    transition: { duration: 0.5, ease: "easeOut" },
-                  },
-                }}
-              />
-
-              {/* Label — slides up slightly */}
-              <motion.span
-                className="relative z-10"
-                variants={{
-                  hover: { y: -1, transition: { duration: 0.2 } },
-                }}
-              >
-                Become a Partner
-              </motion.span>
-
-              {/* Arrow — bounces right */}
-              <motion.span
-                className="relative z-10 flex items-center"
-                variants={{
-                  hover: {
-                    x: [0, 6, 3],
-                    transition: { duration: 0.35, ease: "easeOut" },
-                  },
-                }}
-              >
-                <FaArrowRight size={14} />
-              </motion.span>
+              Become a Partner
+              <FaArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
             </motion.a>
           </div>
-
-      
         </motion.div>
 
-        {/* ── Right: Marquee tracks ── */}
-        <div className="flex-1 flex flex-col justify-center py-14 lg:py-20 gap-3 overflow-hidden">
+        {/* ── Right: Two scrolling rows ── */}
+        <div className="flex-1 flex flex-col justify-center py-14 lg:py-20 gap-10 overflow-hidden">
 
-          {/* Track label */}
-          <div className="px-8 lg:px-10 mb-2 flex items-center gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25">Institutional Partners</span>
-            <div className="flex-1 h-px bg-white/[0.06]" />
+          {/* Row label */}
+          <div className="px-8 lg:px-12">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Institutional Partners</span>
+            
           </div>
 
-          {/* Row 1 — partners scroll left */}
-          <div style={maskStyle}>
-            <div className="flex w-max marquee-left">
-              {[...partners, ...partners].map((name, i) => (
-                <PartnerPill key={i} name={name} index={i % partners.length} />
+          {/* Row 1 — scroll left, slower */}
+          <div style={maskStyle} className="group/row1">
+            <div className="flex w-max" style={{ animation: "scroll-left 35s linear infinite" }}
+              onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
+              onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
+            >
+              {[...partnerLogos, ...partnerLogos].map((name, i) => (
+                <span key={i} className="inline-flex items-center">
+                  <LogoItem name={name} />
+                  <Divider />
+                </span>
               ))}
             </div>
           </div>
 
-          {/* Spacer + label */}
-          <div className="px-8 lg:px-10 mt-6 mb-2 flex items-center gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25">Participating Institutions</span>
-            <div className="flex-1 h-px bg-white/[0.06]" />
+          {/* Row label */}
+          <div className="px-8 lg:px-12">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Participating Institutions</span>
           </div>
 
-          {/* Row 2 — institutions scroll right */}
+          {/* Row 2 — scroll right, slightly faster */}
           <div style={maskStyle}>
-            <div className="flex w-max marquee-right">
-              {[...institutions, ...institutions].map((inst, i) => (
-                <InstitutionPill key={i} name={inst.name} icon={inst.icon} color={inst.color} />
-              ))}
-            </div>
-          </div>
-
-          {/* Row 3 — partners scroll left (slower, offset) */}
-          <div style={{ ...maskStyle, opacity: 0.4 }} className="mt-3">
-            <div className="flex w-max" style={{ animation: "marquee-left 42s linear infinite" }}>
-              {[...partners].reverse().concat([...partners].reverse()).map((name, i) => (
-                <PartnerPill key={i} name={name} index={(partners.length - 1 - i) % partners.length} />
+            <div className="flex w-max" style={{ animation: "scroll-right 25s linear infinite" }}
+              onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
+              onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
+            >
+              {[...institutionLogos, ...institutionLogos].map((name, i) => (
+                <span key={i} className="inline-flex items-center">
+                  <LogoItem name={name} dim />
+                  <Divider />
+                </span>
               ))}
             </div>
           </div>
@@ -247,6 +146,17 @@ export default function PartnersSection() {
 
       {/* Bottom edge */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      <style>{`
+        @keyframes scroll-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes scroll-right {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
     </section>
   );
 }

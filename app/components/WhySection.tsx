@@ -65,7 +65,7 @@ export default function WhySection() {
               className="relative w-full aspect-[4/5] rounded-sm overflow-hidden shadow-xl"
             >
               <img
-                src="/shaping-research.jpeg"
+                src="/why.avif"
                 alt="Conference networking"
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -88,7 +88,7 @@ export default function WhySection() {
             >
               <span className="text-[#520380] text-xs">♦</span>
               <span className="text-xs font-semibold text-[#6B7280] tracking-[0.15em] uppercase">
-                Why choose us
+                Why Participate 
               </span>
             </motion.div>
 
@@ -101,9 +101,9 @@ export default function WhySection() {
               className="text-4xl xl:text-[2.75rem] font-extrabold text-[#111111] tracking-tight leading-[1.12] mb-4"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Transform ideas into{" "}
-              <span className="text-[#520380]">action</span>
-              <br />with our expert conferences
+             One Network. {" "}
+              <span className="text-[#520380]"> Multiple Conferences.</span>
+              <br />Global Impact.
             </motion.h2>
 
             {/* Sub-text */}

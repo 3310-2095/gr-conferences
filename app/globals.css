@@ -194,9 +194,11 @@ p {
   100% { transform: translateX(0); }
 }
 
-.marquee-left  { animation: marquee-left  28s linear infinite; }
-.marquee-right { animation: marquee-right 28s linear infinite; }
+.marquee-left       { animation: marquee-left 32s linear infinite; }
+.marquee-left-fast  { animation: marquee-left 20s linear infinite; }
+.marquee-right      { animation: marquee-right 32s linear infinite; }
 .marquee-left:hover,
+.marquee-left-fast:hover,
 .marquee-right:hover { animation-play-state: paused; }
 
 /* ── General animations ──────────────────────────────────────── */

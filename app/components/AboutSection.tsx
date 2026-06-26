@@ -8,22 +8,22 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
-  show:   { opacity: 1, y: 0,  transition: { duration: 0.7, ease } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
 };
 
 const fadeLeft = {
   hidden: { opacity: 0, x: -50 },
-  show:   { opacity: 1, x: 0,  transition: { duration: 0.8, ease } },
+  show: { opacity: 1, x: 0, transition: { duration: 0.8, ease } },
 };
 
 const fadeRight = {
   hidden: { opacity: 0, x: 50 },
-  show:   { opacity: 1, x: 0,  transition: { duration: 0.8, ease } },
+  show: { opacity: 1, x: 0, transition: { duration: 0.8, ease } },
 };
 
 const stagger = {
   hidden: {},
-  show:   { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
 };
 
 
@@ -69,7 +69,7 @@ export default function AboutSection() {
             <motion.div
               variants={{
                 hidden: { opacity: 0, scale: 0.7, rotate: -4 },
-                show:   { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.5, ease } },
+                show: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.5, ease } },
               }}
             >
               <span className="inline-flex items-center gap-2 px-4 py-[7px]  text-[11px] font-bold tracking-[0.12em] uppercase  text-[#520380]">
@@ -97,7 +97,7 @@ export default function AboutSection() {
                   viewport={{ once: true }}
                   className="text-[#111111] block"
                 >
-                  We're pioneers of collaboration, dedicated to revolutionizing global academic networking.
+                  We bring together researchers, academicians, institutions, and industry leaders to create meaningful connections and opportunities across 50+ countries.
                 </motion.span>
               </motion.h2>
             </div>
@@ -137,7 +137,7 @@ export default function AboutSection() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.2 }}
               >
-               Learn More
+                Learn More
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}

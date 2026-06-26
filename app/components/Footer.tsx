@@ -61,12 +61,7 @@ export default function Footer() {
 
             {/* Social Icons */}
             <div className="flex gap-4">
-              <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
-                <FaFacebookF className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
-                <FaTwitter className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
-              </a>
+             
               <a href="#" className="w-12 h-12 rounded-[14px] bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
                 <FaLinkedinIn className="text-[#520380] text-xl group-hover:scale-110 transition-transform" />
               </a>

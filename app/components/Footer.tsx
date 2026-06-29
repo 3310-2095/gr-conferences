@@ -36,7 +36,7 @@ export default function Footer() {
             {/* Brand Logo */}
             <div className="flex items-center mb-8">
               <img
-                src="/white.png"
+                src="/conferenceslogowhite.png"
                 alt="GR Conferences"
                 className="h-12 w-auto object-contain"
               />

@@ -2,7 +2,6 @@ import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import ConferencesSection from "./components/ConferencesSection";
-import GlobalMapSection from "./components/GlobalMapSection";
 import CommunitySection from "./components/CommunitySection";
 import StatsSection from "./components/StatsSection";
 import WhySection from "./components/WhySection";
@@ -25,9 +24,7 @@ export default function Home() {
         {/* 2. Featured Upcoming Conferences */}
         <ConferencesSection />
 
-        {/* 3. Global conference map */}
-        {/* <GlobalMapSection /> */}
-
+      
         {/* 4. Conference Brands / Focus Areas / Disciplines */}
         <CommunitySection />
 

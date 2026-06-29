@@ -51,7 +51,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
           <img
-            src="/white.png"
+            src="/conferenceslogowhite.png"
             alt="GR Conferences"
             className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />

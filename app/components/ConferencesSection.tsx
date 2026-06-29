@@ -258,8 +258,9 @@ export default function ConferencesSection() {
                 show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
               }}
               className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.1em] uppercase text-[#111] mb-6 self-start"
-              style={{ background: "linear-gradient(to top, #520380 42%, transparent 32%)" }}
             >
+                              <span className="text-[#520380] text-xs">♦</span>
+
               CONFERENCES 2026
             </motion.span>
 

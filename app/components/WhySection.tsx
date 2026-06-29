@@ -46,7 +46,7 @@ const features = [
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function WhySection() {
-  const [active, setActive] = useState<number | null>(null);
+  const [active, setActive] = useState<number | null>(0);
   const toggle = (i: number) => setActive(active === i ? null : i);
 
   return (
@@ -127,25 +127,26 @@ export default function WhySection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.45, delay: i * 0.06, ease }}
                   viewport={{ once: true }}
-                  className="border-b border-gray-100"
+                  onHoverStart={() => setActive(i)}
+                  className={`flex flex-col cursor-default border-b transition-all duration-300 ${
+                    active === i ? "border-[#520380]/15" : "border-gray-100"
+                  }`}
                 >
-                  <button
-                    onClick={() => toggle(i)}
-                    className="w-full flex items-center justify-between py-5 text-left group cursor-pointer"
-                  >
+                  <div className="w-full flex items-center justify-between py-5 text-left group">
+
                     <div className="flex items-center gap-4">
                       <motion.span
                         animate={{ color: active === i ? "#520380" : "#9CA3AF" }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.25, ease }}
                         className="flex-shrink-0"
                       >
                         <f.icon size={22} />
                       </motion.span>
                       <span
-                        className={`text-[17px] font-semibold transition-colors duration-300 ${
+                        className={`text-[17px] font-semibold transition-colors duration-300 pl-3 ${
                           active === i
                             ? "text-[#111111]"
-                            : "text-[#374151] group-hover:text-[#111111]"
+                            : "text-[#374151]"
                         }`}
                       >
                         {f.title}
@@ -177,7 +178,7 @@ export default function WhySection() {
                         />
                       </svg>
                     </motion.div>
-                  </button>
+                  </div>
 
                   {/* Expandable content */}
                   <AnimatePresence initial={false}>
@@ -187,11 +188,10 @@ export default function WhySection() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease }}
+                        transition={{ duration: 0.35, ease }}
                         className="overflow-hidden"
                       >
-                        <div className="flex gap-4 pb-6 pl-[38px]">
-                          <div className="flex-shrink-0 w-[2px] bg-[#520380]/40 self-stretch rounded-full" />
+                        <div className="pb-6 pl-[38px]">
                           <p className="text-[#6B7280] text-[15px] leading-[1.8]">
                             {f.desc}
                           </p>

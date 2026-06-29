@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { HiOutlineChatBubbleBottomCenterText, HiArrowLeft, HiArrowRight } from "react-icons/hi2";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, animate, useInView } from "framer-motion";
+import { HiArrowLeft, HiArrowRight } from "react-icons/hi2";
 import { staggerContainer, viewport } from "../lib/animations";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -81,14 +81,11 @@ const testimonials = [
   },
 ];
 
-const COLS = 3;
-
-function getInitials(name: string) {
-  return name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
-}
+const GAP = 24;
+const CLONE_COUNT = 3;
 
 const tagColors: Record<string, string> = {
-  "Speaker + Chair": "#FF5E3A",
+  "Speaker + Chair": "#7c3aed",
   "Session Chair":   "#520380",
   "Chair":           "#520380",
   "Speaker":         "#0ea5e9",
@@ -96,31 +93,29 @@ const tagColors: Record<string, string> = {
   "Researcher":      "#d97706",
 };
 
-function TestimonialCard({ t, i }: { t: typeof testimonials[0]; i: number }) {
+function getInitials(name: string) {
+  return name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+}
+
+type TCard = typeof testimonials[0];
+
+function TestimonialCard({ t, width }: { t: TCard; width: number }) {
   const [expanded, setExpanded] = useState(false);
   const tagColor = tagColors[t.tag] ?? "#520380";
 
   return (
-    <motion.div
-      key={t.name}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: i * 0.08, ease }}
-      whileHover={{ y: -4, transition: { duration: 0.25, ease } }}
-      className="group relative bg-white border border-gray-200 p-7 flex flex-col gap-5 hover:border-[#520380]/30 hover:shadow-[0_16px_48px_rgba(82,3,128,0.10)] transition-all duration-300"
+    <div
+      className="group relative bg-white border border-gray-200 p-6 flex flex-col gap-4 hover:border-[#520380]/30 hover:shadow-[0_12px_40px_rgba(82,3,128,0.10)] transition-all duration-300 shrink-0"
+      style={{ width }}
     >
-      {/* Top accent bar */}
+      {/* Top accent bar on hover */}
       <div
-        className="absolute top-0 left-0 right-0 h-[3px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-        style={{ background: `linear-gradient(90deg, ${tagColor}, ${tagColor}99)` }}
+        className="absolute top-0 left-0 right-0 h-[3px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-t-sm"
+        style={{ background: `linear-gradient(90deg, ${tagColor}, ${tagColor}80)` }}
       />
 
-      {/* Quote icon + tag */}
-      <div className="flex items-center justify-between">
-        <HiOutlineChatBubbleBottomCenterText
-          style={{ color: `${tagColor}50` }}
-          size={28}
-        />
+      {/* Tag */}
+      <div className="flex justify-end">
         <span
           className="text-[10px] font-bold tracking-[0.14em] uppercase px-2.5 py-1 rounded-full border"
           style={{ color: tagColor, background: `${tagColor}12`, borderColor: `${tagColor}30` }}
@@ -129,19 +124,14 @@ function TestimonialCard({ t, i }: { t: typeof testimonials[0]; i: number }) {
         </span>
       </div>
 
-      {/* Quote */}
-      <div className="flex-1">
-        <div
-          className="overflow-hidden transition-all duration-500 ease-in-out"
-          style={{ maxHeight: expanded ? "600px" : "112px" }}
-        >
-          <p className="text-[#374151] text-[14px] leading-[1.8]">
-            "{t.quote}"
-          </p>
-        </div>
+      {/* Quote — full text, no cropping, with read more toggle */}
+      <div className="flex-1 flex flex-col">
+        <p className={`text-[#374151] text-[14px] leading-[1.8] ${!expanded ? "line-clamp-4" : ""}`}>
+          &ldquo;{t.quote}&rdquo;
+        </p>
         <button
-          onClick={() => setExpanded((v) => !v)}
-          className="mt-2 text-xs font-bold transition-colors duration-200"
+          onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+          className="mt-2 text-xs font-bold self-start transition-colors duration-200 hover:opacity-70"
           style={{ color: tagColor }}
         >
           {expanded ? "Show less ↑" : "Read more ↓"}
@@ -153,54 +143,124 @@ function TestimonialCard({ t, i }: { t: typeof testimonials[0]; i: number }) {
 
       {/* Author */}
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0">
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black flex-shrink-0"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-black flex-shrink-0"
             style={{ background: `linear-gradient(135deg, ${tagColor}, ${tagColor}99)` }}
           >
             {getInitials(t.name)}
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-[#111111] font-bold text-sm">{t.name}</p>
-            <p className="text-[#9CA3AF] text-xs mt-0.5">{t.role}</p>
+            <p className="text-[#9CA3AF] text-xs mt-0.5 line-clamp-1">{t.role}</p>
           </div>
         </div>
-
-        {/* Flag */}
-        <div className="flex flex-col items-center gap-0.5 flex-shrink-0">
-          <span
-            className={`fi fi-${t.countryCode} rounded-sm`}
-            style={{ width: 30, height: 30, display: "inline-block", fontSize: 20 }}
-            title={t.country}
-          />
-        </div>
+        <img
+          src={`https://flagcdn.com/48x36/${t.countryCode}.png`}
+          alt={t.country}
+          title={t.country}
+          width={28}
+          height={21}
+          className="rounded-sm flex-shrink-0 object-cover"
+          style={{ imageRendering: "crisp-edges" }}
+        />
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function TestimonialsSection() {
-  const totalPages = Math.ceil(testimonials.length / COLS);
-  const [page, setPage] = useState(0);
-  const [dir, setDir] = useState(1);
+  const sectionRef    = useRef<HTMLElement>(null);
+  const wrapperRef    = useRef<HTMLDivElement>(null);
+  const trackRef      = useRef<HTMLDivElement>(null);
+  const isInView      = useInView(sectionRef, { once: true, margin: "-80px" });
 
-  const paginate = (newPage: number) => {
-    setDir(newPage > page ? 1 : -1);
-    setPage(newPage);
-  };
+  const [cardWidth, setCardWidth] = useState(380);
+  const total = testimonials.length;
 
-  const visible = testimonials.slice(page * COLS, page * COLS + COLS);
+  // Calculate card width = (container - 2 gaps) / 3
+  useEffect(() => {
+    const calc = () => {
+      if (wrapperRef.current) {
+        const w = wrapperRef.current.offsetWidth;
+        setCardWidth(Math.floor((w - GAP * 2) / 3));
+      }
+    };
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, []);
 
-  const variants = {
-    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 60 : -60 }),
-    center: { opacity: 1, x: 0, transition: { duration: 0.5, ease } },
-    exit:   (d: number) => ({ opacity: 0, x: d > 0 ? -60 : 60, transition: { duration: 0.35, ease } }),
-  };
+  const step = cardWidth + GAP;
+
+  const indexRef       = useRef(CLONE_COUNT);
+  const isAnimatingRef = useRef(false);
+  const isPausedRef    = useRef(false);
+
+  const displayItems = [
+    ...testimonials.slice(-CLONE_COUNT),
+    ...testimonials,
+    ...testimonials.slice(0, CLONE_COUNT),
+  ];
+
+  const animateTo = useCallback(async (x: number, instant = false) => {
+    if (!trackRef.current) return;
+    await animate(trackRef.current, { x }, instant ? { duration: 0 } : { duration: 0.65, ease });
+  }, []);
+
+  const checkBounds = useCallback(() => {
+    const idx = indexRef.current;
+    if (idx >= CLONE_COUNT + total) {
+      const newIdx = idx - total;
+      indexRef.current = newIdx;
+      animateTo(-(newIdx * step), true);
+    } else if (idx < CLONE_COUNT) {
+      const newIdx = idx + total;
+      indexRef.current = newIdx;
+      animateTo(-(newIdx * step), true);
+    }
+  }, [total, animateTo, step]);
+
+  const goNext = useCallback(async () => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    indexRef.current += 1;
+    await animateTo(-(indexRef.current * step));
+    checkBounds();
+    isAnimatingRef.current = false;
+  }, [animateTo, checkBounds, step]);
+
+  const goPrev = useCallback(async () => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    indexRef.current -= 1;
+    await animateTo(-(indexRef.current * step));
+    checkBounds();
+    isAnimatingRef.current = false;
+  }, [animateTo, checkBounds, step]);
+
+  // Set initial position
+  useEffect(() => {
+    if (trackRef.current && cardWidth > 0) {
+      animate(trackRef.current, { x: -(CLONE_COUNT * step) }, { duration: 0 });
+    }
+  }, [step, cardWidth]);
+
+  // Auto-scroll
+  useEffect(() => {
+    if (!isInView) return;
+    const timer = setInterval(() => {
+      if (!isPausedRef.current) goNext();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isInView, goNext]);
 
   return (
-    <section id="testimonials" className="relative py-16 lg:py-20 bg-[#F9F9F9] overflow-hidden border-t border-gray-100">
-
-      {/* Dot texture */}
+    <section
+      ref={sectionRef}
+      id="testimonials"
+      className="relative py-16 lg:py-20 bg-[#F9F9F9] overflow-hidden border-t border-gray-100"
+    >
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: `radial-gradient(#111 1px, transparent 1px)`, backgroundSize: "28px 28px" }}
@@ -210,7 +270,7 @@ export default function TestimonialsSection() {
 
         {/* Header */}
         <motion.div
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12"
           variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewport}
         >
           <div>
@@ -223,67 +283,53 @@ export default function TestimonialsSection() {
             <motion.h2
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } } }}
               className="text-3xl md:text-5xl font-extrabold text-[#111111] tracking-tight leading-tight"
+              style={{ fontFamily: "'Playfair Display', serif" }}
             >
               Voices From Our<br />
               <span className="text-[#520380]">Global Community</span>
             </motion.h2>
           </div>
 
-          {/* Prev / Next buttons */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-[#9CA3AF] mr-2">
-              {page + 1} / {totalPages}
-            </span>
-            <button
-              onClick={() => paginate(Math.max(0, page - 1))}
-              disabled={page === 0}
-              className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-[#111111] transition-all duration-300 hover:bg-[#520380] hover:border-[#520380] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+          {/* Nav buttons */}
+          <motion.div
+            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease, delay: 0.15 } } }}
+            className="flex items-center gap-3"
+          >
+            <motion.button
+              onClick={goPrev}
+              whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}
+              className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-[#111111] transition-all duration-300 hover:bg-[#520380] hover:border-[#520380] hover:text-white"
+              aria-label="Previous"
             >
               <HiArrowLeft size={17} />
-            </button>
-            <button
-              onClick={() => paginate(Math.min(totalPages - 1, page + 1))}
-              disabled={page === totalPages - 1}
-              className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-[#111111] transition-all duration-300 hover:bg-[#520380] hover:border-[#520380] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+            </motion.button>
+            <motion.button
+              onClick={goNext}
+              whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}
+              className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-[#111111] transition-all duration-300 hover:bg-[#520380] hover:border-[#520380] hover:text-white"
+              aria-label="Next"
             >
               <HiArrowRight size={17} />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </motion.div>
 
-        {/* Cards */}
-        <div className="relative min-h-[420px]">
-          <AnimatePresence custom={dir} mode="wait">
-            <motion.div
-              key={page}
-              custom={dir}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {visible.map((t, i) => (
-                <TestimonialCard key={t.name} t={t} i={i} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Dot pagination */}
-        <div className="flex items-center justify-center gap-2 mt-10">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => paginate(i)}
-              className="transition-all duration-300 rounded-full"
-              style={{
-                width:      i === page ? 24 : 8,
-                height:     8,
-                background: i === page ? "#520380" : "#D1D5DB",
-              }}
-            />
-          ))}
+        {/* Carousel */}
+        <div
+          ref={wrapperRef}
+          className="overflow-hidden"
+          onMouseEnter={() => { isPausedRef.current = true; }}
+          onMouseLeave={() => { isPausedRef.current = false; }}
+        >
+          <div
+            ref={trackRef}
+            className="flex will-change-transform"
+            style={{ gap: GAP }}
+          >
+            {displayItems.map((t, i) => (
+              <TestimonialCard key={i} t={t} width={cardWidth} />
+            ))}
+          </div>
         </div>
 
       </div>

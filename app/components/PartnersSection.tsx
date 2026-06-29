@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import { fadeUp, staggerContainer, viewport } from "../lib/animations";
@@ -9,10 +10,30 @@ const partnerLogos = [
   "ACM Digital", "Nature Publishing", "Scopus", "Clarivate", "DBLP", "PubMed",
 ];
 
-const institutionLogos = [
-  "University of Tokyo", "ETH Zurich", "NUS Singapore", "TU Munich",
-  "KAIST", "IIT Bombay", "University of Toronto", "EPFL",
-  "Peking University", "Seoul National University", "UNSW Sydney", "UCL London",
+const institutions = [
+  { file: "birlainstitute.png",            name: "BITS Pilani Dubai" },
+  { file: "buffalouniversity.png",         name: "Buffalo University" },
+  { file: "californiastate.png",           name: "California State University" },
+  { file: "chiangmai.png",                 name: "Chiang Mai University" },
+  { file: "drexeluniversity.png",          name: "Drexel University" },
+  { file: "iimkozhikode.jpg",              name: "IIM Kozhikode" },
+  { file: "iitguwahati.png",               name: "IIT Guwahati" },
+  { file: "iitkanpur.png",                 name: "IIT Kanpur" },
+  { file: "roorkee.png",                   name: "IIT Roorkee" },
+  { file: "kingsaud.png",                  name: "King Saud University" },
+  { file: "nitwarangal.jpg",               name: "NIT Warangal" },
+  { file: "qataruniversity.png",           name: "Qatar University" },
+  { file: "thammasatuniversity.jpg",       name: "Thammasat University" },
+  { file: "univwaterloo.png",              name: "University of Waterloo" },
+  { file: "universitikl.webp",             name: "Universiti Kuala Lumpur" },
+  { file: "universityofchicago.svg",       name: "University of Chicago" },
+  { file: "universityofflorida.png",       name: "University of Florida" },
+  { file: "universityofjohannesburg.svg",  name: "University of Johannesburg" },
+  { file: "universityofliverpool.svg",     name: "University of Liverpool" },
+  { file: "universityofreading.png",       name: "University of Reading" },
+  { file: "universityoftoronto.webp",      name: "University of Toronto" },
+  { file: "virginiatech.svg",              name: "Virginia Tech" },
+  { file: "washingtonstateuniversity.svg", name: "Washington State University" },
 ];
 
 const maskStyle: React.CSSProperties = {
@@ -34,6 +55,30 @@ function LogoItem({ name, dim }: { name: string; dim?: boolean }) {
 
 function Divider() {
   return <span className="mx-6 shrink-0 text-white/10 text-lg select-none">·</span>;
+}
+
+function InstitutionLogoItem({ file, name }: { file: string; name: string }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <span className="mx-8 shrink-0 text-[11px] font-bold uppercase tracking-[0.15em] text-white/30 whitespace-nowrap cursor-default select-none">
+        {name}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={`/conf logo/${file}`}
+      alt={name}
+      title={name}
+      draggable={false}
+      onError={() => setFailed(true)}
+      className="mx-10 shrink-0 object-contain select-none opacity-80 hover:opacity-100 transition-opacity duration-300"
+      style={{ height: 70, width: "auto", maxWidth: 220 }}
+    />
+  );
 }
 
 export default function PartnersSection() {
@@ -126,17 +171,14 @@ export default function PartnersSection() {
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Participating Institutions</span>
           </div>
 
-          {/* Row 2 — scroll right, slightly faster */}
+          {/* Row 2 — real logo images, scroll left slightly faster */}
           <div style={maskStyle}>
-            <div className="flex w-max" style={{ animation: "scroll-right 25s linear infinite" }}
+            <div className="flex items-center w-max" style={{ animation: "scroll-right 40s linear infinite" }}
               onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
               onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
             >
-              {[...institutionLogos, ...institutionLogos].map((name, i) => (
-                <span key={i} className="inline-flex items-center">
-                  <LogoItem name={name} dim />
-                  <Divider />
-                </span>
+              {[...institutions, ...institutions].map((inst, i) => (
+                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} />
               ))}
             </div>
           </div>

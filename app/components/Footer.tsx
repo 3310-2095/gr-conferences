@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi2";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa6";
 
@@ -16,11 +17,12 @@ const footerLinks = {
     { label: "GR Author Services",    href: "#" },
   ],
   Resources: [
-    { label: "Archives",              href: "#archives" },
-    { label: "Partners",              href: "#partners" },
-    { label: "FAQs",                  href: "#" },
-    { label: "Policies",              href: "#" },
-    { label: "Contact",               href: "#" },
+    { label: "Archives",                          href: "#archives" },
+    { label: "Partners",                          href: "#partners" },
+    { label: "Join our Conference Review Committee", href: "/join/reviewer" },
+    { label: "FAQs",                              href: "#" },
+    { label: "Policies",                          href: "#" },
+    { label: "Contact",                           href: "#" },
   ],
 };
 
@@ -79,9 +81,15 @@ export default function Footer() {
                   <ul className="flex flex-col gap-4">
                     {links.map((link) => (
                       <li key={link.label}>
-                        <a href={link.href} className="text-[#9CA3AF] hover:text-white transition-colors text-[15px]">
-                          {link.label}
-                        </a>
+                        {link.href.startsWith("/") ? (
+                          <Link href={link.href} className="text-[#9CA3AF] hover:text-white transition-colors text-[15px]">
+                            {link.label}
+                          </Link>
+                        ) : (
+                          <a href={link.href} className="text-[#9CA3AF] hover:text-white transition-colors text-[15px]">
+                            {link.label}
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>

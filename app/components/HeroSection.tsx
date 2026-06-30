@@ -254,7 +254,7 @@ export default function HeroSection() {
             className="text-white/60 text-base lg:text-lg leading-relaxed max-w-2xl"
           >
             One platform connecting researchers, reviewers, speakers and institutions
-            through a growing ecosystem of international academic conferences across 50+ countries.
+            through a growing ecosystem of international academic conferences across 125+ countries.
           </motion.p>
 
         </motion.div>

@@ -12,7 +12,7 @@ const conferences = [
     subtitle: "BIOTECHNOLOGY & HEALTH",
     year: "9–11 April 2026",
     location: "Bangkok, Thailand",
-    img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&q=80",
     link: "https://ictisthailand.com/biocom.php",
   },
   {
@@ -20,7 +20,7 @@ const conferences = [
     subtitle: "ICT & INTELLIGENT SYSTEMS",
     year: "9–11 April 2026",
     location: "Bangkok, Thailand",
-    img: "https://images.unsplash.com/photo-1527168027773-0cc890c4f42e?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&q=80",
     link: "https://ictisthailand.com/index.html",
   },
   {
@@ -28,7 +28,7 @@ const conferences = [
     subtitle: "ICT & INTELLIGENT SYSTEMS",
     year: "22–23 May 2026",
     location: "New York, USA",
-    img: "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=800&q=80",
+    img: "/newyork.png",
     link: "https://ictisusa.com",
   },
   {
@@ -36,7 +36,7 @@ const conferences = [
     subtitle: "TECHNOLOGY & BUSINESS",
     year: "22–24 June 2026",
     location: "Manila, Philippines",
-    img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
+    img: "/manila.jpg",
     link: "https://tibsconf.com",
   },
   {
@@ -44,7 +44,7 @@ const conferences = [
     subtitle: "SUSTAINABILITY & ICT",
     year: "9–11 July 2026",
     location: "Goa, India",
-    img: "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80",
+    img: "/goacity.avif",
     link: "https://ict4sd.org",
   },
   {
@@ -68,7 +68,7 @@ const conferences = [
     subtitle: "COMPUTING & SUSTAINABILITY",
     year: "16–17 November 2026",
     location: "Cape Town, South Africa",
-    img: "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?w=800&q=80",
+    img: "/capetown.jpg",
     link: "https://mct4sdconf.com",
   },
   {
@@ -76,7 +76,7 @@ const conferences = [
     subtitle: "ICT & AI",
     year: "16–19 December 2026",
     location: "Ahmedabad, India",
-    img: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80",
+    img: "/ahmedabadcity.webp",
     link: "https://ictcs.in",
   },
   {
@@ -100,7 +100,7 @@ const conferences = [
     subtitle: "PHYSICS & ENERGY",
     year: "2027",
     location: "Bangkok, Thailand",
-    img: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+    img: "/thailand.jpg",
     link: "https://apmeconf.com",
   },
 ];

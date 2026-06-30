@@ -112,7 +112,7 @@ export default function PartnersSection() {
 
             <motion.div variants={fadeUp} className="flex items-center gap-8 mb-10">
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">100+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">125+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Countries</p>
               </div>
               <div className="w-px h-10 bg-white/10" />
@@ -124,7 +124,7 @@ export default function PartnersSection() {
 
             <motion.a
               variants={fadeUp}
-              href="#community"
+              href="/join/partner"
               className="group inline-flex items-center gap-3 font-bold text-white transition-all duration-300"
               style={{
                 padding: "14px 32px",
@@ -167,7 +167,7 @@ export default function PartnersSection() {
           </div>
 
           {/* Row label */}
-          <div className="px-8 lg:px-12">
+          <div className="px-8 lg:px-12 mt-14">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Participating Institutions</span>
           </div>
 

@@ -31,28 +31,28 @@ const cards = [
     role: "For Reviewers",
     title: "Shape the quality of global research.",
     desc: "Contribute your expertise in evaluating research and supporting quality academic publications across international conferences.",
-    links: [{ label: "Join our Conference Review Committee", href: "/submissions/" }],
+    links: [{ label: "Join our Conference Review Committee", href: "/join/reviewer" }],
   },
   {
     num: "02",
     role: "For Speakers",
     title: "Share your knowledge with the world.",
     desc: "Present your insights, innovations, and research with a global audience of researchers, academicians, and industry professionals.",
-    links: [{ label: "Speak at a Conference", href: "/join/reviewer" }],
+    links: [{ label: "Become a Conference Speaker", href: "/join/speaker" }],
   },
   {
     num: "03",
     role: "For Session Chairs",
     title: "Lead conversations that inspire change.",
     desc: "Moderate engaging conference sessions, guide discussions, and connect with researchers across diverse fields.",
-    links: [{ label: "Chair a Session", href: "/join/editorial-board" }],
+    links: [{ label: "Chair a Technical Session", href: "/join/chair" }],
   },
   {
     num: "04",
     role: "For Advisory Board",
     title: "Help shape the future of research collaboration.",
     desc: "Bring your expertise and vision to strengthen our conference initiatives and global academic ecosystem.",
-    links: [{ label: "Join our Advisory Board", href: "/join/institution" }],
+    links: [{ label: "Join our Advisory Board", href: "/join/advisory" }],
   },
 ];
 
@@ -100,7 +100,7 @@ export default function CommunitySection() {
           viewport={{ once: true, margin: "-60px" }}
         >
           <motion.h2 variants={fadeUp} className="engage-heading">
-            To Become part of <br />a growing international <br />research community.
+            Be a part of a  <br />a growing international <br />research community.
           </motion.h2>
        
         </motion.div>

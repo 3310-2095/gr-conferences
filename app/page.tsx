@@ -1,4 +1,5 @@
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import ConferencesSection from "./components/ConferencesSection";
@@ -9,7 +10,6 @@ import PartnersSection from "./components/PartnersSection";
 import ParticipatingInstitutions from "./components/ParticipatingInstitutions";
 import TestimonialsSection from "./components/TestimonialsSection";
 import NewsletterStrip from "./components/NewsletterStrip";
-import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -28,7 +28,9 @@ export default function Home() {
         {/* 4. Conference Brands / Focus Areas / Disciplines */}
         <CommunitySection />
 
-        {/* 5. Global Impact counters */}
+
+
+        {/* 6. Global Impact counters */}
         <StatsSection />
 
         {/* 6. Why GR Conferences */}
@@ -44,7 +46,6 @@ export default function Home() {
         <TestimonialsSection />
       </main>
       <NewsletterStrip />
-      <Footer />
     </>
   );
 }

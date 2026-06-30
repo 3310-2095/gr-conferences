@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Home",        href: "#home" },
+  { label: "Home",        href: "/" },
   { label: "About",       href: "#about" },
   { label: "Conferences", href: "#conferences" },
   { label: "Calendar",    href: "#calendar" },
@@ -18,6 +19,9 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const solid = !isHome || scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -34,13 +38,11 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled
-          ? "rgba(10,10,10,0.92)"
-          : "transparent",
-        backdropFilter:       scrolled ? "blur(20px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
-        boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.4)" : "none",
+        background: solid ? "rgba(10,10,10,0.92)" : "transparent",
+        backdropFilter:       solid ? "blur(20px)" : "none",
+        WebkitBackdropFilter: solid ? "blur(20px)" : "none",
+        borderBottom: solid ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
+        boxShadow: solid ? "0 4px 32px rgba(0,0,0,0.4)" : "none",
       }}
     >
       {/* ── Main bar ── */}
@@ -49,11 +51,11 @@ export default function Navbar() {
         style={{ height: 72 }}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+        <Link href="/" className="flex items-center gap-3 flex-shrink-0">
           <img
             src="/conferenceslogowhite.png"
             alt="GR Conferences"
-            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-10 w-auto object-contain"
           />
         </Link>
 
@@ -68,7 +70,7 @@ export default function Navbar() {
 
         {/* Desktop right side */}
         <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
-          <CTAButton href="#conferences">Start Your Own Conference</CTAButton>
+          <CTAButton href="/join/conference">Start Your Own Conference</CTAButton>
         </div>
 
         {/* Mobile toggle */}
@@ -160,7 +162,7 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.045 + 0.05, duration: 0.2 }}
                 className="mt-2"
               >
-                <CTAButton href="#conferences" onClick={() => setMenuOpen(false)} block>
+                <CTAButton href="/join/conference" onClick={() => setMenuOpen(false)} block>
                   Start Your Own Conference
                 </CTAButton>
               </motion.div>
@@ -206,7 +208,7 @@ function CTAButton({
   block?: boolean;
 }) {
   return (
-    <a
+    <Link
       href={href}
       onClick={onClick}
       className={`${block ? "block text-center w-full" : "inline-flex"} items-center justify-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200`}
@@ -217,15 +219,13 @@ function CTAButton({
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.background = "#6B04A8";
         (e.currentTarget as HTMLElement).style.boxShadow  = "0 6px 24px rgba(107,4,168,0.42)";
-        (e.currentTarget as HTMLElement).style.transform  = "translateY(-1px)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.background = "#520380";
         (e.currentTarget as HTMLElement).style.boxShadow  = "0 4px 18px rgba(82,3,128,0.30)";
-        (e.currentTarget as HTMLElement).style.transform  = "translateY(0)";
       }}
     >
       {children}
-    </a>
+    </Link>
   );
 }

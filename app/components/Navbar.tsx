@@ -7,9 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home",        href: "/" },
-  { label: "About",       href: "#about" },
+  { label: "About",       href: "/about" },
   { label: "Conferences", href: "#conferences" },
-  { label: "Calendar",    href: "#calendar" },
   { label: "Archives",    href: "#archives" },
   { label: "Members",     href: "#members" },
   { label: "Gallery",     href: "#gallery" },
@@ -17,8 +16,8 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [scrolled,  setScrolled]  = useState(false);
-  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
   const solid = !isHome || scrolled;
@@ -38,31 +37,33 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: solid ? "rgba(10,10,10,0.92)" : "transparent",
-        backdropFilter:       solid ? "blur(20px)" : "none",
-        WebkitBackdropFilter: solid ? "blur(20px)" : "none",
-        borderBottom: solid ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
-        boxShadow: solid ? "0 4px 32px rgba(0,0,0,0.4)" : "none",
+        background: solid ? "#ffffff" : "transparent",
+        borderBottom: solid ? "1px solid rgba(0,0,0,0.07)" : "1px solid transparent",
+        boxShadow: solid ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
       }}
     >
       {/* ── Main bar ── */}
       <div
         className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center justify-between"
-        style={{ height: 72 }}
+        style={{ height: 82 }}
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 flex-shrink-0">
           <img
             src="/conferenceslogowhite.png"
             alt="GR Conferences"
-            className="h-10 w-auto object-contain"
+            className="w-auto object-contain transition-all duration-300"
+            style={{
+              height: 48,
+              filter: solid ? "brightness(0) saturate(100%)" : "none",
+            }}
           />
         </Link>
 
         {/* Desktop nav links */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
-            <NavLink key={link.label} href={link.href}>
+            <NavLink key={link.label} href={link.href} solid={solid}>
               {link.label}
             </NavLink>
           ))}
@@ -80,9 +81,9 @@ export default function Navbar() {
           style={{
             width: 40,
             height: 40,
-            border:     "1px solid #333333",
-            background: menuOpen ? "rgba(82,3,128,0.10)" : "rgba(255,255,255,0.03)",
-            color:      "#E4E4E4",
+            border: solid ? "1px solid rgba(0,0,0,0.10)" : "1px solid rgba(255,255,255,0.20)",
+            background: menuOpen ? "rgba(82,3,128,0.10)" : solid ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.10)",
+            color: solid ? "#1a1a2e" : "#ffffff",
           }}
           aria-label="Toggle navigation"
         >
@@ -127,9 +128,9 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
             style={{
-              background: "rgba(10,10,10,0.97)",
-              borderTop:  "1px solid rgba(255,255,255,0.07)",
-              overflow:   "hidden",
+              background: "#ffffff",
+              borderTop: "1px solid rgba(0,0,0,0.07)",
+              overflow: "hidden",
             }}
           >
             <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col gap-1">
@@ -142,13 +143,13 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.045, duration: 0.2 }}
                   className="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200"
-                  style={{ color: "#E4E4E4" }}
+                  style={{ color: "#1a1a2e" }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color      = "#FFFFFF";
-                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                    (e.currentTarget as HTMLElement).style.color = "#520380";
+                    (e.currentTarget as HTMLElement).style.background = "rgba(82,3,128,0.07)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color      = "#E4E4E4";
+                    (e.currentTarget as HTMLElement).style.color = "#1a1a2e";
                     (e.currentTarget as HTMLElement).style.background = "transparent";
                   }}
                 >
@@ -176,23 +177,32 @@ export default function Navbar() {
 
 /* ── Shared sub-components ─────────────────────────────────────── */
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({ href, children, solid }: { href: string; children: React.ReactNode; solid: boolean }) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+  const Tag = href.startsWith("/") ? Link : ("a" as unknown as typeof Link);
   return (
-    <a
+    <Tag
       href={href}
       className="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
-      style={{ color: "#E4E4E4" }}
+      style={{
+        color: isActive ? "#520380" : solid ? "#1a1a2e" : "rgba(255,255,255,0.92)",
+        background: isActive ? "rgba(82,3,128,0.08)" : "transparent",
+        fontWeight: isActive ? 700 : undefined,
+      }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.color      = "#FFFFFF";
-        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+        if (isActive) return;
+        (e.currentTarget as HTMLElement).style.color = solid ? "#520380" : "#ffffff";
+        (e.currentTarget as HTMLElement).style.background = solid ? "rgba(82,3,128,0.07)" : "rgba(255,255,255,0.14)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.color      = "#E4E4E4";
+        if (isActive) return;
+        (e.currentTarget as HTMLElement).style.color = solid ? "#1a1a2e" : "rgba(255,255,255,0.92)";
         (e.currentTarget as HTMLElement).style.background = "transparent";
       }}
     >
       {children}
-    </a>
+    </Tag>
   );
 }
 
@@ -212,17 +222,12 @@ function CTAButton({
       href={href}
       onClick={onClick}
       className={`${block ? "block text-center w-full" : "inline-flex"} items-center justify-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200`}
-      style={{
-        background: "#520380",
-        boxShadow:  "0 4px 18px rgba(82,3,128,0.30)",
-      }}
+      style={{ background: "#520380", border: "none" }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.background = "#6B04A8";
-        (e.currentTarget as HTMLElement).style.boxShadow  = "0 6px 24px rgba(107,4,168,0.42)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.background = "#520380";
-        (e.currentTarget as HTMLElement).style.boxShadow  = "0 4px 18px rgba(82,3,128,0.30)";
       }}
     >
       {children}

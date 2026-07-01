@@ -1,170 +1,227 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Marker } from "react-simple-maps";
-import MapTooltip from "./Tooltip";
 import { destinations, type Destination } from "./destinations";
 
 interface MapPinsProps {
   visibleCount: number;
+  zoom?: number;
 }
 
-interface SinglePinProps {
-  destination: Destination;
+interface PinCluster {
+  lat: number;
+  lng: number;
+  cities: string[];
+  revealIndex: number;
+}
+
+function getClusterThreshold(zoom: number) {
+  return 3.5 / zoom;
+}
+
+function buildClusters(dests: Destination[], threshold: number): PinCluster[] {
+  const result: PinCluster[] = [];
+  dests.forEach((dest, idx) => {
+    for (const cluster of result) {
+      const dLat = Math.abs(dest.lat - cluster.lat);
+      const dLng = Math.abs(dest.lng - cluster.lng);
+      if (Math.sqrt(dLat * dLat + dLng * dLng) < threshold) {
+        const n = cluster.cities.length;
+        cluster.lat = (cluster.lat * n + dest.lat) / (n + 1);
+        cluster.lng = (cluster.lng * n + dest.lng) / (n + 1);
+        cluster.cities.push(dest.city);
+        return;
+      }
+    }
+    result.push({ lat: dest.lat, lng: dest.lng, cities: [dest.city], revealIndex: idx });
+  });
+  return result;
+}
+
+interface ClusterPinProps {
+  cluster: PinCluster;
   index: number;
   visible: boolean;
+  zoom: number;
 }
 
-/*
-  foreignObject geometry (SVG units ≈ screen px at natural zoom):
-    x={-13} y={-30} width={26} height={36}
-
-  Anchor [lng, lat] → SVG origin (0, 0):
-    div-x = 13  (horizontal center of 26px div ✓)
-    div-y = 30  (pin is 22×28; top-pad=2 → tip at 2+28=30 = anchor ✓)
-    Shadow occupies div y=30–36 (6 px below anchor)
-
-  Tooltip overflows above via `bottom-full` (pointer-events-none).
-*/
-function SinglePin({ destination, index, visible }: SinglePinProps) {
+function ClusterPin({ cluster, index, visible, zoom }: ClusterPinProps) {
   const [hovered, setHovered] = useState(false);
-  const { city, country, lat, lng } = destination;
-  const gradId = `pg-${index}`;
+  const { lat, lng, cities } = cluster;
+  const isMulti = cities.length > 1;
+  const gradId = `pg-${index}-${cities[0].replace(/\s/g, "")}`;
+
+  // Scale pin inversely with zoom so it stays the same visual size
+  // Base size at zoom=1, shrinks proportionally as zoom increases
+  const s = 1 / zoom;
+
+  // Pin dimensions in SVG units (scaled)
+  const pw = 11 * s;   // pin width  (half = 5.5s)
+  const ph = 14 * s;   // pin height
+  const pr = 3.5 * s;  // circle radius inside pin
+  const tipY = ph;     // tip of pin at y=ph (anchor point)
 
   return (
     <Marker coordinates={[lng, lat]}>
-      <foreignObject
-        x={-13}
-        y={-30}
-        width={26}
-        height={36}
-        style={{ overflow: "visible" }}
+      <g
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ cursor: "pointer" }}
       >
-        <div
-          style={{ position: "relative", width: 26, height: 36 }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          {/* Tooltip: flip below the pin for high-latitude destinations (London, New York)
-              so the card never gets clipped by the top edge of the map card. */}
-          <MapTooltip
-            city={city}
-            country={country}
-            lat={lat}
-            lng={lng}
-            visible={hovered}
-            direction={lat > 30 ? "down" : "up"}
-          />
-
-          {/*
-            Glow wrapper — CSS handles filter so it never conflicts with
-            Framer Motion's transform (scale / y) on the inner motion.div.
-          */}
-          <div
-            style={{
-              position: "absolute",
-              top: 2,
-              left: 2,
-              width: 22,
-              height: 28,
-              filter: hovered
-                ? "drop-shadow(0 6px 20px rgba(139,92,246,0.88)) drop-shadow(0 2px 8px rgba(82,3,128,0.55))"
-                : "drop-shadow(0 3px 10px rgba(82,3,128,0.55))",
-              transition: "filter 0.25s ease",
-            }}
+        {/* Pulse ring — only on hover */}
+        {hovered && (
+          <circle
+            cx={0}
+            cy={-tipY + pr}
+            r={pw * 0.9}
+            fill="none"
+            stroke="rgba(139,92,246,0.5)"
+            strokeWidth={s * 1.5}
           >
-            <motion.div
-              style={{ width: 22, height: 28, cursor: "pointer" }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={visible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1.22, y: -4 }}
-              transition={
-                visible
-                  ? { type: "spring", stiffness: 420, damping: 18, delay: index * 0.14 }
-                  : { duration: 0.12 }
-              }
-            >
-              <svg
-                width="22"
-                height="28"
-                viewBox="0 0 22 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  {/* Gradient: soft violet at top → deep purple at tip */}
-                  <linearGradient
-                    id={gradId}
-                    x1="11"
-                    y1="0"
-                    x2="11"
-                    y2="28"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0%" stopColor="#c084fc" />
-                    <stop offset="100%" stopColor="#4c0080" />
-                  </linearGradient>
-                </defs>
+            <animate attributeName="r" from={pw * 0.9} to={pw * 2.2} dur="0.8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" from="0.6" to="0" dur="0.8s" repeatCount="indefinite" />
+          </circle>
+        )}
 
-                {/* Teardrop body */}
-                <path
-                  d="M11 0C4.925 0 0 4.925 0 11c0 3.86 1.93 7.28 4.88 9.36L11 28l6.12-7.64C20.07 18.28 22 14.86 22 11 22 4.925 17.075 0 11 0z"
-                  fill={`url(#${gradId})`}
-                />
+        {/* Ground shadow */}
+        <ellipse
+          cx={0}
+          cy={0}
+          rx={pw * 0.55}
+          ry={s * 1.2}
+          fill="rgba(82,3,128,0.18)"
+        />
 
-                {/* Hollow inner ring — more refined than a solid disc */}
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="4.5"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  opacity="0.9"
-                />
+        {/* Pin body — SVG teardrop, tip at (0,0), body above */}
+        <motion.g
+          initial={{ scale: 0, opacity: 0 }}
+          animate={visible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+          transition={
+            visible
+              ? { type: "spring", stiffness: 420, damping: 18, delay: index * 0.1 }
+              : { duration: 0.12 }
+          }
+          style={{ originX: "0px", originY: "0px" }}
+        >
+          <defs>
+            <linearGradient id={gradId} x1="0" y1={-tipY} x2="0" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor={hovered ? "#a78bfa" : "#c084fc"} />
+              <stop offset="100%" stopColor={hovered ? "#5b21b6" : "#4c0080"} />
+            </linearGradient>
+            <filter id={`shadow-${index}`} x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow
+                dx="0"
+                dy={s * 2}
+                stdDeviation={s * 3}
+                floodColor="rgba(82,3,128,0.6)"
+              />
+            </filter>
+          </defs>
 
-                {/* Center dot */}
-                <circle cx="11" cy="11" r="1.5" fill="white" opacity="0.85" />
-              </svg>
-            </motion.div>
-          </div>
-
-          {/* Ground shadow beneath pin tip */}
-          <motion.div
-            style={{
-              position: "absolute",
-              bottom: 1,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: 12,
-              height: 4,
-              borderRadius: "50%",
-              background: "rgba(82,3,128,0.22)",
-              filter: "blur(3px)",
-            }}
-            initial={{ opacity: 0, scaleX: 0.4 }}
-            animate={visible ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.4 }}
-            transition={
-              visible
-                ? { delay: index * 0.14 + 0.12, duration: 0.25 }
-                : { duration: 0.1 }
-            }
+          {/* Teardrop: tip at (0,0), circle center at (0, -tipY + pr) */}
+          <path
+            d={`
+              M 0 0
+              C ${-pw * 0.35} ${-ph * 0.25}, ${-pw * 0.5} ${-ph * 0.55}, ${-pw * 0.5} ${-tipY + pr}
+              A ${pr} ${pr} 0 1 1 ${pw * 0.5} ${-tipY + pr}
+              C ${pw * 0.5} ${-ph * 0.55}, ${pw * 0.35} ${-ph * 0.25}, 0 0
+              Z
+            `}
+            fill={`url(#${gradId})`}
+            filter={`url(#shadow-${index})`}
           />
-        </div>
-      </foreignObject>
+
+          {/* Inner white ring */}
+          <circle
+            cx={0}
+            cy={-tipY + pr}
+            r={pr * 0.65}
+            fill="none"
+            stroke="white"
+            strokeWidth={s * 1.2}
+            opacity={0.9}
+          />
+
+          {/* Count or dot */}
+          {isMulti ? (
+            <text
+              x={0}
+              y={-tipY + pr + s * 2.2}
+              textAnchor="middle"
+              fill="white"
+              fontSize={s * 5}
+              fontWeight="bold"
+              fontFamily="sans-serif"
+              opacity={0.95}
+            >
+              {cities.length}
+            </text>
+          ) : (
+            <circle cx={0} cy={-tipY + pr} r={s * 1.2} fill="white" opacity={0.85} />
+          )}
+        </motion.g>
+
+        {/* Invisible hit area for easier hover */}
+        <rect
+          x={-pw}
+          y={-ph - s * 2}
+          width={pw * 2}
+          height={ph + s * 2}
+          fill="transparent"
+        />
+
+        {/* Tooltip — rendered as foreignObject above the pin, scaled correctly */}
+        {hovered && (
+          <foreignObject
+            x={-60 * s}
+            y={lat > 30 ? s * 4 : (-ph - 44 * s)}
+            width={120 * s}
+            height={50 * s}
+            style={{ overflow: "visible", pointerEvents: "none" }}
+          >
+            <div
+              style={{
+                background: "rgba(8,3,18,0.92)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(139,92,246,0.35)",
+                borderRadius: 6 * s,
+                padding: `${6 * s}px ${10 * s}px`,
+                whiteSpace: "nowrap",
+                display: "inline-block",
+                transform: "translateX(-50%)",
+                marginLeft: "50%",
+              }}
+            >
+              <div style={{ height: 2 * s, background: "linear-gradient(90deg,#7c3aed,#c084fc,#7c3aed)", borderRadius: 2, marginBottom: 4 * s }} />
+              {cities.map((city) => (
+                <p key={city} style={{ color: "#fff", fontWeight: 700, fontSize: 11 * s, lineHeight: 1.3, margin: 0, whiteSpace: "nowrap" }}>
+                  {city}
+                </p>
+              ))}
+            </div>
+          </foreignObject>
+        )}
+      </g>
     </Marker>
   );
 }
 
-export default function MapPins({ visibleCount }: MapPinsProps) {
+export default function MapPins({ visibleCount, zoom = 1 }: MapPinsProps) {
+  const clusters = useMemo(
+    () => buildClusters(destinations, getClusterThreshold(zoom)),
+    [zoom]
+  );
+
   return (
     <>
-      {destinations.map((dest, i) => (
-        <SinglePin
-          key={dest.city}
-          destination={dest}
+      {clusters.map((cluster, i) => (
+        <ClusterPin
+          key={`${cluster.cities[0]}-${zoom.toFixed(2)}`}
+          cluster={cluster}
           index={i}
-          visible={i < visibleCount}
+          visible={cluster.revealIndex < visibleCount}
+          zoom={zoom}
         />
       ))}
     </>

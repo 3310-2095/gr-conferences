@@ -83,7 +83,18 @@ function InstitutionLogoItem({ file, name }: { file: string; name: string }) {
 
 export default function PartnersSection() {
   return (
-    <section id="partners" className="relative bg-[#111111] overflow-hidden">
+    <section id="partners" className="relative overflow-hidden"
+      style={{ background: "linear-gradient(135deg, #1a1025 0%, #1e1530 40%, #181220 70%, #1a1025 100%)" }}
+    >
+
+      {/* Soft purple glow top-right */}
+      <div className="absolute -top-32 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(82,3,128,0.12) 0%, transparent 65%)" }}
+      />
+      {/* Soft glow bottom-left */}
+      <div className="absolute -bottom-32 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 65%)" }}
+      />
 
       {/* Top edge */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -117,7 +128,7 @@ export default function PartnersSection() {
               </div>
               <div className="w-px h-10 bg-white/10" />
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">1500+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">5K</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Institutions</p>
               </div>
             </motion.div>

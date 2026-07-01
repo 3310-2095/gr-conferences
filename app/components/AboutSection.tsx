@@ -25,7 +25,7 @@ const fadeRight = {
 // Phase 1 : 0.00 → 0.33  — map flies to fullscreen
 // Phase 2 : 0.33 → 0.67  — all pins shown (map stays fullscreen)
 // Phase 3 : 0.67 → 1.00  — map returns to right side
-const TOTAL_PINS = 8;
+const TOTAL_PINS = 16;
 
 function isMobile() {
   return typeof window !== "undefined" && window.innerWidth < 768;
@@ -318,7 +318,7 @@ export default function AboutSection() {
                   overflow: "hidden",
                 }}
               >
-                <WorldMap visiblePins={visiblePins} />
+                <WorldMap visiblePins={visiblePins} interactive={visiblePins > 0} />
               </div>
             </div>
           </motion.div>

@@ -219,3 +219,16 @@ p {
 .animate-fade-up   { animation: fade-up   0.55s ease-out both; }
 .animate-fade-in   { animation: fade-in   0.4s  ease-out both; }
 .animate-glow-pulse { animation: glow-pulse 2.4s ease-in-out infinite; }
+
+/* ── Card top wave drift (plays on card hover) ──────────────────── */
+
+@keyframes wave-drift {
+  0%, 100% { transform: translateX(0%); }
+  50%      { transform: translateX(-18%); }
+}
+.wave-drift {
+  transition: transform 0.6s ease;
+}
+.group:hover .wave-drift {
+  animation: wave-drift 5s ease-in-out infinite;
+}

@@ -15,12 +15,12 @@ const milestones = [
   },
   {
     year: "2016",
-    heading: "Expanding Domains",
+    heading: "Growing Globally",
     points: [
-      "Introduced new conferences across technology, computing, business, and emerging research areas.",
+      "Expanded our international conference footprint and global research community.",
     ],
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200",
-    color: "#3b82f6", // Bright Blue
+    color: "#3b82f6",
   },
   {
     year: "2019",
@@ -32,31 +32,40 @@ const milestones = [
     color: "#10b981", // Bright Emerald
   },
   {
-    year: "2021",
+    year: "2020",
     heading: "Embracing Hybrid Innovation",
     points: [
       "Introduced hybrid conference formats, enabling global participation through physical and virtual platforms.",
     ],
     image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=1200",
-    color: "#ec4899", // Bright Pink
+    color: "#ec4899",
   },
   {
-    year: "2023",
-    heading: "Strengthening Our Network",
+    year: "2022",
+    heading: "A New Age of Conference Convergence",
     points: [
-      "Built a wider conference ecosystem connecting diverse research communities and disciplines.",
+      "Redefined conference experiences with flexible, globally connected participation.",
     ],
     image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=1200",
-    color: "#f59e0b", // Bright Amber
+    color: "#f59e0b",
   },
   {
-    year: "2025",
+    year: "2024",
     heading: "Global Conference Portfolio",
     points: [
       "Expanded our international presence with multiple flagship conferences across countries.",
     ],
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
-    color: "#8b5cf6", // Bright Violet
+    color: "#8b5cf6",
+  },
+  {
+    year: "2026",
+    heading: "Strengthening Our Network and Domains",
+    points: [
+      "Expanded into new research domains while strengthening our global academic network.",
+    ],
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
+    color: "#10b981",
   },
 ];
 

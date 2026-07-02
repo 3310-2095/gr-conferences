@@ -3,6 +3,10 @@ import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "GR Conferences – Connecting Global Research Communities",
@@ -44,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className={cn("h-full antialiased", "font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>

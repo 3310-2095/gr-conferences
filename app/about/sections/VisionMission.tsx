@@ -40,7 +40,7 @@ export default function VisionMission() {
               viewport={{ once: true }}
               className="flex items-center gap-3 mb-6"
             >
-              <span className="h-[2px] w-8 bg-purple-600" />
+                        <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
               <span className="text-xs font-bold tracking-[0.2em] uppercase text-purple-700">
                Vision & Mission
               </span>

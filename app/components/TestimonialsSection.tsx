@@ -91,8 +91,10 @@ export default function TestimonialsSection() {
             <span className="text-xs">♦</span>
             Testimonials
           </span>
-     
-       
+          <h2 className="text-2xl mt-18 font-extrabold text-[#111] leading-snug tracking-tight">
+            Voices From Our<br />
+            <span className="text-[#520380]">Global Community</span>
+          </h2>
         </motion.div>
 
         {/* Right Col - Content */}

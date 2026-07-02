@@ -123,9 +123,7 @@ const WorldMap = memo(function WorldMap({
                     onClick={india ? handleIndiaClick : undefined}
                     style={{
                       default: {
-                        fill: india
-                          ? indiaZoomed ? "#d8b4fe" : "#c4b5fd"
-                          : "#E2E4E9",
+                        fill: "#E2E4E9",
                         stroke: "#FFFFFF",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -137,7 +135,7 @@ const WorldMap = memo(function WorldMap({
                         transition: "fill 0.3s ease",
                       },
                       hover: {
-                        fill: india ? "#a78bfa" : "#E2E4E9",
+                        fill: "#E2E4E9",
                         stroke: "#FFFFFF",
                         strokeWidth: 0.5,
                         outline: "none",
@@ -145,7 +143,7 @@ const WorldMap = memo(function WorldMap({
                         pointerEvents: india ? "auto" : ("none" as const),
                       },
                       pressed: {
-                        fill: india ? "#7c3aed" : "#E2E4E9",
+                        fill: "#E2E4E9",
                         stroke: "#FFFFFF",
                         strokeWidth: 0.5,
                         outline: "none",

@@ -46,8 +46,7 @@ export default function Footer() {
             
             {/* Newsletter Text */}
             <p className="text-white font-medium text-lg mb-8 leading-relaxed max-w-[320px]">
-              Get conference updates, deadlines, and opportunities delivered to your inbox.
-            </p>
+Think Global. Present Global.            </p>
             
             {/* Newsletter Form */}
             {/* <div className="relative w-full max-w-[340px] mb-12">

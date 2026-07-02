@@ -183,7 +183,14 @@ export default function PartnersSection() {
           </div>
 
           {/* Row 2 — real logo images, scroll left slightly faster */}
-          <div style={maskStyle}>
+          <div style={maskStyle} className="relative">
+            {/* Left-to-right spotlight behind logos */}
+            <div
+              className="absolute inset-0 pointer-events-none z-10"
+              style={{
+                background: "radial-gradient(ellipse 55% 100% at 0% 50%, rgba(139,61,255,0.13) 0%, rgba(82,3,128,0.07) 35%, transparent 70%)",
+              }}
+            />
             <div className="flex items-center w-max" style={{ animation: "scroll-right 40s linear infinite" }}
               onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
               onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}

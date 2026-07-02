@@ -12,7 +12,7 @@ const conferences = [
     subtitle: "BIOTECHNOLOGY & HEALTH",
     year: "9–11 April 2026",
     location: "Bangkok, Thailand",
-    img: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1731239027673-1a5c6cd61380?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmFuZ2tvayUyMHNreWxpbmV8ZW58MHwxfDB8fHww",
     link: "https://ictisthailand.com/biocom.php",
   },
   {
@@ -44,7 +44,7 @@ const conferences = [
     subtitle: "SUSTAINABILITY & ICT",
     year: "9–11 July 2026",
     location: "Goa, India",
-    img: "/goacity.avif",
+    img: "https://images.pexels.com/photos/14843534/pexels-photo-14843534.jpeg",
     link: "https://ict4sd.org",
   },
   {
@@ -60,7 +60,7 @@ const conferences = [
     subtitle: "BUSINESS & INFORMATION SYSTEMS",
     year: "17–19 September 2026",
     location: "Bangkok, Thailand",
-    img: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1612161330631-9186c513de7f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRoYWlsYW5kJTIwY2l0eXxlbnwwfHwwfHx8MA%3D%3D",
     link: "https://isbmconf.com",
   },
   {
@@ -76,7 +76,7 @@ const conferences = [
     subtitle: "ICT & AI",
     year: "16–19 December 2026",
     location: "Ahmedabad, India",
-    img: "/ahmedabadcity.webp",
+    img: "https://images.pexels.com/photos/38319033/pexels-photo-38319033.jpeg",
     link: "https://ictcs.in",
   },
   {
@@ -232,15 +232,16 @@ export default function ConferencesSection() {
       className="relative overflow-hidden bg-[#f7f7f7] py-16 lg:py-28"
       style={{ boxShadow: "0 -12px 32px 0 rgba(0,0,0,0.12)" }}
     >
-      {/* ── Background text ── */}
-      <motion.h2
+      {/* ── Background watermark ── */}
+      <motion.img
+        src="/favicon.png"
+        alt=""
+        aria-hidden="true"
         initial={{ x: "80vw", opacity: 0 }}
-        animate={isInView ? { x: 0, opacity: 1 } : {}}
+        animate={isInView ? { x: 0, opacity: 0.04 } : {}}
         transition={{ duration: 1.2, ease }}
-        className="absolute bottom-[-20px] left-0 text-[11.25rem] leading-[11.25rem] font-bold tracking-[-0.06em] text-black/[0.04] whitespace-nowrap pointer-events-none select-none"
-      >
-        New Events
-      </motion.h2>
+        className="absolute -bottom-5 left-0 h-56 w-auto pointer-events-none select-none brightness-0"
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="relative z-10 grid lg:grid-cols-[340px_1fr] gap-2 items-center">

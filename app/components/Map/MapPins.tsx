@@ -1,8 +1,10 @@
 "use client";
-import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Marker } from "react-simple-maps";
 import { destinations, type Destination } from "./destinations";
+
+const LABEL_CYCLE_MS = 2500;
 
 interface MapPinsProps {
   visibleCount: number;
@@ -44,11 +46,13 @@ interface ClusterPinProps {
   index: number;
   visible: boolean;
   zoom: number;
+  activeCity: string | null;
 }
 
-function ClusterPin({ cluster, index, visible, zoom }: ClusterPinProps) {
+function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinProps) {
   const [hovered, setHovered] = useState(false);
   const { lat, lng, cities } = cluster;
+  const isActive = activeCity !== null && cities.includes(activeCity);
   const isMulti = cities.length > 1;
   const gradId = `pg-${index}-${cities[0].replace(/\s/g, "")}`;
 
@@ -171,37 +175,43 @@ function ClusterPin({ cluster, index, visible, zoom }: ClusterPinProps) {
           fill="transparent"
         />
 
-        {/* Tooltip — rendered as foreignObject above the pin, scaled correctly */}
-        {hovered && (
-          <foreignObject
-            x={-60 * s}
-            y={lat > 30 ? s * 4 : (-ph - 44 * s)}
-            width={120 * s}
-            height={50 * s}
-            style={{ overflow: "visible", pointerEvents: "none" }}
-          >
-            <div
-              style={{
-                background: "rgba(8,3,18,0.92)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(139,92,246,0.35)",
-                borderRadius: 6 * s,
-                padding: `${6 * s}px ${10 * s}px`,
-                whiteSpace: "nowrap",
-                display: "inline-block",
-                transform: "translateX(-50%)",
-                marginLeft: "50%",
-              }}
+        {/* Auto-cycling city label — small floating text, no popup card */}
+        <AnimatePresence>
+          {isActive && (
+            <motion.g
+              key={activeCity}
+              initial={{ opacity: 0, scale: 0.7, y: 4 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.7, y: 4 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              style={{ originX: "0px", originY: "0px" }}
             >
-              <div style={{ height: 2 * s, background: "linear-gradient(90deg,#7c3aed,#c084fc,#7c3aed)", borderRadius: 2, marginBottom: 4 * s }} />
-              {cities.map((city) => (
-                <p key={city} style={{ color: "#fff", fontWeight: 700, fontSize: 11 * s, lineHeight: 1.3, margin: 0, whiteSpace: "nowrap" }}>
-                  {city}
-                </p>
-              ))}
-            </div>
-          </foreignObject>
-        )}
+              <foreignObject
+                x={-60 * s}
+                y={lat > 30 ? s * 4 : (-ph - 34 * s)}
+                width={120 * s}
+                height={30 * s}
+                style={{ overflow: "visible", pointerEvents: "none" }}
+              >
+                <div
+                  style={{
+                    display: "inline-block",
+                    transform: "translateX(-50%)",
+                    marginLeft: "50%",
+                    background: "rgba(8,3,18,0.85)",
+                    borderRadius: 999,
+                    padding: `${4 * s}px ${10 * s}px`,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span style={{ color: "#fff", fontWeight: 700, fontSize: 11 * s, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>
+                    {activeCity}
+                  </span>
+                </div>
+              </foreignObject>
+            </motion.g>
+          )}
+        </AnimatePresence>
       </g>
     </Marker>
   );
@@ -213,6 +223,19 @@ export default function MapPins({ visibleCount, zoom = 1 }: MapPinsProps) {
     [zoom]
   );
 
+  const allRevealed = visibleCount >= destinations.length;
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    if (!allRevealed) return;
+    const id = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % destinations.length);
+    }, LABEL_CYCLE_MS);
+    return () => clearInterval(id);
+  }, [allRevealed]);
+
+  const activeCity = allRevealed ? destinations[activeIdx].city : null;
+
   return (
     <>
       {clusters.map((cluster, i) => (
@@ -222,6 +245,7 @@ export default function MapPins({ visibleCount, zoom = 1 }: MapPinsProps) {
           index={i}
           visible={cluster.revealIndex < visibleCount}
           zoom={zoom}
+          activeCity={activeCity}
         />
       ))}
     </>

@@ -6,6 +6,7 @@ import VisionMission from "./sections/VisionMission";
 import GlobalPresenceMap from "./sections/GlobalPresenceMap";
 import ConferenceJourney from "./sections/ConferenceJourney";
 import Ecosystem from "./sections/Ecosystem";
+import Team from "./sections/Team";
 
 export default function AboutPage() {
   return (
@@ -16,6 +17,7 @@ export default function AboutPage() {
       <GlobalPresenceMap />
       <ConferenceJourney />
       <Ecosystem />
+      <Team />
     </main>
   );
 }

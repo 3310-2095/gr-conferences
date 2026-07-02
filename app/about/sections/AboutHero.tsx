@@ -89,7 +89,7 @@ export default function AboutHero() {
                 fontFamily: "'Playfair Display', serif",
               }}
             >
-              A Decade of
+              More than a decade of
               <br />
               <span
                 style={{
@@ -121,7 +121,7 @@ export default function AboutHero() {
             >
               What started as a single conference in 2014 has grown into a global
               ecosystem spanning multiple disciplines, countries, and research
-              communities — bringing together researchers, institutions, and experts
+              communities  bringing together researchers, institutions, and experts
               through impactful academic events worldwide.
             </motion.p>
 

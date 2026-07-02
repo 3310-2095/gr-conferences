@@ -53,124 +53,115 @@ const pillars: { tag: string; Icon: IconType; title: string; desc: string }[] = 
 export default function Ecosystem() {
   return (
     <section
-      className="relative w-full py-24 lg:py-32 overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #ffffff 0%, #F9F7FF 50%, #F3F4F6 100%)" }}
+      className="relative w-full py-24 lg:py-32 overflow-hidden bg-white"
     >
-      {/* Soft bg blobs */}
-      <div
-        aria-hidden
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(82,3,128,0.05) 0%, transparent 65%)" }}
-      />
-      <div
-        aria-hidden
-        className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 65%)" }}
-      />
-
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
         {/* ── Header ── */}
         <motion.div
-          className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16"
+          className="mb-12"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.11 } } }}
         >
-          <div>
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } } }}
-              className="flex items-center gap-3 mb-5"
-            >
-              <span className="text-[#520380] text-xs">♦</span>
-              <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#520380]">
-                One Foundation. Many Platforms.
-              </span>
-            </motion.div>
-
-            <motion.h2
-              variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
-              className="text-3xl md:text-4xl lg:text-[3rem] font-extrabold leading-[1.08] tracking-tight text-[#111111]"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              The{" "}
-              <span style={{ color: "#520380" }}>GR Ecosystem</span>
-            </motion.h2>
-          </div>
-
-          <motion.p
-            variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } } }}
-            className="text-[#6B7280] text-base leading-relaxed max-w-md lg:text-right"
+          <motion.div
+            variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } } }}
+            className="flex items-center gap-3 mb-4"
           >
-            Beyond conferences — a complete suite of platforms supporting researchers
-            at every stage of their academic journey.
-          </motion.p>
+            <span className="text-[#520380] text-xs">♦</span>
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#520380]">
+              One Foundation. Many Platforms.
+            </span>
+          </motion.div>
+          <motion.h2
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
+            className="text-3xl md:text-4xl lg:text-[2.6rem] font-light leading-[1.12] tracking-tight text-[#111111]"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            The <span className="text-[#520380]">GR Ecosystem</span>
+          </motion.h2>
         </motion.div>
 
-        {/* ── Bento Grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-          {pillars.map((p, i) => (
-            <motion.div
-              key={p.title}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease, delay: i * 0.07 }}
-              viewport={{ once: true, margin: "-40px" }}
-              whileHover={{ y: -5, transition: { duration: 0.25, ease } }}
-              className="group relative flex flex-col rounded-2xl overflow-hidden"
-              style={{
-                background: "#ffffff",
-                border: "1px solid rgba(82,3,128,0.1)",
-                boxShadow: "0 2px 12px rgba(82,3,128,0.05)",
-                transition: "box-shadow 0.3s ease, border-color 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(82,3,128,0.12)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(82,3,128,0.25)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(82,3,128,0.05)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(82,3,128,0.1)";
-              }}
-            >
-              <div className="flex flex-col flex-1 p-7">
-                {/* Icon + tag row */}
-                <div className="flex items-center justify-between mb-6">
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(82,3,128,0.08)", border: "1px solid rgba(82,3,128,0.15)" }}
-                  >
-                    <p.Icon size={22} color="#520380" />
-                  </div>
-                  {/* <span
-                    className="text-[10px] font-bold tracking-[0.18em] uppercase px-3 py-1 rounded-full"
-                    style={{ background: "rgba(82,3,128,0.07)", color: "#520380", border: "1px solid rgba(82,3,128,0.15)" }}
-                  >
-                    {p.tag}
-                  </span> */}
+        {/* ── Pillars Grid ── */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 overflow-hidden"
+          style={{ border: "1px solid rgba(82,3,128,0.1)" }}
+        >
+          {pillars.map((p, i) => {
+            const isOdd = i % 2 === 0;
+            return (
+              <motion.div
+                key={p.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease, delay: i * 0.07 }}
+                viewport={{ once: true, margin: "-40px" }}
+                className="pillar-card group relative flex flex-col p-10 lg:p-11 cursor-default"
+                style={{
+                  borderRight: "1px solid rgba(82,3,128,0.1)",
+                  borderBottom: "1px solid rgba(82,3,128,0.1)",
+                  transition: "background 0.25s ease, box-shadow 0.25s ease",
+                }}
+                data-odd={isOdd ? "true" : "false"}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  if (isOdd) {
+                    el.style.background = "rgba(82,3,128,0.04)";
+                    el.style.boxShadow = "inset 0 3px 0 0 #520380";
+                  } else {
+                    el.style.background = "#1a0a2e";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "";
+                  el.style.boxShadow = "";
+                }}
+              >
+                {/* Tag */}
+                <span
+                  className="pillar-tag text-[10px] font-semibold uppercase tracking-[0.16em] mb-4 transition-colors duration-200"
+                  style={{ color: "rgba(82,3,128,0.45)" }}
+                >
+                  {p.tag}
+                </span>
+
+                {/* Icon */}
+                <div className="mb-5">
+                  <p.Icon size={28} className="pillar-icon transition-colors duration-200" style={{ color: "#520380" }} />
                 </div>
 
                 {/* Title */}
                 <h3
-                  className="font-extrabold text-xl leading-tight tracking-tight mb-3"
+                  className="pillar-title text-[22px] font-light leading-snug tracking-tight mb-4 transition-colors duration-200"
                   style={{ fontFamily: "'Playfair Display', serif", color: "#111111" }}
                 >
                   {p.title}
                 </h3>
 
                 {/* Desc */}
-                <p className="text-[#6B7280] text-sm leading-[1.85]">
+                <p
+                  className="pillar-desc text-[13.5px] leading-[1.85] transition-colors duration-200"
+                  style={{ color: "#6B7280" }}
+                >
                   {p.desc}
                 </p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
-
-  
-
       </div>
+
+      <style>{`
+        .pillar-card:hover .pillar-tag { color: rgba(82,3,128,0.55) !important; }
+        .pillar-card[data-odd="false"]:hover .pillar-tag { color: rgba(255,255,255,0.4) !important; }
+        .pillar-card[data-odd="false"]:hover .pillar-icon { color: #c084fc !important; }
+        .pillar-card[data-odd="false"]:hover .pillar-title { color: #ffffff !important; }
+        .pillar-card[data-odd="false"]:hover .pillar-desc { color: rgba(255,255,255,0.45) !important; }
+        .pillar-card[data-odd="true"]:hover .pillar-title { color: #520380 !important; }
+        .pillar-card[data-odd="true"]:hover .pillar-desc { color: #374151 !important; }
+      `}</style>
     </section>
   );
 }

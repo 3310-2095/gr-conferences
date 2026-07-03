@@ -40,120 +40,146 @@ export default function AboutSection() {
   const [visiblePins, setVisiblePins] = useState(0);
 
   useEffect(() => {
+    let cancelled = false;
+    let ctx: gsap.Context | undefined;
+    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
+
     async function initGSAP() {
       const { gsap }          = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       gsap.registerPlugin(ScrollTrigger);
 
-      const section        = sectionRef.current;
-      const leftContent    = leftContentRef.current;
-      const mapWrapper     = mapWrapperRef.current;
-      const innerContainer = innerContainerRef.current;
+      // Bail out if the component unmounted (e.g. fast route change away
+      // and back) while the dynamic import above was still in flight —
+      // otherwise this would create a trigger nothing will ever clean up.
+      if (cancelled) return;
 
-      if (!section || !leftContent || !mapWrapper || !innerContainer) return;
+      const section = sectionRef.current;
+      if (!section) return;
       if (isMobile()) return;
 
-      // ── Metrics: measured once at natural (untransformed) position ──────
-      const getMetrics = () => {
-        const rect     = mapWrapper.getBoundingClientRect();
-        const vpCx     = window.innerWidth  / 2;
-        const vpCy     = window.innerHeight / 2;
-        const elCx     = rect.left + rect.width  / 2;
-        const elCy     = rect.top  + rect.height / 2;
-        const scaleX   = window.innerWidth  / rect.width;
-        const scaleY   = window.innerHeight / rect.height;
-        const fillScale = Math.min(scaleX, scaleY) * 0.95; // contain mode
-        return { dx: vpCx - elCx, dy: vpCy - elCy, fillScale };
-      };
+      // gsap.context() scopes every tween/ScrollTrigger created inside it to
+      // `section`. On cleanup, ctx.revert() synchronously kills them and
+      // undoes pin-spacers / inline styles — this is what makes remounting
+      // the section (e.g. navigating away and back) start from a clean slate
+      // instead of racing with an async re-import in the cleanup function.
+      ctx = gsap.context(() => {
+        const leftContent    = leftContentRef.current;
+        const mapWrapper     = mapWrapperRef.current;
+        const innerContainer = innerContainerRef.current;
+        if (!leftContent || !mapWrapper || !innerContainer) return;
 
-      // ── Master timeline (progress 0 → 1 driven by scrub) ─────────────────
-      const tl = gsap.timeline({ paused: true });
+        // ── Metrics: measured once at natural (untransformed) position ────
+        const getMetrics = () => {
+          const rect     = mapWrapper.getBoundingClientRect();
+          const vpCx     = window.innerWidth  / 2;
+          const vpCy     = window.innerHeight / 2;
+          const elCx     = rect.left + rect.width  / 2;
+          const elCy     = rect.top  + rect.height / 2;
+          const scaleX   = window.innerWidth  / rect.width;
+          const scaleY   = window.innerHeight / rect.height;
+          const fillScale = Math.min(scaleX, scaleY) * 0.95; // contain mode
+          return { dx: vpCx - elCx, dy: vpCy - elCy, fillScale };
+        };
 
-      // PHASE 1 (0.00 → 0.33) — map flies to fullscreen, text fades out
-      tl.to(leftContent, {
-        opacity: 0,
-        y: -40,
-        duration: 0.33,
-        ease: "power2.inOut",
-      }, 0);
+        // ── Master timeline (progress 0 → 1 driven by scrub) ───────────────
+        const tl = gsap.timeline({ paused: true });
 
-      tl.to(mapWrapper, {
-        x: () => getMetrics().dx,
-        y: () => getMetrics().dy,
-        scale: () => getMetrics().fillScale,
-        duration: 0.33,
-        ease: "power2.inOut",
-      }, 0);
+        // PHASE 1 (0.00 → 0.33) — map flies to fullscreen, text fades out
+        tl.to(leftContent, {
+          opacity: 0,
+          y: -40,
+          duration: 0.33,
+          ease: "power2.inOut",
+        }, 0);
 
-      tl.to(innerContainer, {
-        borderRadius: 0,
-        duration: 0.33,
-        ease: "power2.inOut",
-      }, 0);
+        tl.to(mapWrapper, {
+          x: () => getMetrics().dx,
+          y: () => getMetrics().dy,
+          scale: () => getMetrics().fillScale,
+          duration: 0.33,
+          ease: "power2.inOut",
+        }, 0);
 
-      // PHASE 2 (0.33 → 0.67) — pins shown via React state; map stays fullscreen
-      // No GSAP tweens needed here — the map holds its fullscreen position.
+        tl.to(innerContainer, {
+          borderRadius: 0,
+          duration: 0.33,
+          ease: "power2.inOut",
+        }, 0);
 
-      // PHASE 3 (0.67 → 1.00) — map returns to card, text fades back in
-      tl.to(mapWrapper, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: 0.33,
-        ease: "power2.inOut",
-      }, 0.67);
+        // PHASE 2 (0.33 → 0.67) — pins shown via React state; map stays fullscreen
+        // No GSAP tweens needed here — the map holds its fullscreen position.
 
-      tl.to(innerContainer, {
-        borderRadius: 0,
-        duration: 0.33,
-        ease: "power2.inOut",
-      }, 0.67);
+        // PHASE 3 (0.67 → 1.00) — map returns to card, text fades back in
+        tl.to(mapWrapper, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.33,
+          ease: "power2.inOut",
+        }, 0.67);
 
-      tl.to(leftContent, {
-        opacity: 1,
-        y: 0,
-        duration: 0.25,
-        ease: "power2.out",
-      }, 0.75);
+        tl.to(innerContainer, {
+          borderRadius: 0,
+          duration: 0.33,
+          ease: "power2.inOut",
+        }, 0.67);
 
-      // ── ScrollTrigger ─────────────────────────────────────────────────────
-      ScrollTrigger.create({
-        trigger: section,
-        start: "bottom bottom",   // pin once the full section is in view
-        end: "+=300%",            // 3 viewport heights of scroll travel
-        pin: true,
-        anticipatePin: 1,
-        scrub: 1.4,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const p = self.progress;
+        tl.to(leftContent, {
+          opacity: 1,
+          y: 0,
+          duration: 0.25,
+          ease: "power2.out",
+        }, 0.75);
 
-          // Drive the timeline
-          tl.progress(p);
+        // ── ScrollTrigger ───────────────────────────────────────────────────
+        ScrollTrigger.create({
+          id: "about-pin",
+          trigger: section,
+          start: "bottom bottom",   // pin once the full section is in view
+          end: "+=300%",            // 3 viewport heights of scroll travel
+          pin: true,
+          anticipatePin: 1,
+          scrub: 1.4,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = self.progress;
 
-          // Elevate map above sibling sections during animation
-          if (mapWrapperRef.current) {
-            mapWrapperRef.current.style.zIndex =
-              p > 0.03 && p < 0.97 ? "50" : "10";
-          }
+            // Drive the timeline
+            tl.progress(p);
 
-          // Pins — all 8 appear at once during phase 2 (map stays fullscreen)
-          setVisiblePins(p >= 0.33 && p < 0.67 ? TOTAL_PINS : 0);
-        },
-        onLeaveBack: () => {
-          tl.progress(0);
-          setVisiblePins(0);
-          if (mapWrapperRef.current) mapWrapperRef.current.style.zIndex = "10";
-        },
-      });
+            // Elevate map above sibling sections during animation
+            if (mapWrapperRef.current) {
+              mapWrapperRef.current.style.zIndex =
+                p > 0.03 && p < 0.97 ? "50" : "10";
+            }
+
+            // Pins — all 8 appear at once during phase 2 (map stays fullscreen)
+            setVisiblePins(p >= 0.33 && p < 0.67 ? TOTAL_PINS : 0);
+          },
+          onLeaveBack: () => {
+            tl.progress(0);
+            setVisiblePins(0);
+            if (mapWrapperRef.current) mapWrapperRef.current.style.zIndex = "10";
+          },
+        });
+      }, section);
+
+      // Re-measure against the freshly mounted layout. Without this, a
+      // section remounted after client-side navigation (e.g. going to
+      // /archives and back) can keep whatever pin start/end was cached from
+      // before, which is what produced the janky/incorrect pin behavior.
+      refreshTimer = setTimeout(() => {
+        if (!cancelled) ScrollTrigger.refresh();
+      }, 150);
     }
 
     initGSAP();
 
     return () => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
-      });
+      cancelled = true;
+      if (refreshTimer) clearTimeout(refreshTimer);
+      ctx?.revert();
     };
   }, []);
 

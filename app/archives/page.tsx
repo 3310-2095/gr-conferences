@@ -77,7 +77,6 @@ export default function ArchivesPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

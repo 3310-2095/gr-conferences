@@ -93,11 +93,6 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.75, ease } },
 };
 
-const lineReveal = {
-  hidden: { scaleX: 0, opacity: 0 },
-  show: { scaleX: 1, opacity: 1, transition: { duration: 1, ease, delay: 0.2 } },
-};
-
 export default function HeroSection() {
   const { line1, line2, line1Done, cursor, activeLine } = useHeadingTyped();
 
@@ -165,19 +160,11 @@ export default function HeroSection() {
           animate="show"
         >
 
-          {/* Top label with lines */}
+          {/* Top label */}
           <motion.div variants={fadeUp} className="flex items-center gap-4 mb-8">
-            <motion.div
-              className="h-px w-12 bg-[#520380] origin-right"
-              variants={lineReveal}
-            />
             <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-white/50">
               Global Research Network
             </span>
-            <motion.div
-              className="h-px w-12 bg-[#520380] origin-left"
-              variants={lineReveal}
-            />
           </motion.div>
 
           {/* Main heading */}

@@ -74,7 +74,6 @@ export default function AboutHero() {
           >
             {/* Eyebrow */}
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-7">
-              <div className="h-px w-10 bg-[#520380]" />
               <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-white/60">
                 About GR Conferences
               </span>

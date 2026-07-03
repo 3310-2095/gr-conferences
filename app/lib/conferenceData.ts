@@ -10,6 +10,12 @@ export type Conference = {
   logo: string;
   status: "upcoming" | "past";
   year: number;
+  /** Not yet published for any conference — renders as "TBA" until real dates are supplied. */
+  submissionDeadline?: string;
+  /** Not yet published for any conference — renders as "TBA" until real dates are supplied. */
+  registrationDeadline?: string;
+  /** Building/venue name — not yet known for any conference; the map link is derived from `location` instead. */
+  venueName?: string;
 };
 
 export const conferences: Conference[] = [

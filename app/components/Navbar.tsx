@@ -8,19 +8,23 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { label: "Home",        href: "/" },
   { label: "About",       href: "/about" },
-  { label: "Conferences", href: "/conferences" },
+  { label: "Calendar", href: "/calendar" },
   { label: "Archives",    href: "/archives" },
   { label: "Community",     href: "#Community" },
   { label: "Gallery",     href: "#gallery" },
   { label: "Partners",    href: "#partners" },
 ];
 
+// Pages with a full-bleed hero image behind the navbar get the transparent
+// overlay treatment; everything else (light backgrounds) stays solid always.
+const TRANSPARENT_HERO_PATHS = ["/", "/about", "/calendar"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const solid = !isHome || scrolled;
+  const hasHeroImage = TRANSPARENT_HERO_PATHS.includes(pathname);
+  const solid = !hasHeroImage || scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

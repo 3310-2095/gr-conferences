@@ -1,5 +1,3 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import ConferencesSection from "./components/ConferencesSection";
@@ -14,7 +12,6 @@ import NewsletterStrip from "./components/NewsletterStrip";
 export default function Home() {
   return (
     <>
-      <Navbar />
       <main>
         {/* 1. Hero — conference visuals, global stats, CTA buttons */}
         <HeroSection />

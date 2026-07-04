@@ -89,7 +89,7 @@ export default function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="py-24 bg-[#FAFAFA] font-sans">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1250px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12 lg:gap-20 items-start">
         
         {/* Left Col - Title */}

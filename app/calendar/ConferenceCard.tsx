@@ -37,7 +37,7 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease, delay: index * 0.05 }}
-      className="bg-white rounded-[16px] w-full border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 flex flex-col md:flex-row overflow-hidden relative group scroll-mt-32"
+      className="bg-white  w-full border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 flex flex-col md:flex-row overflow-hidden relative group scroll-mt-32"
     >
       {/* Left Banner Image */}
       <div className="relative w-full md:w-[260px] lg:w-[280px] shrink-0 min-h-[260px] md:min-h-full bg-gray-100 flex flex-col justify-end p-5 lg:p-6 overflow-hidden">

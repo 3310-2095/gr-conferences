@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiMagnifyingGlass, HiChevronDown } from "react-icons/hi2";
 import { HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
+import { parseConferenceDateRange } from "../lib/calendarUtils";
 import ConferenceCard from "./ConferenceCard";
 import MonthlyCalendar from "./MonthlyCalendar";
 import TimelineView from "./TimelineView";
@@ -166,6 +167,7 @@ export default function ConferenceCalendarPage() {
   const [pendingScrollId, setPendingScrollId] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
+    const today = new Date();
     return allConferences.filter((c) => {
       const q = search.toLowerCase().trim();
       const matchSearch =
@@ -178,16 +180,19 @@ export default function ConferenceCalendarPage() {
       const matchLocation = !location || c.location.split(",")[0].trim() === location;
       const matchYear = !year || c.year === Number(year);
       const matchMonth = !month || getConfMonth(c.date) === Number(month);
+
       let derivedStatus = "Upcoming";
       if (c.status === "past") {
         derivedStatus = "Completed";
       } else if (c.submissionDeadline) {
-        derivedStatus = "Open Submission";
+        const range = parseConferenceDateRange(c.submissionDeadline, c.year);
+        derivedStatus = range && range.end < today ? "Paper Submission closed" : "Open for Submission";
       } else if (c.registrationDeadline) {
-        derivedStatus = "Registration Open";
+        const range = parseConferenceDateRange(c.registrationDeadline, c.year);
+        derivedStatus = range && range.end < today ? "Registration Closed" : "Registration Ongoing";
       }
 
-      // Allow fallback match if the prompt required "First deadline approaching" manually
+      // "First deadline approaching" has no dedicated data field yet, so it matches any non-past conference
       const matchStatus = !status || derivedStatus.toLowerCase() === status.toLowerCase() || (status.toLowerCase() === "first deadline approaching" && c.status !== "past");
       const matchSeries = !series || c.name.split(" ")[0] === series;
 
@@ -325,22 +330,39 @@ export default function ConferenceCalendarPage() {
                 >
                   12 Conferences, One Portfolio
                 </h2>
-                <p className="text-gray-500 text-sm">Every GR conference in one place — sorted by date, closest first.</p>
+                <p className="text-gray-500 text-sm mb-4">Plan Your Research Journey</p>
+
+                {/* Year toggle */}
+                <div className="inline-flex items-center bg-gray-100 rounded-2xl p-1 gap-1">
+                  {["2026", "2027"].map((y) => (
+                    <button
+                      key={y}
+                      type="button"
+                      onClick={() => setYear((prev) => (prev === y ? "" : y))}
+                      className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all ${year === y ? "bg-[#520380] text-white shadow-[0_4px_14px_rgba(82,3,128,0.25)]" : "text-gray-500 hover:text-[#520380]"
+                        }`}
+                    >
+                      {y}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* View toggle */}
-              <div className="inline-flex items-center bg-white/70 backdrop-blur-md border border-white/70 rounded-2xl p-1 gap-1 shrink-0">
-                {VIEWS.map((v) => (
-                  <button
-                    key={v.value}
-                    type="button"
-                    onClick={() => setView(v.value)}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all ${view === v.value ? "bg-[#520380] text-white shadow-[0_4px_14px_rgba(82,3,128,0.25)]" : "text-gray-500 hover:text-[#520380]"
-                      }`}
-                  >
-                    {v.label}
-                  </button>
-                ))}
+              <div className="flex items-center gap-3 shrink-0">
+                {/* View toggle */}
+                <div className="inline-flex items-center bg-white/70 backdrop-blur-md border border-white/70 rounded-2xl p-1 gap-1 shrink-0">
+                  {VIEWS.map((v) => (
+                    <button
+                      key={v.value}
+                      type="button"
+                      onClick={() => setView(v.value)}
+                      className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all ${view === v.value ? "bg-[#520380] text-white shadow-[0_4px_14px_rgba(82,3,128,0.25)]" : "text-gray-500 hover:text-[#520380]"
+                        }`}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -359,9 +381,6 @@ export default function ConferenceCalendarPage() {
                     className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-[13px] text-gray-800 placeholder-gray-400 outline-none focus:border-[#520380]/50 focus:ring-4 focus:ring-[#520380]/10 transition-all"
                   />
                 </div>
-                <span className="shrink-0 text-[12px] font-semibold text-[#520380] bg-[#f3e8ff] px-3 py-2 rounded-xl whitespace-nowrap">
-                  {filtered.length} result{filtered.length !== 1 ? "s" : ""}
-                </span>
                 {hasFilters && (
                   <button
                     onClick={clearFilters}
@@ -387,10 +406,11 @@ export default function ConferenceCalendarPage() {
                 <GlassSelect value={status} onChange={setStatus} placeholder="All Status"
                   options={[
                     { label: "Upcoming", value: "upcoming" },
-                    { label: "Open Submission", value: "open submission" },
-                    { label: "Registration Open", value: "registration open" },
-                    { label: "First Deadline Approaching", value: "first deadline approaching" },
-                    { label: "Completed", value: "completed" },
+                    { label: "Open for Submission", value: "open for submission" },
+                    { label: "Registration Ongoing", value: "registration ongoing" },
+                    { label: "Registration Closed", value: "registration closed" },
+                    { label: "First deadline approaching", value: "first deadline approaching" },
+                    { label: "Paper Submission closed", value: "paper submission closed" },
                   ]} />
               </div>
             </div>}

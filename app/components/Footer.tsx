@@ -4,10 +4,10 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa6";
 
 const footerLinks = {
   Conferences: [
-    { label: "Upcoming",              href: "#calendar" },
-    { label: "Portfolio",             href: "#conferences" },
-    { label: "Calendar",              href: "#calendar" },
-    { label: "Researcher Community",  href: "#" },
+    { label: "Calendar",              href: "/calendar" },
+    { label: "Community",             href: "/community" },
+    { label: "Archives",              href: "/archives" },
+    { label: "Partners",  href: "partners" },
   ],
   "GR Ecosystem": [
     { label: "GR Journals",           href: "#" },
@@ -16,9 +16,7 @@ const footerLinks = {
     { label: "GR Author Services",    href: "#" },
   ],
   Resources: [
-    { label: "Archives",                          href: "#archives" },
-    { label: "Partners",                          href: "#partners" },
-    { label: "Join our Conference Review Committee", href: "/join/reviewer" },
+   
     { label: "FAQs",                              href: "#" },
     { label: "Policies",                          href: "#" },
     { label: "Contact",                           href: "#" },

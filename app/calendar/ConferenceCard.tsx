@@ -96,14 +96,11 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
         </div>
 
         {/* Title, Full Name & Buttons */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
           <div className="max-w-2xl">
-            <h2 className="text-2xl font-extrabold text-[#111] mb-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {conf.name} {conf.location.split(',')[1]?.trim() || conf.location.split(',')[0]}
-            </h2>
-            <p className="text-[13px] text-gray-500 font-medium leading-relaxed">
+            <h2 className="text-2xl font-extrabold text-[#111] font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
               {conf.fullName}
-            </p>
+            </h2>
           </div>
 
           {/* Buttons */}
@@ -112,26 +109,22 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
               href={conf.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
-            >
-              Website
-            </a>
-            <a
-              href={conf.website}
-              target="_blank"
-              rel="noopener noreferrer"
               className="px-6 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors shadow-sm"
             >
               Submit Paper
             </a>
-            <a
-              href={conf.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
-            >
-              More Details
-            </a>
+          </div>
+        </div>
+
+        {/* Deadlines */}
+        <div className="flex flex-wrap gap-8 mb-6">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Paper Submission Deadline</p>
+            <p className="text-[13px] font-semibold text-gray-700">{conf.submissionDeadline || "TBA"}</p>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Registration Deadline</p>
+            <p className="text-[13px] font-semibold text-gray-700">{conf.registrationDeadline || "TBA"}</p>
           </div>
         </div>
 
@@ -140,14 +133,24 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
 
         {/* Edition History */}
         <div className="mt-auto">
-          <button
-            type="button"
-            onClick={() => setHistoryOpen((v) => !v)}
-            className="flex items-center gap-1.5 text-[12px] font-bold text-[#520380] hover:underline"
-          >
-            <HiChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? "rotate-180" : "-rotate-90"}`} />
-            Edition History
-          </button>
+          <div className="flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => setHistoryOpen((v) => !v)}
+              className="flex items-center gap-1.5 text-[12px] font-bold text-[#520380] hover:underline"
+            >
+              <HiChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? "rotate-180" : "-rotate-90"}`} />
+              Edition History
+            </button>
+            <a
+              href={conf.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] font-bold text-gray-500 hover:text-[#520380] hover:underline"
+            >
+              Visit Website &rarr;
+            </a>
+          </div>
           <AnimatePresence>
             {historyOpen && (
               <motion.div
@@ -160,18 +163,10 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
                 <ul className="pt-3 pb-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                   {editionHistory.length > 0 ? (
                     editionHistory.map((edition) => (
-                      <li key={edition.id} className="flex flex-wrap items-center justify-between text-[12px] gap-2">
+                      <li key={edition.id} className="text-[12px] gap-2">
                         <span className="text-gray-600 font-medium">
-                          {edition.edition} &middot; {edition.date} &middot; {edition.location}
+                          {edition.edition} &middot; {edition.date} &middot; {edition.location.split(",")[0].trim()}
                         </span>
-                        <a
-                          href={edition.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#520380] font-bold hover:underline shrink-0"
-                        >
-                          View Website &rarr;
-                        </a>
                       </li>
                     ))
                   ) : (

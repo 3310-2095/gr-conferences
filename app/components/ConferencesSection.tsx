@@ -229,7 +229,7 @@ export default function ConferencesSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#f7f7f7] py-16 lg:py-28"
+      className="relative overflow-hidden bg-[#f7f7f7]  py-16 lg:py-28"
       style={{ boxShadow: "0 -12px 32px 0 rgba(0,0,0,0.12)" }}
     >
       {/* ── Background watermark ── */}
@@ -262,20 +262,20 @@ export default function ConferencesSection() {
             >
                               <span className="text-[#520380] text-xs">♦</span>
 
-              12 CONFERENCES, ONE PORTFOLIO
+              CONFERENCES 2026
             </motion.span>
 
             <div className="overflow-hidden mb-6">
-              {["Plan Your", "Research Journey"].map((line, i) => (
+              {["Connecting", "Research", "Communities"].map((word, i) => (
                 <motion.div
-                  key={line}
+                  key={word}
                   variants={{
                     hidden: { opacity: 0, filter: "blur(12px)", scale: 1.08 },
                     show: { opacity: 1, filter: "blur(0px)", scale: 1, transition: { duration: 0.7, ease, delay: i * 0.12 } },
                   }}
                   className="text-[42px] lg:text-[52px] leading-[1.05] font-black tracking-tight text-[#111]"
                 >
-                  {line}
+                  {word}
                 </motion.div>
               ))}
             </div>
@@ -285,32 +285,10 @@ export default function ConferencesSection() {
                 hidden: { opacity: 0, y: 16, filter: "blur(6px)" },
                 show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
               }}
-              className="text-[#6B7280] text-base leading-relaxed max-w-[320px] mb-6"
+              className="text-[#6B7280] text-base leading-relaxed max-w-[320px] mb-10"
             >
               Discover our world-class academic conferences across technology, sustainability, business, and emerging disciplines.
             </motion.p>
-
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 12 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
-              }}
-              className="flex flex-wrap items-center gap-2 mb-10"
-            >
-              {[
-                { label: "List View", href: "/calendar" },
-                { label: "Calendar View", href: "/calendar" },
-                { label: "Map View", href: "/#about" },
-              ].map((view) => (
-                <a
-                  key={view.label}
-                  href={view.href}
-                  className="px-4 py-2 rounded-full text-xs font-semibold text-[#520380] bg-[#520380]/[0.06] border border-[#520380]/15 hover:bg-[#520380]/10 hover:border-[#520380]/30 transition-colors"
-                >
-                  {view.label}
-                </a>
-              ))}
-            </motion.div>
 
             <motion.div
               variants={{

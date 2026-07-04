@@ -10,14 +10,14 @@ const navLinks = [
   { label: "About",       href: "/about" },
   { label: "Calendar", href: "/calendar" },
   { label: "Archives",    href: "/archives" },
-  { label: "Community",     href: "#Community" },
-  { label: "Gallery",     href: "#gallery" },
-  { label: "Partners",    href: "#partners" },
+  { label: "Community",     href: "/community" },
+  { label: "Gallery",     href: "/gallery" },
+  { label: "Partners",    href: "/partners" },
 ];
 
 // Pages with a full-bleed hero image behind the navbar get the transparent
 // overlay treatment; everything else (light backgrounds) stays solid always.
-const TRANSPARENT_HERO_PATHS = ["/", "/about", "/calendar"];
+const TRANSPARENT_HERO_PATHS = ["/", "/about", "/calendar", "/community", "/partners", "/gallery"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

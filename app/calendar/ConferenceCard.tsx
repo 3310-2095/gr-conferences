@@ -65,71 +65,74 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
       </div>
 
       {/* Right Content */}
-      <div className="flex-1 p-5 lg:p-6 flex flex-col relative bg-white">
-        
-        {/* Domains */}
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          {conf.domains.slice(0, 3).map((d) => (
-            <span key={d} className={`text-[10px] font-bold px-2.5 py-1 rounded-md bg-[#f5efff] text-[#520380]`}>
-              {d}
-            </span>
-          ))}
-        </div>
+      <div className="flex-1 p-5 lg:p-7 flex flex-col relative bg-white">
 
-        {/* Title & Full Name */}
-        <div className="mb-4">
-          <h2 className="text-2xl font-extrabold text-[#111] mb-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {conf.name} {conf.location.split(',')[1]?.trim() || conf.location.split(',')[0]}
-          </h2>
-          <p className="text-[13px] text-gray-500 font-medium leading-relaxed max-w-xl">
-            {conf.fullName}
-          </p>
-        </div>
+        {/* Top row: Domains + Status badges */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-2">
+            {conf.domains.slice(0, 3).map((d) => (
+              <span key={d} className={`text-[10px] font-bold px-2.5 py-1 rounded-md bg-[#f5efff] text-[#520380]`}>
+                {d}
+              </span>
+            ))}
+          </div>
 
-        {/* Badges */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          {conf.status === "past" ? (
-            <div className="bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-              COMPLETED
-            </div>
-          ) : (
-            <>
-              <div className="bg-[#e6f4ea] text-[#1e8e3e] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                OPEN SUBMISSION
+          <div className="flex flex-wrap items-center gap-2">
+            {conf.status === "past" ? (
+              <div className="bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                COMPLETED
               </div>
-              <div className="bg-[#fef3c7] text-[#d97706] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                REGISTRATION OPEN
-              </div>
-            </>
-          )}
+            ) : (
+              <>
+                <div className="bg-[#e6f4ea] text-[#1e8e3e] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                  OPEN SUBMISSION
+                </div>
+                <div className="bg-[#fef3c7] text-[#d97706] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                  REGISTRATION OPEN
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
-        {/* Buttons */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <a
-            href={conf.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
-          >
-            Website
-          </a>
-          <a
-            href={conf.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors shadow-sm"
-          >
-            Submit Paper
-          </a>
-          <a
-            href={conf.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
-          >
-            More Details
-          </a>
+        {/* Title, Full Name & Buttons */}
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+          <div className="max-w-2xl">
+            <h2 className="text-2xl font-extrabold text-[#111] mb-2 font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
+              {conf.name} {conf.location.split(',')[1]?.trim() || conf.location.split(',')[0]}
+            </h2>
+            <p className="text-[13px] text-gray-500 font-medium leading-relaxed">
+              {conf.fullName}
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href={conf.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
+            >
+              Website
+            </a>
+            <a
+              href={conf.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors shadow-sm"
+            >
+              Submit Paper
+            </a>
+            <a
+              href={conf.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
+            >
+              More Details
+            </a>
+          </div>
         </div>
 
         {/* Divider */}
@@ -154,7 +157,7 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
                 transition={{ duration: 0.25, ease }}
                 className="overflow-hidden"
               >
-                <ul className="pt-3 pb-1 flex flex-col gap-2">
+                <ul className="pt-3 pb-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                   {editionHistory.length > 0 ? (
                     editionHistory.map((edition) => (
                       <li key={edition.id} className="flex flex-wrap items-center justify-between text-[12px] gap-2">

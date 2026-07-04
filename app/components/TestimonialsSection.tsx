@@ -5,6 +5,16 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 
 const testimonials = [
   {
+    quote: "Over the years, I have had the opportunity to contribute not only as an author but also as a Session Chair and Keynote Speaker at your conferences. The conferences have consistently demonstrated a high level of professionalism, academic quality, and organizational excellence.",
+    name: "Dr. Basant T.",
+    role: "MIT World Peace University, India",
+  },
+  {
+    quote: "My experience with the manuscript submission and peer review process at G R Conferences was smooth and professional, with prompt email replies and constructive editorial guidance. I have attended the online presentation twice, where my dissertation paper was presented, and each time the digital coordination and conference materials were well-organized and engaging. I especially appreciate the accommodating technical support, particularly with the plagiarism checker, which was very helpful and efficient.",
+    name: "Prof. Jane K.",
+    role: "Bulacan State University, Philippines",
+  },
+  {
     quote: "My experience with ICICT 2026 was extremely positive. The conference provided a valuable forum for academic exchange and discussions on emerging ICT topics, while the organization and support from the conference team were excellent throughout. I was honored to participate both as a presenter and as a Session Chair, and I am grateful for the opportunity to contribute in these two roles.",
     name: "Michal K.",
     role: "School of Industrial Engineering and Management, Shenkar - Engineering. Design. Art., Israel",
@@ -53,6 +63,8 @@ const testimonials = [
 
 // Real photos — one per testimonial, matched by name
 const avatars = [
+  "/TestimonialPhotos/Dr. Basant Tiwari.jpg",          // Dr. Basant T.
+  "/TestimonialPhotos/Prof. Jane Kristine G. Suarez.png",            // Prof. Jane K.
   "/TestimonialPhotos/Michal Koren.png",   // Michal K.
   "/TestimonialPhotos/Oleksandr.jpg",       // Prof. Oleksandr H.
   "/TestimonialPhotos/Benjamin.jpg",        // Prof. Benjamin G.
@@ -77,7 +89,8 @@ export default function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="py-24 bg-[#FAFAFA] font-sans">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-12 lg:gap-24">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12 lg:gap-20 items-start">
         
         {/* Left Col - Title */}
         <motion.div
@@ -91,7 +104,7 @@ export default function TestimonialsSection() {
             <span className="text-xs">♦</span>
             Testimonials
           </span>
-          <h2 className="text-2xl mt-18 font-extrabold text-[#111] leading-snug tracking-tight">
+          <h2 className="text-2xl font-extrabold text-[#111] leading-snug tracking-tight mt-4">
             Voices From Our<br />
             <span className="text-[#520380]">Global Community</span>
           </h2>
@@ -179,6 +192,7 @@ export default function TestimonialsSection() {
             </AnimatePresence>
           </div>
         </motion.div>
+        </div>
       </div>
     </section>
   );

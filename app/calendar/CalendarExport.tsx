@@ -53,7 +53,7 @@ export default function CalendarExport({ conferences }: { conferences: Conferenc
               type="button"
               onClick={handleAddToGoogle}
               disabled={!next}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#520380] text-white font-bold text-[13px] tracking-wide uppercase px-7 py-4 rounded-xl hover:bg-[#3d0260] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_14px_rgba(82,3,128,0.3)]"
+              className="w-full sm:w-auto sm:min-w-[200px] inline-flex items-center justify-center gap-2.5 bg-[#520380] text-white font-bold text-[13px] tracking-wide uppercase px-7 py-[14px] rounded-xl hover:bg-[#3d0260] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_14px_rgba(82,3,128,0.3)]"
             >
               <HiCalendarDays className="w-5 h-5" /> 
               <span>Google Calendar</span>
@@ -62,19 +62,13 @@ export default function CalendarExport({ conferences }: { conferences: Conferenc
               type="button"
               onClick={handleDownload}
               disabled={dated.length === 0}
-              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white border-2 border-gray-200 text-gray-800 font-bold text-[13px] tracking-wide uppercase px-7 py-4 rounded-xl hover:border-[#520380]/40 hover:text-[#520380] hover:bg-purple-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group w-full sm:w-auto sm:min-w-[200px] inline-flex items-center justify-center gap-2.5 bg-white border-2 border-gray-200 text-gray-800 font-bold text-[13px] tracking-wide uppercase px-7 py-[14px] rounded-xl hover:border-[#520380]/40 hover:text-[#520380] hover:bg-purple-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HiArrowDownTray className="w-5 h-5 text-gray-500 group-hover:text-[#520380] transition-colors" /> 
               <span>Download Calendar</span>
             </button>
           </div>
         </div>
-      </div>
-
-      <div className="mt-14 text-center">
-        <p className="text-[13px] font-medium italic text-gray-400">
-          Your calendar data is completely secure with us, we respect your privacy.
-        </p>
       </div>
     </div>
   );

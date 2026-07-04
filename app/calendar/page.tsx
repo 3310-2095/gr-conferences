@@ -10,7 +10,7 @@ import ConferenceCard from "./ConferenceCard";
 import MonthlyCalendar from "./MonthlyCalendar";
 import TimelineView from "./TimelineView";
 import DeadlinesTicker from "./DeadlinesTicker";
-import ParticipationSection from "./ParticipationSection";
+// import ParticipationSection from "./ParticipationSection";
 import CalendarExport from "./CalendarExport";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -404,7 +404,7 @@ export default function ConferenceCalendarPage() {
                 </button>
               </div>
             ) : view === "list" ? (
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-8">
+              <div className="grid grid-cols-1 gap-y-8">
                 {filtered.slice(0, 12).map((conf, i) => (
                   <ConferenceCard key={conf.id} conf={conf} index={i} />
                 ))}
@@ -425,11 +425,11 @@ export default function ConferenceCalendarPage() {
         </section>
 
         {/* ── Participation Opportunities ── */}
-        <section className="bg-[#f8f7fc] py-16">
+        {/* <section className="bg-[#f8f7fc] py-16">
           <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
             <ParticipationSection />
           </div>
-        </section>
+        </section> */}
 
         {/* ── Google Calendar Integration ── */}
         <section className="bg-white py-16">

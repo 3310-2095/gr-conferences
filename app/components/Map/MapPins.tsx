@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Marker } from "react-simple-maps";
 import { destinations, type Destination } from "./destinations";
 
-const LABEL_CYCLE_MS = 2500;
+const LABEL_CYCLE_MS = 1400;
 
 interface MapPinsProps {
   visibleCount: number;
@@ -103,7 +103,7 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
           animate={visible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
           transition={
             visible
-              ? { type: "spring", stiffness: 420, damping: 18, delay: index * 0.1 }
+              ? { type: "spring", stiffness: 340, damping: 30, delay: index * 0.08 }
               : { duration: 0.12 }
           }
           style={{ originX: "0px", originY: "0px" }}
@@ -183,7 +183,7 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
               initial={{ opacity: 0, scale: 0.7, y: 4 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.7, y: 4 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
               style={{ originX: "0px", originY: "0px" }}
             >
               <foreignObject

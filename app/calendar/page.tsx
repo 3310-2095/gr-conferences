@@ -17,12 +17,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const allConferences = [...conferences, ...archiveConferences];
 
-const allDomains = Array.from(new Set(allConferences.flatMap((c) => c.domains))).sort();
 const allLocations = Array.from(new Set(allConferences.map((c) => c.location.split(",")[0].trim()))).sort();
-const allYears = Array.from(new Set(allConferences.map((c) => c.year))).sort((a, b) => b - a);
 const allSeries = Array.from(new Set(allConferences.map((c) => c.name.split(" ")[0]))).sort();
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTH_ABBR = MONTHS.map((m) => m.slice(0, 3));
 
 function getConfMonth(date: string): number {
   for (let i = 0; i < MONTHS.length; i++) {
@@ -30,6 +29,19 @@ function getConfMonth(date: string): number {
   }
   return 0;
 }
+
+const STATUS_OPTIONS = [
+  { label: "Upcoming", value: "upcoming" },
+  { label: "Paper Submission Open", value: "paper submission open" },
+  { label: "Paper Submission closed", value: "paper submission closed" },
+  { label: "Paper Submission Not yet open", value: "paper submission not yet open" },
+  { label: "Registration Open", value: "registration open" },
+  { label: "Registration Closed", value: "registration closed" },
+  { label: "Registration Not yet open", value: "registration not yet open" },
+  { label: "First deadline", value: "first deadline" },
+  { label: "Extended deadline", value: "extended deadline" },
+  { label: "Final deadline", value: "final deadline" },
+];
 
 function GlassSelect({ value, onChange, options, placeholder }: { value: string, onChange: (val: string) => void, options: { label: string, value: string }[], placeholder: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -156,7 +168,6 @@ type ViewMode = (typeof VIEWS)[number]["value"];
 
 export default function ConferenceCalendarPage() {
   const [search, setSearch] = useState("");
-  const [domain, setDomain] = useState("");
   const [location, setLocation] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
@@ -164,6 +175,20 @@ export default function ConferenceCalendarPage() {
   const [series, setSeries] = useState("");
   const [view, setView] = useState<ViewMode>("list");
   const [pendingScrollId, setPendingScrollId] = useState<number | null>(null);
+
+  // Months that have at least one conference in the selected year — drives the
+  // clickable/greyed-out state of the month strip under the year toggle.
+  const monthsWithConfsForYear = useMemo(() => {
+    const set = new Set<number>();
+    if (!year) return set;
+    allConferences.forEach((c) => {
+      if (c.year === Number(year)) {
+        const m = getConfMonth(c.date);
+        if (m) set.add(m);
+      }
+    });
+    return set;
+  }, [year]);
 
   const filtered = useMemo(() => {
     const today = new Date();
@@ -175,26 +200,22 @@ export default function ConferenceCalendarPage() {
         c.fullName.toLowerCase().includes(q) ||
         c.location.toLowerCase().includes(q) ||
         c.domains.some((d) => d.toLowerCase().includes(q));
-      const matchDomain = !domain || c.domains.includes(domain);
       const matchLocation = !location || c.location.split(",")[0].trim() === location;
       const matchYear = !year || c.year === Number(year);
       const matchMonth = !month || getConfMonth(c.date) === Number(month);
 
       const derivedStatus = getStatusBadge(c, today).label;
-
-      // "First deadline approaching" has no dedicated data field yet, so it matches any non-past conference
-      const matchStatus = !status || derivedStatus.toLowerCase() === status.toLowerCase() || (status.toLowerCase() === "first deadline approaching" && c.status !== "past");
+      const matchStatus = !status || derivedStatus.toLowerCase() === status.toLowerCase();
       const matchSeries = !series || c.name.split(" ")[0] === series;
 
-      return matchSearch && matchDomain && matchLocation && matchYear && matchMonth && matchStatus && matchSeries;
+      return matchSearch && matchLocation && matchYear && matchMonth && matchStatus && matchSeries;
     });
-  }, [search, domain, location, year, month, status, series]);
+  }, [search, location, year, month, status, series]);
 
-  const hasFilters = search || domain || location || year || month || status || series;
+  const hasFilters = search || location || year || month || status || series;
 
   function clearFilters() {
     setSearch("");
-    setDomain("");
     setLocation("");
     setYear("");
     setMonth("");
@@ -328,7 +349,10 @@ export default function ConferenceCalendarPage() {
                     <button
                       key={y}
                       type="button"
-                      onClick={() => setYear((prev) => (prev === y ? "" : y))}
+                      onClick={() => {
+                        setYear((prev) => (prev === y ? "" : y));
+                        setMonth("");
+                      }}
                       className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all ${year === y ? "bg-[#520380] text-white shadow-[0_4px_14px_rgba(82,3,128,0.25)]" : "text-gray-500 hover:text-[#520380]"
                         }`}
                     >
@@ -336,6 +360,43 @@ export default function ConferenceCalendarPage() {
                     </button>
                   ))}
                 </div>
+
+                {/* Month strip — appears once a year is selected. Months with a conference
+                    that year are clickable; months with none are greyed out. */}
+                {year && (
+                  <div className="flex flex-wrap items-center gap-1.5 mt-3">
+                    {MONTH_ABBR.map((label, i) => {
+                      const m = i + 1;
+                      const hasConf = monthsWithConfsForYear.has(m);
+                      const isSelected = month === String(m);
+
+                      if (!hasConf) {
+                        return (
+                          <span
+                            key={label}
+                            className="px-3 py-1.5 rounded-lg text-[11px] font-semibold text-gray-300 bg-gray-50 select-none cursor-not-allowed"
+                          >
+                            {label}
+                          </span>
+                        );
+                      }
+
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => setMonth((prev) => (prev === String(m) ? "" : String(m)))}
+                          className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${isSelected
+                              ? "bg-[#520380] text-white shadow-[0_4px_10px_rgba(82,3,128,0.25)]"
+                              : "bg-white border border-gray-200 text-gray-600 hover:border-[#520380]/40 hover:text-[#520380]"
+                            }`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
@@ -356,12 +417,10 @@ export default function ConferenceCalendarPage() {
               </div>
             </div>
 
-            {/* Filters — only in List view */}
+            {/* Filters — only in List view — search + dropdowns in one horizontal row */}
             {view === "list" && <div className="sticky top-[82px] z-40 bg-white/95 backdrop-blur-2xl rounded-sm border border-white/80 shadow-[0_8px_32px_rgba(82,3,128,0.08)] p-4 mb-10">
-
-              {/* Row 1: Search + result count + clear */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="relative flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="relative flex-1 min-w-[220px]">
                   <HiMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#520380]/50" size={16} />
                   <input
                     type="text"
@@ -371,6 +430,12 @@ export default function ConferenceCalendarPage() {
                     className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-[13px] text-gray-800 placeholder-gray-400 outline-none focus:border-[#520380]/50 focus:ring-4 focus:ring-[#520380]/10 transition-all"
                   />
                 </div>
+                <GlassSelect value={location} onChange={setLocation} placeholder="All Locations"
+                  options={allLocations.map(l => ({ label: l, value: l }))} />
+                <GlassSelect value={series} onChange={setSeries} placeholder="All Series"
+                  options={allSeries.map(s => ({ label: s, value: s }))} />
+                <GlassSelect value={status} onChange={setStatus} placeholder="All Status"
+                  options={STATUS_OPTIONS} />
                 {hasFilters && (
                   <button
                     onClick={clearFilters}
@@ -379,29 +444,6 @@ export default function ConferenceCalendarPage() {
                     <HiXMark size={13} /> Clear all
                   </button>
                 )}
-              </div>
-
-              {/* Row 2: Filter dropdowns — wrap naturally, no scroll */}
-              <div className="flex flex-wrap gap-2">
-                <GlassSelect value={year} onChange={setYear} placeholder="All Years"
-                  options={allYears.map(y => ({ label: String(y), value: String(y) }))} />
-                <GlassSelect value={month} onChange={setMonth} placeholder="All Months"
-                  options={MONTHS.map((m, i) => ({ label: m, value: String(i + 1) }))} />
-                <GlassSelect value={domain} onChange={setDomain} placeholder="All Domains"
-                  options={allDomains.map(d => ({ label: d, value: d }))} />
-                <GlassSelect value={location} onChange={setLocation} placeholder="All Locations"
-                  options={allLocations.map(l => ({ label: l, value: l }))} />
-                <GlassSelect value={series} onChange={setSeries} placeholder="All Series"
-                  options={allSeries.map(s => ({ label: s, value: s }))} />
-                <GlassSelect value={status} onChange={setStatus} placeholder="All Status"
-                  options={[
-                    { label: "Upcoming", value: "upcoming" },
-                    { label: "Open for Submission", value: "open for submission" },
-                    { label: "Registration Ongoing", value: "registration ongoing" },
-                    { label: "Registration Closed", value: "registration closed" },
-                    { label: "First deadline approaching", value: "first deadline approaching" },
-                    { label: "Paper Submission closed", value: "paper submission closed" },
-                  ]} />
               </div>
             </div>}
 

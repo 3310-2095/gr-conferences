@@ -35,10 +35,10 @@ const regions = ["All", "Asia", "North America", "Europe", "Middle East", "Afric
 
 /* ── Stats ────────────────────────────────────────────────────── */
 const stats = [
-  { value: "5K+",  label: "Institutions" },
-  { value: "125+", label: "Countries" },
-  { value: "23",   label: "Featured Partners" },
-  { value: "50K+", label: "Researchers" },
+  { value: "5,000+",   label: "Institutions" },
+  { value: "125+",     label: "Countries" },
+  { value: "23",       label: "Featured Partners" },
+  { value: "350,000+", label: "Researchers" },
 ];
 
 /* ── Logo Card ───────────────────────────────────────────────── */

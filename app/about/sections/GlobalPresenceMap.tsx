@@ -29,7 +29,7 @@ export default function GlobalPresenceMap() {
           hasAnimated.current = true;
           // stagger pins in one by one
           destinations.forEach((_, i) => {
-            setTimeout(() => setVisiblePins(i + 1), 400 + i * 180);
+            setTimeout(() => setVisiblePins(i + 1), 300 + i * 110);
           });
         }
       },

@@ -128,7 +128,7 @@ export default function PartnersSection() {
               </div>
               <div className="w-px h-10 bg-white/10" />
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">5K</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">5000+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Institutions</p>
               </div>
             </motion.div>

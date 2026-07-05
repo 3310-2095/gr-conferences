@@ -98,7 +98,7 @@ export default function AboutSection() {
           y: () => getMetrics().dy,
           scale: () => getMetrics().fillScale,
           duration: 0.33,
-          ease: "power2.inOut",
+          ease: "power3.inOut",
         }, 0);
 
         tl.to(innerContainer, {
@@ -116,7 +116,7 @@ export default function AboutSection() {
           y: 0,
           scale: 1,
           duration: 0.33,
-          ease: "power2.inOut",
+          ease: "power3.inOut",
         }, 0.67);
 
         tl.to(innerContainer, {
@@ -140,7 +140,7 @@ export default function AboutSection() {
           end: "+=300%",            // 3 viewport heights of scroll travel
           pin: true,
           anticipatePin: 1,
-          scrub: 1.4,
+          scrub: 1.8,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;

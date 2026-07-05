@@ -6,9 +6,9 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
   { value: 12,  suffix: "+",   title: "Conference Brands", desc: "Active across various academic and tech disciplines globally." },
-  { value: 125, suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
-  { value: 25, suffix: "K+",  title: "Research Papers",   desc: "High-quality academic publications and impactful journals." },
-  { value: 100,  suffix: "K+", title: "Community Members",    desc: "A rapidly growing community of dedicated researchers." },
+  { value: 350000, suffix: "+",  title: "Researchers", desc: "Empowering a growing global network of academic professionals." },
+  { value: 15000, suffix: "+",  title: "Researcher Papers",   desc: "High-quality academic publications and impactful journals." },
+  { value: 400000,  suffix: "+", title: "Community Members",    desc: "A rapidly growing community of dedicated researchers." },
 ];
 
 function fadeUp(delay = 0) {

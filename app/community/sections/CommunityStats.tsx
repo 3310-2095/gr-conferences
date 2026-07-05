@@ -5,39 +5,23 @@ import { motion, useInView } from "framer-motion";
 import { HiMapPin } from "react-icons/hi2";
 import {
   HiOutlinePencilSquare, HiOutlineDocumentMagnifyingGlass, HiOutlineMicrophone,
-  HiOutlineUserGroup, HiOutlineAcademicCap, HiOutlineBuildingLibrary,
+  HiOutlineUserGroup, HiOutlineGlobeAlt, HiOutlineUsers,
 } from "react-icons/hi2";
 import { IconType } from "react-icons";
+import { featuredMembers } from "../../lib/communityMembers";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats: { value: number; suffix: string; label: string; Icon: IconType }[] = [
-  { value: 15000, suffix: "+", label: "Authors",             Icon: HiOutlinePencilSquare },
-  { value: 3200,  suffix: "+", label: "Reviewers",           Icon: HiOutlineDocumentMagnifyingGlass },
-  { value: 1800,  suffix: "+", label: "Speakers",            Icon: HiOutlineMicrophone },
-  { value: 950,   suffix: "+", label: "Session Chairs",      Icon: HiOutlineUserGroup },
-  { value: 120,   suffix: "+", label: "Advisory Members",    Icon: HiOutlineAcademicCap },
-  { value: 300,   suffix: "+", label: "Partner Institutions",Icon: HiOutlineBuildingLibrary },
+  { value: 100000, suffix: "+", label: "Authors",         Icon: HiOutlinePencilSquare },
+  { value: 4200,   suffix: "+", label: "Reviewers",       Icon: HiOutlineDocumentMagnifyingGlass },
+  { value: 200,    suffix: "+", label: "Speakers",        Icon: HiOutlineMicrophone },
+  { value: 950,    suffix: "+", label: "Session Chairs",  Icon: HiOutlineUserGroup },
+  { value: 125,    suffix: "+", label: "Countries",       Icon: HiOutlineGlobeAlt },
+  { value: 350000, suffix: "+", label: "Total Community", Icon: HiOutlineUsers },
 ];
 
-const members = [
-  { name: "Dr. Elena Marceau",    role: "Speaker",        university: "University of Toronto",           country: "Canada",
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Prof. Rajiv Menon",    role: "Reviewer",       university: "IIT Bombay",                      country: "India",
-    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Dr. Amara Okafor",     role: "Session Chair",  university: "University of Cape Town",         country: "South Africa",
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Prof. Lucas Weber",    role: "Advisory Member",university: "TU Munich",                       country: "Germany",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Dr. Mei Lin Tan",      role: "Author",         university: "National University of Singapore",country: "Singapore",
-    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Dr. Carlos Ibarra",    role: "Speaker",        university: "Universidad de Chile",            country: "Chile",
-    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Prof. Sara Whitfield", role: "Reviewer",       university: "University of Oxford",            country: "United Kingdom",
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400&h=400" },
-  { name: "Dr. Haruto Sato",      role: "Advisory Member",university: "University of Tokyo",             country: "Japan",
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=400" },
-];
+const members = featuredMembers;
 
 function Counter({ target, suffix, inView }: { target: number; suffix: string; inView: boolean }) {
   const [count, setCount] = useState(0);
@@ -170,7 +154,7 @@ export default function CommunityStats() {
               <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#520380]">Our People</p>
             </div>
             <h3 className="text-2xl lg:text-3xl font-extrabold text-[#111111] tracking-tight">
-              Featured Community Members
+              Featured Members
             </h3>
           </div>
           <span className="hidden sm:block text-[13px] text-gray-400 font-medium">
@@ -219,12 +203,12 @@ export default function CommunityStats() {
               {/* Info */}
               <div className="px-5 py-4 flex flex-col gap-1">
                 <span className="text-[9.5px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(82,3,128,0.5)" }}>
-                  {member.role}
+                  {member.tag}
                 </span>
                 <h3 className="text-[15px] font-semibold leading-snug text-[#111] transition-colors duration-200 group-hover:text-[#520380]">
                   {member.name}
                 </h3>
-                <p className="text-[12px] text-gray-400 leading-snug">{member.university}</p>
+                <p className="text-[12px] text-gray-400 leading-snug">{member.institution}</p>
                 <div className="flex items-center gap-1 text-[11px] text-gray-400 mt-0.5">
                   <HiMapPin className="w-3 h-3" /> {member.country}
                 </div>

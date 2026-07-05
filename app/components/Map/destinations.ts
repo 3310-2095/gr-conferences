@@ -17,7 +17,7 @@ export const destinations: Destination[] = [
   { city: "Manila",      country: "Philippines",    lat: 14.5995,   lng: 120.9842  },
   { city: "Cape Town",   country: "South Africa",   lat: -33.9249,  lng:  18.4241  },
   { city: "Cairo",       country: "Egypt",          lat: 30.0444,   lng:  31.2357  },
-  { city: "Shymkent",    country: "Kazakhstan",     lat: 42.3417,   lng:  69.5901  },
+  { city: "Almaty",      country: "Kazakhstan",     lat: 43.2220,   lng:  76.8512  },
   { city: "Chandigarh",  country: "India",          lat: 30.7333,   lng:  76.7794  },
   { city: "Indore",      country: "India",          lat: 22.7196,   lng:  75.8577  },
   { city: "Melbourne",   country: "Australia",      lat: -37.8136,  lng: 144.9631  },

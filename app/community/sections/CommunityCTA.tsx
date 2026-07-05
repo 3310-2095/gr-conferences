@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -35,7 +34,7 @@ export default function CommunityCTA() {
                 className="text-4xl md:text-5xl font-black text-[#520380] uppercase tracking-tight mb-5"
                 style={{ fontFamily: "Inter, sans-serif" }}
               >
-                COMMUNITY
+                Join our Community
               </h2>
               <p className="text-gray-700 text-[15px] leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
                 Whether you're an author, researcher, reviewer, speaker, institution, or industry
@@ -49,12 +48,6 @@ export default function CommunityCTA() {
                 >
                   Join the Community
                 </a>
-                <Link
-                  href="/calendar"
-                  className="group w-full sm:w-auto sm:min-w-[200px] inline-flex items-center justify-center gap-2.5 bg-white border-2 border-gray-200 text-gray-800 font-bold text-[13px] tracking-wide uppercase px-7 py-[14px] rounded-xl hover:border-[#520380]/40 hover:text-[#520380] hover:bg-purple-50 transition-colors"
-                >
-                  Explore Conferences
-                </Link>
               </div>
             </div>
           </div>

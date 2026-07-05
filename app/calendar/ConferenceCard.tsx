@@ -28,7 +28,8 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
 
   const editionHistory = allConferenceEntries
     .filter((c) => c.name === conf.name && c.id !== conf.id)
-    .sort((a, b) => b.year - a.year);
+    .sort((a, b) => b.year - a.year)
+    .slice(0, 5);
 
   const cityImage = genericCityImages[conf.id % genericCityImages.length];
   const badge = getStatusBadge(conf);
@@ -100,6 +101,14 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
               href={conf.website}
               target="_blank"
               rel="noopener noreferrer"
+              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
+            >
+              Visit Current Edition Website
+            </a>
+            <a
+              href={conf.website}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors shadow-sm"
             >
               Submit Paper
@@ -122,26 +131,16 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
         {/* Divider */}
         <div className="w-full h-px border-t border-dashed border-gray-200 mb-4" />
 
-        {/* Edition History */}
+        {/* Edition History — last 5 editions only */}
         <div className="mt-auto">
-          <div className="flex items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={() => setHistoryOpen((v) => !v)}
-              className="flex items-center gap-1.5 text-[12px] font-bold text-[#520380] hover:underline"
-            >
-              <HiChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? "rotate-180" : "-rotate-90"}`} />
-              Edition History
-            </button>
-            <a
-              href={conf.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] font-bold text-gray-500 hover:text-[#520380] hover:underline"
-            >
-              Visit Website &rarr;
-            </a>
-          </div>
+          <button
+            type="button"
+            onClick={() => setHistoryOpen((v) => !v)}
+            className="flex items-center gap-1.5 text-[12px] font-bold text-[#520380] hover:underline"
+          >
+            <HiChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? "rotate-180" : "-rotate-90"}`} />
+            Edition History
+          </button>
           <AnimatePresence>
             {historyOpen && (
               <motion.div
@@ -158,6 +157,19 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
                         <span className="text-gray-600 font-medium">
                           {edition.edition} &middot; {edition.date} &middot; {edition.location.split(",")[0].trim()}
                         </span>
+                        {". "}
+                        <Link href="/archives" className="text-[#520380] font-bold hover:underline">
+                          Publication History
+                        </Link>
+                        {". "}
+                        <a
+                          href={`${edition.website}#gallery`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#520380] font-bold hover:underline"
+                        >
+                          Gallery
+                        </a>
                       </li>
                     ))
                   ) : (

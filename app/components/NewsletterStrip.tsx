@@ -35,7 +35,7 @@ export default function NewsletterStrip() {
             <div className="w-full lg:w-auto text-left">
               <div className="inline-flex items-center gap-2 mb-3">
                 <HiEnvelope size={16} className="text-white/70" />
-                <span className="text-white/70 text-[11px] font-bold tracking-[0.12em] uppercase">Newsletter</span>
+                <span className="text-white/70 text-[11px] font-bold tracking-[0.12em] uppercase">GR Chronicle </span>
               </div>
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight mb-2">
                 Stay Connected With<br className="hidden sm:block" /> Global Research

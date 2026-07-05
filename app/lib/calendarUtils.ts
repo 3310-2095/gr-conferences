@@ -87,14 +87,14 @@ export function getStatusBadge(conf: Conference, today: Date = new Date()): Stat
     if (range && range.end < today) {
       return { label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
     }
-    return { label: "Open for Submission", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" };
+    return { label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" };
   }
   if (conf.registrationDeadline) {
     const range = parseConferenceDateRange(conf.registrationDeadline, conf.year);
     if (range && range.end < today) {
       return { label: "Registration Closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
     }
-    return { label: "Registration Ongoing", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
+    return { label: "Registration Open", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
   }
   return { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" };
 }

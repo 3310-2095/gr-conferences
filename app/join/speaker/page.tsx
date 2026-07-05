@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { TITLES, PRONOUNS, DEGREES, SPEAKER_ROLES, CONFERENCES, COUNTRIES } from "../../lib/formData";
+import { Field, Input, Select } from "../_shared/FormFields";
 
 /* ── Scroll-reveal hook ── */
 function useReveal() {
@@ -17,44 +19,6 @@ function useReveal() {
   }, []);
   return { ref, visible };
 }
-
-const TITLES     = ["Dr.", "Prof.", "Mr.", "Ms.", "Mx.", "Other"];
-const PRONOUNS   = ["She/Her", "He/Him", "They/Them", "Prefer not to say", "Self-describe"];
-const DEGREES    = ["Undergraduate", "Master's", "Doctoral (Ph.D.)", "Postdoctoral", "Medical", "Other"];
-const ROLES      = ["Keynote Speaker", "Invited Speaker", "Panelist", "Industry Speaker"];
-
-const CONFERENCES = [
-  "ICICT – International Conference on Information & Communication Technology",
-  "ICCSE – International Conference on Computer Science & Engineering",
-  "ICBME – International Conference on Biomedical Engineering",
-  "ICEEE – International Conference on Electrical & Electronics Engineering",
-  "ICME – International Conference on Mechanical Engineering",
-  "ICCHE – International Conference on Chemical & Environmental Engineering",
-  "ICCVE – International Conference on Civil & Environmental Engineering",
-  "ICFMA – International Conference on Financial Management & Accounting",
-  "ICHSS – International Conference on Humanities & Social Sciences",
-  "ICEDU – International Conference on Education & e-Learning",
-  "ICBM – International Conference on Business & Management",
-  "ICAL – International Conference on Arts & Literature",
-];
-
-const COUNTRIES = [
-  "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia",
-  "Austria","Azerbaijan","Bahrain","Bangladesh","Belarus","Belgium","Bhutan","Bolivia",
-  "Bosnia and Herzegovina","Brazil","Brunei","Bulgaria","Cambodia","Cameroon","Canada",
-  "Chile","China","Colombia","Croatia","Cuba","Cyprus","Czech Republic","Denmark",
-  "Ecuador","Egypt","Estonia","Ethiopia","Finland","France","Georgia","Germany","Ghana",
-  "Greece","Guatemala","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel",
-  "Italy","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyzstan","Latvia","Lebanon",
-  "Libya","Lithuania","Luxembourg","Malaysia","Maldives","Malta","Mexico","Moldova",
-  "Mongolia","Morocco","Myanmar","Nepal","Netherlands","New Zealand","Nigeria","Norway",
-  "Oman","Pakistan","Palestine","Panama","Peru","Philippines","Poland","Portugal","Qatar",
-  "Romania","Russia","Saudi Arabia","Serbia","Singapore","Slovakia","Slovenia",
-  "South Africa","South Korea","Spain","Sri Lanka","Sudan","Sweden","Switzerland",
-  "Syria","Taiwan","Tajikistan","Tanzania","Thailand","Tunisia","Turkey","Turkmenistan",
-  "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay",
-  "Uzbekistan","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe",
-];
 
 type F = {
   title: string; firstName: string; middleName: string; lastName: string;
@@ -309,7 +273,7 @@ export default function SpeakerPage() {
                       </Field>
                     </div>
                     <Field label="Preferred Speaker Role" optional>
-                      <Select name="speakerRole" value={form.speakerRole} onChange={set} options={ROLES} placeholder="Select role" />
+                      <Select name="speakerRole" value={form.speakerRole} onChange={set} options={SPEAKER_ROLES} placeholder="Select role" />
                     </Field>
                   </div>
                 </RevealSection>
@@ -431,63 +395,3 @@ function RevealSection({ children, delay = 0 }: { children: React.ReactNode; del
   );
 }
 
-/* ── Shared components ── */
-function Field({ label, required, optional, full, hint, children }: {
-  label: string; required?: boolean; optional?: boolean; full?: boolean; hint?: string; children: React.ReactNode;
-}) {
-  return (
-    <div className={`flex flex-col gap-2.5 ${full ? "md:col-span-2" : ""}`}>
-      <label className="text-sm font-semibold text-[#1A1A2E] flex items-center gap-1.5">
-        {label}
-        {required && <span className="text-primary text-lg leading-none">*</span>}
-        {optional && <span className="text-gray-400 text-xs font-medium ml-1 bg-gray-100 px-2 py-0.5 rounded-xl">(Optional)</span>}
-      </label>
-      {hint && <p className="text-xs text-gray-500 mb-1">{hint}</p>}
-      {children}
-    </div>
-  );
-}
-
-function Input({ name, value, onChange, placeholder, type = "text", required }: {
-  name: keyof F; value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string; type?: string; required?: boolean;
-}) {
-  return (
-    <input 
-      name={name} 
-      value={value} 
-      onChange={onChange} 
-      type={type}
-      placeholder={placeholder} 
-      required={required} 
-      className="w-full bg-[#FAFAFC] border border-gray-200 rounded-sm px-5 py-3.5 text-[#1A1A2E] placeholder:text-gray-400 focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all duration-300 shadow-sm hover:border-gray-300 font-medium" 
-    />
-  );
-}
-
-function Select({ name, value, onChange, options, placeholder, required }: {
-  name: keyof F; value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: string[]; placeholder?: string; required?: boolean;
-}) {
-  return (
-    <div className="relative">
-      <select 
-        name={name} 
-        value={value} 
-        onChange={onChange} 
-        required={required}
-        className={`w-full bg-[#FAFAFC] border border-gray-200 rounded-sm px-5 py-3.5 outline-none transition-all duration-300 hover:border-gray-300 focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 appearance-none cursor-pointer shadow-sm font-medium ${value ? "text-[#1A1A2E]" : "text-gray-400"}`}
-      >
-        <option value="" disabled>{placeholder ?? "Select…"}</option>
-        {options.map(o => <option key={o} value={o} className="text-[#1A1A2E]">{o}</option>)}
-      </select>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`${value ? "text-primary" : "text-gray-400"}`}>
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </div>
-    </div>
-  );
-}

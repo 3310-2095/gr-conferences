@@ -10,7 +10,7 @@ export type Conference = {
   logo: string;
   status: "upcoming" | "past";
   year: number;
-  /** Not yet published for any conference — renders as "TBA" until real dates are supplied. */
+  /** Renders as "TBA" until a real date is supplied for that conference. */
   submissionDeadline?: string;
   /** Not yet published for any conference — renders as "TBA" until real dates are supplied. */
   registrationDeadline?: string;
@@ -31,6 +31,7 @@ export const conferences: Conference[] = [
     logo: "https://placehold.co/80x80/520380/ffffff?text=ICT4SD&font=montserrat",
     status: "upcoming",
     year: 2026,
+    submissionDeadline: "23 March 2026",
   },
   {
     id: 2,

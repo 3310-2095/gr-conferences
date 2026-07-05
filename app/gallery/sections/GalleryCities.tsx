@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { cities } from "../galleryData";
+import { cities } from "../../lib/galleryData";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -54,6 +54,7 @@ export default function GalleryCities() {
                     <img
                       src={c.cover}
                       alt={c.city}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
@@ -62,6 +63,7 @@ export default function GalleryCities() {
                       <img
                         src={c.thumb1}
                         alt=""
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
@@ -69,6 +71,7 @@ export default function GalleryCities() {
                       <img
                         src={c.thumb2}
                         alt=""
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>

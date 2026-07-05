@@ -76,17 +76,25 @@ export function buildIcsCalendar(entries: { conf: Conference; range: DateRange }
 
 export type StatusBadge = { label: string; dotClass: string; pillClass: string };
 
-/** Derives a status badge from real fields only — resolves to Upcoming/Completed today, and
- *  upgrades automatically once real submissionDeadline/registrationDeadline values are added. */
-export function getStatusBadge(conf: Conference): StatusBadge {
+/** Derives a status badge from real fields — compares deadlines against `today` so a
+ *  submissionDeadline/registrationDeadline that has already passed shows as closed. */
+export function getStatusBadge(conf: Conference, today: Date = new Date()): StatusBadge {
   if (conf.status === "past") {
     return { label: "Completed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
   }
   if (conf.submissionDeadline) {
+    const range = parseConferenceDateRange(conf.submissionDeadline, conf.year);
+    if (range && range.end < today) {
+      return { label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
+    }
     return { label: "Open for Submission", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" };
   }
   if (conf.registrationDeadline) {
-    return { label: "Registration Open", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
+    const range = parseConferenceDateRange(conf.registrationDeadline, conf.year);
+    if (range && range.end < today) {
+      return { label: "Registration Closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
+    }
+    return { label: "Registration Ongoing", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
   }
   return { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" };
 }

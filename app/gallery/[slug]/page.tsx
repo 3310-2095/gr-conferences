@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { HiArrowLeft, HiMapPin } from "react-icons/hi2";
-import { getCity } from "../galleryData";
+import { getCity } from "../../lib/galleryData";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -77,6 +77,7 @@ export default function CityGalleryPage() {
               <img
                 src={img.src}
                 alt={`${city.city} ${img.type}`}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

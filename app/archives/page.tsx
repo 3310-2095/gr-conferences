@@ -2,6 +2,14 @@
 
 import { HiMapPin } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
+import { getCity as getGalleryBySlug } from "../lib/galleryData";
+
+// Maps a specific conference edition (name + year) to its real event-photo gallery, so a photo
+// set never lands on the wrong year's card. Only the exact editions we have real photos for are listed.
+const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
+  "WORLDS4|2022": "worlds4-2022",
+  "ICTCS|2022": "ictcs-2022",
+};
 
 // `location` isn't uniformly formatted ("United Kingdom" vs "London, UK" vs "India") —
 // this pulls just the country portion for the "NAME COUNTRY, YEAR" card title.
@@ -78,6 +86,8 @@ export default function ArchivesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pastConferences.map((archive, index) => {
               const currentEdition = conferences.find(c => c.name === archive.name);
+              const gallerySlug = CONFERENCE_GALLERY_SLUG[`${archive.name}|${archive.year}`];
+              const galleryCover = gallerySlug ? getGalleryBySlug(gallerySlug)?.cover : undefined;
               return (
                 <div
                   key={archive.id}
@@ -93,8 +103,9 @@ export default function ArchivesPage() {
                   {/* Image */}
                   <div className="w-full aspect-square md:aspect-[4/5] lg:aspect-square relative overflow-hidden">
                     <img
-                      src={fallbackImages[index % fallbackImages.length]}
+                      src={galleryCover ?? fallbackImages[index % fallbackImages.length]}
                       alt={archive.name}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/10 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-full">

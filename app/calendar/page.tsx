@@ -6,11 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiMagnifyingGlass, HiChevronDown } from "react-icons/hi2";
 import { HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
-import { parseConferenceDateRange } from "../lib/calendarUtils";
+import { getStatusBadge } from "../lib/calendarUtils";
 import ConferenceCard from "./ConferenceCard";
 import MonthlyCalendar from "./MonthlyCalendar";
 import TimelineView from "./TimelineView";
-import DeadlinesTicker from "./DeadlinesTicker";
 // import ParticipationSection from "./ParticipationSection";
 import CalendarExport from "./CalendarExport";
 
@@ -181,16 +180,7 @@ export default function ConferenceCalendarPage() {
       const matchYear = !year || c.year === Number(year);
       const matchMonth = !month || getConfMonth(c.date) === Number(month);
 
-      let derivedStatus = "Upcoming";
-      if (c.status === "past") {
-        derivedStatus = "Completed";
-      } else if (c.submissionDeadline) {
-        const range = parseConferenceDateRange(c.submissionDeadline, c.year);
-        derivedStatus = range && range.end < today ? "Paper Submission closed" : "Open for Submission";
-      } else if (c.registrationDeadline) {
-        const range = parseConferenceDateRange(c.registrationDeadline, c.year);
-        derivedStatus = range && range.end < today ? "Registration Closed" : "Registration Ongoing";
-      }
+      const derivedStatus = getStatusBadge(c, today).label;
 
       // "First deadline approaching" has no dedicated data field yet, so it matches any non-past conference
       const matchStatus = !status || derivedStatus.toLowerCase() === status.toLowerCase() || (status.toLowerCase() === "first deadline approaching" && c.status !== "past");
@@ -434,13 +424,6 @@ export default function ConferenceCalendarPage() {
             ) : (
               <TimelineView conferences={filtered.slice(0, 12)} onSelectConference={handleSelectConference} />
             )}
-          </div>
-        </section>
-
-        {/* ── Upcoming Deadlines ── */}
-        <section className="bg-white py-16">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-            <DeadlinesTicker conferences={conferences} />
           </div>
         </section>
 

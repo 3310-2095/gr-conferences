@@ -9,6 +9,7 @@ import {
 import type { Conference } from "../lib/conferenceData";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getDomainPillClasses } from "../lib/domainColors";
+import { getStatusBadge } from "../lib/calendarUtils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -30,6 +31,7 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
     .sort((a, b) => b.year - a.year);
 
   const cityImage = genericCityImages[conf.id % genericCityImages.length];
+  const badge = getStatusBadge(conf);
 
   return (
     <motion.div
@@ -78,20 +80,9 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {conf.status === "past" ? (
-              <div className="bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                COMPLETED
-              </div>
-            ) : (
-              <>
-                <div className="bg-[#e6f4ea] text-[#1e8e3e] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                  OPEN SUBMISSION
-                </div>
-                <div className="bg-[#fef3c7] text-[#d97706] text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                  REGISTRATION OPEN
-                </div>
-              </>
-            )}
+            <div className={`${badge.pillClass} text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full`}>
+              {badge.label}
+            </div>
           </div>
         </div>
 

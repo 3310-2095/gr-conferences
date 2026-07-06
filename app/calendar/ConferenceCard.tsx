@@ -40,10 +40,10 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease, delay: index * 0.05 }}
-      className="bg-white  w-full border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 flex flex-col md:flex-row overflow-hidden relative group scroll-mt-32"
+      className="bg-white w-full rounded-2xl border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 flex flex-col md:flex-row md:items-start overflow-hidden relative group scroll-mt-32"
     >
-      {/* Left Banner Image */}
-      <div className="relative w-full md:w-[260px] lg:w-[280px] shrink-0 min-h-[260px] md:min-h-full bg-gray-100 flex flex-col justify-end p-5 lg:p-6 overflow-hidden">
+      {/* Left Banner Image — fixed portrait ratio at every breakpoint, matches the homepage conference card proportions */}
+      <div className="relative w-full md:w-[260px] shrink-0 self-start bg-gray-100 flex flex-col justify-end p-5 lg:p-6 overflow-hidden" style={{ height: 360 }}>
         <img
           src={cityImage}
           alt={conf.name}
@@ -150,18 +150,16 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
                 transition={{ duration: 0.25, ease }}
                 className="overflow-hidden"
               >
-                <ul className="pt-3 pb-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                <ul className="pt-3 pb-1 flex flex-col gap-2">
                   {editionHistory.length > 0 ? (
                     editionHistory.map((edition) => (
-                      <li key={edition.id} className="text-[12px] gap-2">
-                        <span className="text-gray-600 font-medium">
-                          {edition.edition} &middot; {edition.date} &middot; {edition.location.split(",")[0].trim()}
-                        </span>
-                        {". "}
+                      <li key={edition.id} className="text-[12px] text-gray-600">
+                        {edition.edition} &middot; {edition.date} &middot; {edition.location.split(",")[0].trim()}
+                        {" "}&middot;{" "}
                         <Link href="/archives" className="text-[#520380] font-bold hover:underline">
                           Publication History
                         </Link>
-                        {". "}
+                        {" "}&middot;{" "}
                         <a
                           href={`${edition.website}#gallery`}
                           target="_blank"

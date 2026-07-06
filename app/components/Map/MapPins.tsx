@@ -188,7 +188,7 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
             >
               <foreignObject
                 x={-60 * s}
-                y={lat > 30 ? s * 4 : (-ph - 34 * s)}
+                y={lat > 30 ? s * 1 : (-ph - 22 * s)}
                 width={120 * s}
                 height={30 * s}
                 style={{ overflow: "visible", pointerEvents: "none" }}
@@ -198,13 +198,19 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
                     display: "inline-block",
                     transform: "translateX(-50%)",
                     marginLeft: "50%",
-                    background: "rgba(8,3,18,0.85)",
-                    borderRadius: 999,
-                    padding: `${4 * s}px ${10 * s}px`,
                     whiteSpace: "nowrap",
                   }}
                 >
-                  <span style={{ color: "#fff", fontWeight: 700, fontSize: 11 * s, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>
+                  <span
+                    style={{
+                      color: "#3a015c",
+                      fontWeight: 700,
+                      fontSize: 11 * s,
+                      letterSpacing: "-0.01em",
+                      whiteSpace: "nowrap",
+                      textShadow: "0 1px 2px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.9)",
+                    }}
+                  >
                     {activeCity}
                   </span>
                 </div>

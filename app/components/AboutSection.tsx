@@ -39,6 +39,13 @@ export default function AboutSection() {
 
   const [visiblePins, setVisiblePins] = useState(0);
 
+  // Mobile gets no scroll-pin animation (see isMobile() check below), so nothing
+  // ever drives visiblePins there — show the full simple map immediately instead
+  // of leaving it permanently empty.
+  useEffect(() => {
+    if (isMobile()) setVisiblePins(TOTAL_PINS);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     let ctx: gsap.Context | undefined;
@@ -187,8 +194,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative py-16 lg:py-20 bg-white"
-      style={{ overflow: "visible" }}
+      className="relative py-16 lg:py-20 bg-white overflow-hidden md:overflow-visible"
     >
       {/* Subtle right glow — matches original */}
       <motion.div
@@ -344,7 +350,7 @@ export default function AboutSection() {
                   overflow: "hidden",
                 }}
               >
-                <WorldMap visiblePins={visiblePins} interactive={visiblePins > 0} />
+                <WorldMap visiblePins={visiblePins} interactive={visiblePins > 0 && !isMobile()} />
               </div>
             </div>
           </motion.div>

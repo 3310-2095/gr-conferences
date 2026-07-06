@@ -4,60 +4,143 @@ import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import { fadeUp, staggerContainer, viewport } from "../lib/animations";
 
-const partnerLogos = [
-  "Oxford University", "MIT", "Stanford University", "Cambridge",
-  "Harvard University", "Springer", "Elsevier", "IEEE",
-  "ACM Digital", "Nature Publishing", "Scopus", "Clarivate", "DBLP", "PubMed",
-];
-
 const institutions = [
-  { file: "birlainstitute.png",            name: "BITS Pilani Dubai" },
-  { file: "buffalouniversity.png",         name: "Buffalo University" },
-  { file: "californiastate.png",           name: "California State University" },
-  { file: "chiangmai.png",                 name: "Chiang Mai University" },
-  { file: "drexeluniversity.png",          name: "Drexel University" },
-  { file: "iimkozhikode.jpg",              name: "IIM Kozhikode" },
-  { file: "iitguwahati.png",               name: "IIT Guwahati" },
-  { file: "iitkanpur.png",                 name: "IIT Kanpur" },
-  { file: "roorkee.png",                   name: "IIT Roorkee" },
-  { file: "kingsaud.png",                  name: "King Saud University" },
-  { file: "nitwarangal.jpg",               name: "NIT Warangal" },
-  { file: "qataruniversity.png",           name: "Qatar University" },
-  { file: "thammasatuniversity.jpg",       name: "Thammasat University" },
-  { file: "univwaterloo.png",              name: "University of Waterloo" },
-  { file: "universitikl.webp",             name: "Universiti Kuala Lumpur" },
-  { file: "universityofchicago.svg",       name: "University of Chicago" },
-  { file: "universityofflorida.png",       name: "University of Florida" },
-  { file: "universityofjohannesburg.svg",  name: "University of Johannesburg" },
-  { file: "universityofliverpool.svg",     name: "University of Liverpool" },
-  { file: "universityofreading.png",       name: "University of Reading" },
-  { file: "universityoftoronto.webp",      name: "University of Toronto" },
-  { file: "virginiatech.svg",              name: "Virginia Tech" },
-  { file: "washingtonstateuniversity.svg", name: "Washington State University" },
-];
+  { file: "Aalen University, Germany.svg", name: "Aalen University, Germany" },
+  { file: "American International University, Kuwait.png", name: "American International University, Kuwait" },
+  { file: "American International University,Bangladesh.svg", name: "American International University, Bangladesh" },
+  { file: "Amity University - Dubai Campus, United Arab Emirates.webp", name: "Amity University - Dubai Campus, United Arab Emirates" },
+  { file: "Applied Quantum Technologies Institute (AQT), Columbia.svg", name: "Applied Quantum Technologies Institute (AQT), Columbia" },
+  { file: "Bangladesh University of Business and Technology, Bangladesh.png", name: "Bangladesh University of Business and Technology, Bangladesh" },
+  { file: "Birla Institute of Technology And Science, Pilani.png", name: "Birla Institute of Technology And Science, Pilani" },
+  { file: "Birla Institute of Technology and Science, Pilani- Dubai, United Arab Emirates.png", name: "Birla Institute of Technology and Science, Pilani- Dubai, United Arab Emirates" },
+  { file: "Birmingham City University, United Kingdom.png", name: "Birmingham City University, United Kingdom" },
+  { file: "British Columbia Institute of Technology, Canada.webp", name: "British Columbia Institute of Technology, Canada" },
+  { file: "British University In Dubai, United Arab Emirates.webp", name: "British University In Dubai, United Arab Emirates" },
+  { file: "Buffalo University, New York, United States.png", name: "Buffalo University, New York, United States" },
+  { file: "California State University, United States.png", name: "California State University, United States" },
+  { file: "Cape Peninsula University of Technology, South Africa.webp", name: "Cape Peninsula University of Technology, South Africa" },
+  { file: "Carleton University,Canada.svg", name: "Carleton University, Canada" },
+  { file: "Chiang Mai University, Thailand.png", name: "Chiang Mai University, Thailand" },
+  { file: "Cyprus International University, Cyprus.svg", name: "Cyprus International University, Cyprus" },
+  { file: "Daffodil international university.svg", name: "Daffodil international university" },
+  { file: "De La Salle University Manila, Philippines.png", name: "De La Salle University Manila, Philippines" },
+  { file: "Department of Information Technology, Sri Lanka Institute of Infromation Technology, Sri Lanka.svg", name: "Department of Information Technology, Sri Lanka Institute of Infromation Technology, Sri Lanka" },
+  { file: "Department Of Management Studies, IIT Madras.png", name: "Department Of Management Studies, IIT Madras" },
+  { file: "Drexel University, United States.png", name: "Drexel University, United States" },
+  { file: "Dyson Institute of Engineering and Technology, United Kingdom.svg", name: "Dyson Institute of Engineering and Technology, United Kingdom" },
+  { file: "Eastern Washington University,United States.svg", name: "Eastern Washington University, United States" },
+  { file: "Embry-Riddle Aeronautical University - Daytona Beach, United States.svg", name: "Embry-Riddle Aeronautical University - Daytona Beach, United States" },
+  { file: "Emporia State University, United States.svg", name: "Emporia State University, United States" },
+  { file: "Faculty of Informatics, Mahasarakham University, Thailand.webp", name: "Faculty of Informatics, Mahasarakham University, Thailand" },
+  { file: "Fairmont Preparatory Academy,United States.png", name: "Fairmont Preparatory Academy, United States" },
+  { file: "Fordham University, United States.svg", name: "Fordham University, United States" },
+  { file: "Grambling State University, United States.png", name: "Grambling State University, United States" },
+  { file: "IIM Kozhikode.jpg", name: "IIM Kozhikode" },
+  { file: "Indian Institute of Technology (BHU).png", name: "Indian Institute of Technology (BHU)" },
+  { file: "Indian Institute of Technology Guwahati.png", name: "Indian Institute of Technology Guwahati" },
+  { file: "Indian Institute of Technology Kanpur.png", name: "Indian Institute of Technology Kanpur" },
+  { file: "Indian Institute of Technology Roorkee.png", name: "Indian Institute of Technology Roorkee" },
+  { file: "Indian Institute of Technology, Kharagpur.png", name: "Indian Institute of Technology, Kharagpur" },
+  { file: "Informatique et Applications, Universite Ibn Tofail Kenitra, Morocco.png", name: "Informatique et Applications, Universite Ibn Tofail Kenitra, Morocco" },
+  { file: "Jahangirnagar University, Bangladesh.png", name: "Jahangirnagar University, Bangladesh" },
+  { file: "Jakarta State University, Indonesia.png", name: "Jakarta State University, Indonesia" },
+  { file: "Khon Kaen University, Thailand.png", name: "Khon Kaen University, Thailand" },
+  { file: "King Mongkut's University of Technology North Bangkok Thailand.webp", name: "King Mongkut's University of Technology North Bangkok Thailand" },
+  { file: "King Saud University, Saudi Arabia.png", name: "King Saud University, Saudi Arabia" },
+  { file: "Leeds Institute for Data Analytics (LIDA), University of Leeds, UK, United Kingdom.png", name: "Leeds Institute for Data Analytics (LIDA), University of Leeds, UK, United Kingdom" },
+  { file: "Lorma Colleges, Inc., Philippines.avif", name: "Lorma Colleges, Inc., Philippines" },
+  { file: "Loughborough University London, United Kingdom.webp", name: "Loughborough University London, United Kingdom" },
+  { file: "Manipal Academy of Higher Education - Dubai Campus, United Arab Emirates.webp", name: "Manipal Academy of Higher Education - Dubai Campus, United Arab Emirates" },
+  { file: "Middlesex University Dubai - Main Campus, United Arab Emirates.svg", name: "Middlesex University Dubai - Main Campus, United Arab Emirates" },
+  { file: "Morgan State University, United States.png", name: "Morgan State University, United States" },
+  { file: "Namibia University of Science and Technology, Namibia.png", name: "Namibia University of Science and Technology, Namibia" },
+  { file: "NIT Warangal.jpg", name: "NIT Warangal" },
+  { file: "Pangasinan State University, Philippines.png", name: "Pangasinan State University, Philippines" },
+  { file: "Qatar University, Qatar.png", name: "Qatar University, Qatar" },
+  { file: "Rajamangala University of Technology Thanyaburi, Thailand.gif", name: "Rajamangala University of Technology Thanyaburi, Thailand" },
+  { file: "Saint Louis University, United States.jpg", name: "Saint Louis University, United States" },
+  { file: "San Diego State University, United States.svg", name: "San Diego State University, United States" },
+  { file: "School of Interdisciplinary Research, Indian Institute of Technology Delhi.png", name: "School of Interdisciplinary Research, Indian Institute of Technology Delhi" },
+  { file: "Tallinn University of Technology, Estonia.svg", name: "Tallinn University of Technology, Estonia" },
+  { file: "Tashkent State Agrarian University, Uzbekistan.png", name: "Tashkent State Agrarian University, Uzbekistan" },
+  { file: "Tashkent State University of Economics, Uzbekistan.png", name: "Tashkent State University of Economics, Uzbekistan" },
+  { file: "Telkom University, Indonesia.webp", name: "Telkom University, Indonesia" },
+  { file: "Thammasat University, Thailand.jpg", name: "Thammasat University, Thailand" },
+  { file: "Univ. of Waterloo, Canada.png", name: "Univ. of Waterloo, Canada" },
+  { file: "Universiti Kuala Lumpur, Malaysia.webp", name: "Universiti Kuala Lumpur, Malaysia" },
+  { file: "University of Botswana, Botswana.png", name: "University of Botswana, Botswana" },
+  { file: "University of Buckingham, United Kingdom.webp", name: "University of Buckingham, United Kingdom" },
+  { file: "University of California, United States.avif", name: "University of California, United States" },
+  { file: "University of Cape Town, South Africa.svg", name: "University of Cape Town, South Africa" },
+  { file: "University of Chicago, United States.svg", name: "University of Chicago, United States" },
+  { file: "University of Florida, United States.png", name: "University of Florida, United States" },
+  { file: "University of Johannesburg, South Africa.svg", name: "University of Johannesburg, South Africa" },
+  { file: "University of Liverpool, United Kingdom.svg", name: "University of Liverpool, United Kingdom" },
+  { file: "University of Reading, United Kingdom.png", name: "University of Reading, United Kingdom" },
+  { file: "University of South Africa, South Africa.webp", name: "University of South Africa, South Africa" },
+  { file: "University of Toronto, Canada.webp", name: "University of Toronto, Canada" },
+  { file: "University of Westminster, United Kingdom.webp", name: "University of Westminster, United Kingdom" },
+  { file: "Virginia Tech, United States.svg", name: "Virginia Tech, United States" },
+  { file: "Washington State University, United States.svg", name: "Washington State University, United States" },
+  { file: "York University, Canada.jpg", name: "York University, Canada" },
+] as { file: string; name: string; folder?: string }[];
+
+// Real institutional partner logos — kept in their own row, separate from the
+// "Participating Institutions" wall above. A few filenames are duplicates of
+// the same logo (img02/img06/img07 etc.) — only one copy of each is listed.
+const institutionalPartners = [
+  { file: "AACCI.jpg",                                        name: "Asian-African Chamber of Commerce & Industry" },
+  { file: "Activatelearning.jpg",                              name: "Activate Learning" },
+  { file: "AssociationPartner.png",                            name: "Delta Epsilon Society of Engineers" },
+  { file: "DBLP.png",                                          name: "DBLP" },
+  { file: "EI-Compendex.png",                                  name: "Ei Compendex" },
+  { file: "INSPEC.png",                                        name: "IET Inspec" },
+  { file: "IeeeUK&IrelandSection.gif",                         name: "IEEE United Kingdom and Ireland Section" },
+  { file: "Japanese-Science-and-Technology-Agency-(JST).png",  name: "Japan Science and Technology Agency (JST)" },
+  { file: "Numibiauniversityofscienceandtechnology.jpg",       name: "Namibia University of Science and Technology" },
+  { file: "SCImago.png",                                       name: "SCImago" },
+  { file: "SCOPUS.png",                                        name: "Scopus" },
+  { file: "Supporting-Local-Partner.jpg",                      name: "Global Chamber London" },
+  { file: "UniversityPartner.png",                             name: "Samar State University" },
+  { file: "WTI-Frankfurt-eG.png",                              name: "WTI AG" },
+  { file: "acm.jpg",                                           name: "ACM" },
+  { file: "assocham.png",                                      name: "ASSOCHAM India" },
+  { file: "bhupal-nobles-university.jpg",                      name: "Bhupal Nobles' University" },
+  { file: "ciba.png",                                          name: "CIBA" },
+  { file: "csi.jpg",                                           name: "Computer Society of India" },
+  { file: "gesia.png",                                         name: "GESIA" },
+  { file: "goa.png",                                           name: "Goa Chamber of Commerce & Industry" },
+  { file: "green_slices.jpg",                                  name: "Green Slices" },
+  { file: "img03.jpg",                                         name: "Microsoft Innovation Center" },
+  { file: "img05.png",                                         name: "IT Buzz" },
+  { file: "interYIT-ifip.png",                                 name: "InterYIT & IFIP" },
+  { file: "ministry_it.png",                                   name: "Ministry of Electronics & IT, Government of India" },
+  { file: "nbso_netherland_logo.png",                          name: "NBSO Netherlands" },
+  { file: "new-logo.png",                                      name: "Cape Peninsula University of Technology" },
+  { file: "partner_new-1.jpg",                                 name: "IADD" },
+  { file: "payUMoney.png",                                     name: "PayUmoney" },
+  { file: "pca-img04.jpg",                                     name: "The Institution of Engineers (India)" },
+  { file: "perfect_Edumedia.jpg",                              name: "Perfect Edumedia" },
+  { file: "publication-2.svg",                                 name: "Publication Partner" },
+  { file: "publication-3.svg",                                 name: "Publication Partner" },
+  { file: "publication-4.svg",                                 name: "Publication Partner" },
+  { file: "publication-5.svg",                                 name: "Publication Partner" },
+  { file: "publication-6.svg",                                 name: "Publication Partner" },
+  { file: "sitg.png",                                          name: "SABAR Institute of Technology for Girls" },
+  { file: "springer.png",                                      name: "Springer" },
+  { file: "springer_nature.jpg",                               name: "Springer Nature" },
+  { file: "trinity.png",                                       name: "Trinity University" },
+  { file: "unified-brainz.jpg",                                name: "Unified Brainz" },
+  { file: "yudiz.png",                                         name: "Yudiz Solutions Private Limited" },
+  { file: "zbMATH.png",                                        name: "zbMATH Open" },
+] as { file: string; name: string; folder?: string }[];
 
 const maskStyle: React.CSSProperties = {
   maskImage: "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
   WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
 };
 
-function LogoItem({ name, dim }: { name: string; dim?: boolean }) {
-  return (
-    <span
-      className={`mx-10 shrink-0 text-sm font-bold uppercase tracking-[0.18em] whitespace-nowrap transition-colors duration-300 cursor-default ${
-        dim ? "text-white/20 hover:text-white/50" : "text-white/30 hover:text-white/70"
-      }`}
-    >
-      {name}
-    </span>
-  );
-}
-
-function Divider() {
-  return <span className="mx-6 shrink-0 text-white/10 text-lg select-none">·</span>;
-}
-
-function InstitutionLogoItem({ file, name }: { file: string; name: string }) {
+function InstitutionLogoItem({ file, name, folder = "conf logo" }: { file: string; name: string; folder?: string }) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -70,7 +153,7 @@ function InstitutionLogoItem({ file, name }: { file: string; name: string }) {
 
   return (
     <img
-      src={`/conf logo/${file}`}
+      src={`/${folder}/${file}`}
       alt={name}
       title={name}
       draggable={false}
@@ -153,36 +236,46 @@ export default function PartnersSection() {
           </div>
         </motion.div>
 
-        {/* ── Right: Two scrolling rows ── */}
+        {/* ── Right: Two scrolling logo rows ── */}
         <div className="flex-1 flex flex-col justify-center py-14 lg:py-20 gap-10 overflow-hidden">
 
           {/* Row label */}
-          <div className="px-8 lg:px-12">
+          <div className="px-8 lg:px-12 flex items-center justify-between gap-4">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Institutional Partners</span>
-            
+            <a href="/partners" className="group flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white/40 hover:text-[#a259ff] transition-colors whitespace-nowrap">
+              See All
+              <FaArrowRight size={9} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
           </div>
 
-          {/* Row 1 — scroll left, slower */}
-          <div style={maskStyle} className="group/row1">
-            <div className="flex w-max" style={{ animation: "scroll-left 35s linear infinite" }}
+          {/* Row 1 — real institutional partner logos, scroll left (right to left) */}
+          <div style={maskStyle} className="relative">
+            <div
+              className="absolute inset-0 pointer-events-none z-10"
+              style={{
+                background: "radial-gradient(ellipse 55% 100% at 0% 50%, rgba(139,61,255,0.13) 0%, rgba(82,3,128,0.07) 35%, transparent 70%)",
+              }}
+            />
+            <div className="flex items-center w-max" style={{ animation: "scroll-left 70s linear infinite" }}
               onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
               onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
             >
-              {[...partnerLogos, ...partnerLogos].map((name, i) => (
-                <span key={i} className="inline-flex items-center">
-                  <LogoItem name={name} />
-                  <Divider />
-                </span>
+              {[...institutionalPartners, ...institutionalPartners].map((inst, i) => (
+                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} folder="Institutional Partners" />
               ))}
             </div>
           </div>
 
           {/* Row label */}
-          <div className="px-8 lg:px-12 mt-14">
+          <div className="px-8 lg:px-12 mt-14 flex items-center justify-between gap-4">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Participating Institutions</span>
+            <a href="/partners" className="group flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white/40 hover:text-[#a259ff] transition-colors whitespace-nowrap">
+              See All
+              <FaArrowRight size={9} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
           </div>
 
-          {/* Row 2 — real logo images, scroll left slightly faster */}
+          {/* Row 2 — real university logo images, scroll right */}
           <div style={maskStyle} className="relative">
             {/* Left-to-right spotlight behind logos */}
             <div
@@ -191,12 +284,12 @@ export default function PartnersSection() {
                 background: "radial-gradient(ellipse 55% 100% at 0% 50%, rgba(139,61,255,0.13) 0%, rgba(82,3,128,0.07) 35%, transparent 70%)",
               }}
             />
-            <div className="flex items-center w-max" style={{ animation: "scroll-right 40s linear infinite" }}
+            <div className="flex items-center w-max" style={{ animation: "scroll-right 110s linear infinite" }}
               onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
               onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
             >
               {[...institutions, ...institutions].map((inst, i) => (
-                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} />
+                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} folder="Participating Institutions" />
               ))}
             </div>
           </div>
@@ -208,13 +301,13 @@ export default function PartnersSection() {
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <style>{`
-        @keyframes scroll-left {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
         @keyframes scroll-right {
           0%   { transform: translateX(-50%); }
           100% { transform: translateX(0); }
+        }
+        @keyframes scroll-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
       `}</style>
     </section>

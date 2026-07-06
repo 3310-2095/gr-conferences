@@ -226,7 +226,7 @@ export const archiveConferences: Conference[] = [
     fullName: "International Conference on Information and Communication Technology for Competitive Strategies",
     edition: "10th Edition",
     date: "15–17 December 2025",
-    location: "India",
+    location: "Jaipur ,India",
     domains: ["ICT", "AI", "Digital Innovation"],
     website: "https://web.archive.org/web/20260212085338/https://www.ictcs.in/home.php",
     logo: "https://placehold.co/80x80/520380/ffffff?text=ICTCS&font=montserrat",

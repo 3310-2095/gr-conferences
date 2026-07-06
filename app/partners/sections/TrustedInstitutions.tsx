@@ -2,357 +2,209 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, staggerFast, scaleIn, viewport } from "../../lib/animations";
 
-/* ── Institution data ─────────────────────────────────────────── */
+const ease = [0.22, 1, 0.36, 1] as const;
+
 const institutions = [
-  { file: "birlainstitute.png",            name: "BITS Pilani Dubai",              region: "Asia" },
-  { file: "buffalouniversity.png",         name: "Buffalo University",             region: "North America" },
-  { file: "californiastate.png",           name: "California State University",    region: "North America" },
-  { file: "chiangmai.png",                 name: "Chiang Mai University",          region: "Asia" },
-  { file: "drexeluniversity.png",          name: "Drexel University",              region: "North America" },
-  { file: "iimkozhikode.jpg",              name: "IIM Kozhikode",                  region: "Asia" },
-  { file: "iitguwahati.png",               name: "IIT Guwahati",                   region: "Asia" },
-  { file: "iitkanpur.png",                 name: "IIT Kanpur",                     region: "Asia" },
-  { file: "roorkee.png",                   name: "IIT Roorkee",                    region: "Asia" },
-  { file: "kingsaud.png",                  name: "King Saud University",           region: "Middle East" },
-  { file: "nitwarangal.jpg",               name: "NIT Warangal",                   region: "Asia" },
-  { file: "qataruniversity.png",           name: "Qatar University",               region: "Middle East" },
-  { file: "thammasatuniversity.jpg",       name: "Thammasat University",           region: "Asia" },
-  { file: "univwaterloo.png",              name: "University of Waterloo",         region: "North America" },
-  { file: "universitikl.webp",             name: "Universiti Kuala Lumpur",        region: "Asia" },
-  { file: "universityofchicago.svg",       name: "University of Chicago",          region: "North America" },
-  { file: "universityofflorida.png",       name: "University of Florida",          region: "North America" },
-  { file: "universityofjohannesburg.svg",  name: "University of Johannesburg",     region: "Africa" },
-  { file: "universityofliverpool.svg",     name: "University of Liverpool",        region: "Europe" },
-  { file: "universityofreading.png",       name: "University of Reading",          region: "Europe" },
-  { file: "universityoftoronto.webp",      name: "University of Toronto",          region: "North America" },
-  { file: "virginiatech.svg",              name: "Virginia Tech",                  region: "North America" },
-  { file: "washingtonstateuniversity.svg", name: "Washington State University",    region: "North America" },
+  { file: "Aalen University, Germany.svg", name: "Aalen University, Germany" },
+  { file: "American International University, Kuwait.png", name: "American International University, Kuwait" },
+  { file: "American International University,Bangladesh.svg", name: "American International University, Bangladesh" },
+  { file: "Amity University - Dubai Campus, United Arab Emirates.webp", name: "Amity University - Dubai Campus, United Arab Emirates" },
+  { file: "Applied Quantum Technologies Institute (AQT), Columbia.svg", name: "Applied Quantum Technologies Institute (AQT), Columbia" },
+  { file: "Bangladesh University of Business and Technology, Bangladesh.png", name: "Bangladesh University of Business and Technology, Bangladesh" },
+  { file: "Birla Institute of Technology And Science, Pilani.png", name: "Birla Institute of Technology And Science, Pilani" },
+  { file: "Birla Institute of Technology and Science, Pilani- Dubai, United Arab Emirates.png", name: "Birla Institute of Technology and Science, Pilani- Dubai, United Arab Emirates" },
+  { file: "Birmingham City University, United Kingdom.png", name: "Birmingham City University, United Kingdom" },
+  { file: "British Columbia Institute of Technology, Canada.webp", name: "British Columbia Institute of Technology, Canada" },
+  { file: "British University In Dubai, United Arab Emirates.webp", name: "British University In Dubai, United Arab Emirates" },
+  { file: "Buffalo University, New York, United States.png", name: "Buffalo University, New York, United States" },
+  { file: "California State University, United States.png", name: "California State University, United States" },
+  { file: "Cape Peninsula University of Technology, South Africa.webp", name: "Cape Peninsula University of Technology, South Africa" },
+  { file: "Carleton University,Canada.svg", name: "Carleton University, Canada" },
+  { file: "Chiang Mai University, Thailand.png", name: "Chiang Mai University, Thailand" },
+  { file: "Cyprus International University, Cyprus.svg", name: "Cyprus International University, Cyprus" },
+  { file: "Daffodil international university.svg", name: "Daffodil international university" },
+  { file: "De La Salle University Manila, Philippines.png", name: "De La Salle University Manila, Philippines" },
+  { file: "Department of Information Technology, Sri Lanka Institute of Infromation Technology, Sri Lanka.svg", name: "Department of Information Technology, Sri Lanka Institute of Infromation Technology, Sri Lanka" },
+  { file: "Department Of Management Studies, IIT Madras.png", name: "Department Of Management Studies, IIT Madras" },
+  { file: "Drexel University, United States.png", name: "Drexel University, United States" },
+  { file: "Dyson Institute of Engineering and Technology, United Kingdom.svg", name: "Dyson Institute of Engineering and Technology, United Kingdom" },
+  { file: "Eastern Washington University,United States.svg", name: "Eastern Washington University, United States" },
+  { file: "Embry-Riddle Aeronautical University - Daytona Beach, United States.svg", name: "Embry-Riddle Aeronautical University - Daytona Beach, United States" },
+  { file: "Emporia State University, United States.svg", name: "Emporia State University, United States" },
+  { file: "Faculty of Informatics, Mahasarakham University, Thailand.webp", name: "Faculty of Informatics, Mahasarakham University, Thailand" },
+  { file: "Fairmont Preparatory Academy,United States.png", name: "Fairmont Preparatory Academy, United States" },
+  { file: "Fordham University, United States.svg", name: "Fordham University, United States" },
+  { file: "Grambling State University, United States.png", name: "Grambling State University, United States" },
+  { file: "IIM Kozhikode.jpg", name: "IIM Kozhikode" },
+  { file: "Indian Institute of Technology (BHU).png", name: "Indian Institute of Technology (BHU)" },
+  { file: "Indian Institute of Technology Guwahati.png", name: "Indian Institute of Technology Guwahati" },
+  { file: "Indian Institute of Technology Kanpur.png", name: "Indian Institute of Technology Kanpur" },
+  { file: "Indian Institute of Technology Roorkee.png", name: "Indian Institute of Technology Roorkee" },
+  { file: "Indian Institute of Technology, Kharagpur.png", name: "Indian Institute of Technology, Kharagpur" },
+  { file: "Informatique et Applications, Universite Ibn Tofail Kenitra, Morocco.png", name: "Informatique et Applications, Universite Ibn Tofail Kenitra, Morocco" },
+  { file: "Jahangirnagar University, Bangladesh.png", name: "Jahangirnagar University, Bangladesh" },
+  { file: "Jakarta State University, Indonesia.png", name: "Jakarta State University, Indonesia" },
+  { file: "Khon Kaen University, Thailand.png", name: "Khon Kaen University, Thailand" },
+  { file: "King Mongkut's University of Technology North Bangkok Thailand.webp", name: "King Mongkut's University of Technology North Bangkok Thailand" },
+  { file: "King Saud University, Saudi Arabia.png", name: "King Saud University, Saudi Arabia" },
+  { file: "Leeds Institute for Data Analytics (LIDA), University of Leeds, UK, United Kingdom.png", name: "Leeds Institute for Data Analytics (LIDA), University of Leeds, UK, United Kingdom" },
+  { file: "Lorma Colleges, Inc., Philippines.avif", name: "Lorma Colleges, Inc., Philippines" },
+  { file: "Loughborough University London, United Kingdom.webp", name: "Loughborough University London, United Kingdom" },
+  { file: "Manipal Academy of Higher Education - Dubai Campus, United Arab Emirates.webp", name: "Manipal Academy of Higher Education - Dubai Campus, United Arab Emirates" },
+  { file: "Middlesex University Dubai - Main Campus, United Arab Emirates.svg", name: "Middlesex University Dubai - Main Campus, United Arab Emirates" },
+  { file: "Morgan State University, United States.png", name: "Morgan State University, United States" },
+  { file: "Namibia University of Science and Technology, Namibia.png", name: "Namibia University of Science and Technology, Namibia" },
+  { file: "NIT Warangal.jpg", name: "NIT Warangal" },
+  { file: "Pangasinan State University, Philippines.png", name: "Pangasinan State University, Philippines" },
+  { file: "Qatar University, Qatar.png", name: "Qatar University, Qatar" },
+  { file: "Rajamangala University of Technology Thanyaburi, Thailand.gif", name: "Rajamangala University of Technology Thanyaburi, Thailand" },
+  { file: "Saint Louis University, United States.jpg", name: "Saint Louis University, United States" },
+  { file: "San Diego State University, United States.svg", name: "San Diego State University, United States" },
+  { file: "School of Interdisciplinary Research, Indian Institute of Technology Delhi.png", name: "School of Interdisciplinary Research, Indian Institute of Technology Delhi" },
+  { file: "Tallinn University of Technology, Estonia.svg", name: "Tallinn University of Technology, Estonia" },
+  { file: "Tashkent State Agrarian University, Uzbekistan.png", name: "Tashkent State Agrarian University, Uzbekistan" },
+  { file: "Tashkent State University of Economics, Uzbekistan.png", name: "Tashkent State University of Economics, Uzbekistan" },
+  { file: "Telkom University, Indonesia.webp", name: "Telkom University, Indonesia" },
+  { file: "Thammasat University, Thailand.jpg", name: "Thammasat University, Thailand" },
+  { file: "Univ. of Waterloo, Canada.png", name: "Univ. of Waterloo, Canada" },
+  { file: "Universiti Kuala Lumpur, Malaysia.webp", name: "Universiti Kuala Lumpur, Malaysia" },
+  { file: "University of Botswana, Botswana.png", name: "University of Botswana, Botswana" },
+  { file: "University of Buckingham, United Kingdom.webp", name: "University of Buckingham, United Kingdom" },
+  { file: "University of California, United States.avif", name: "University of California, United States" },
+  { file: "University of Cape Town, South Africa.svg", name: "University of Cape Town, South Africa" },
+  { file: "University of Chicago, United States.svg", name: "University of Chicago, United States" },
+  { file: "University of Florida, United States.png", name: "University of Florida, United States" },
+  { file: "University of Johannesburg, South Africa.svg", name: "University of Johannesburg, South Africa" },
+  { file: "University of Liverpool, United Kingdom.svg", name: "University of Liverpool, United Kingdom" },
+  { file: "University of Reading, United Kingdom.png", name: "University of Reading, United Kingdom" },
+  { file: "University of South Africa, South Africa.webp", name: "University of South Africa, South Africa" },
+  { file: "University of Toronto, Canada.webp", name: "University of Toronto, Canada" },
+  { file: "University of Westminster, United Kingdom.webp", name: "University of Westminster, United Kingdom" },
+  { file: "Virginia Tech, United States.svg", name: "Virginia Tech, United States" },
+  { file: "Washington State University, United States.svg", name: "Washington State University, United States" },
+  { file: "York University, Canada.jpg", name: "York University, Canada" },
 ];
 
-const regions = ["All", "Asia", "North America", "Europe", "Middle East", "Africa"];
-
-/* ── Stats ────────────────────────────────────────────────────── */
-const stats = [
-  { value: "5,000+",   label: "Institutions" },
-  { value: "125+",     label: "Countries" },
-  { value: "23",       label: "Featured Partners" },
-  { value: "350,000+", label: "Researchers" },
+// Real institutional partner logos — a distinct set/section from the broader
+// "Participating Institutions" network above. A few filenames are duplicates
+// of the same logo (img02/img06/img07 etc.) — only one copy of each is listed.
+const institutionalPartners = [
+  { file: "AACCI.jpg",                                        name: "Asian-African Chamber of Commerce & Industry" },
+  { file: "Activatelearning.jpg",                              name: "Activate Learning" },
+  { file: "AssociationPartner.png",                            name: "Delta Epsilon Society of Engineers" },
+  { file: "DBLP.png",                                          name: "DBLP" },
+  { file: "EI-Compendex.png",                                  name: "Ei Compendex" },
+  { file: "INSPEC.png",                                        name: "IET Inspec" },
+  { file: "IeeeUK&IrelandSection.gif",                         name: "IEEE United Kingdom and Ireland Section" },
+  { file: "Japanese-Science-and-Technology-Agency-(JST).png",  name: "Japan Science and Technology Agency (JST)" },
+  { file: "Numibiauniversityofscienceandtechnology.jpg",       name: "Namibia University of Science and Technology" },
+  { file: "SCImago.png",                                       name: "SCImago" },
+  { file: "SCOPUS.png",                                        name: "Scopus" },
+  { file: "Supporting-Local-Partner.jpg",                      name: "Global Chamber London" },
+  { file: "UniversityPartner.png",                             name: "Samar State University" },
+  { file: "WTI-Frankfurt-eG.png",                              name: "WTI AG" },
+  { file: "acm.jpg",                                           name: "ACM" },
+  { file: "assocham.png",                                      name: "ASSOCHAM India" },
+  { file: "bhupal-nobles-university.jpg",                      name: "Bhupal Nobles' University" },
+  { file: "ciba.png",                                          name: "CIBA" },
+  { file: "csi.jpg",                                           name: "Computer Society of India" },
+  { file: "gesia.png",                                         name: "GESIA" },
+  { file: "goa.png",                                           name: "Goa Chamber of Commerce & Industry" },
+  { file: "green_slices.jpg",                                  name: "Green Slices" },
+  { file: "img03.jpg",                                         name: "Microsoft Innovation Center" },
+  { file: "img05.png",                                         name: "IT Buzz" },
+  { file: "interYIT-ifip.png",                                 name: "InterYIT & IFIP" },
+  { file: "ministry_it.png",                                   name: "Ministry of Electronics & IT, Government of India" },
+  { file: "nbso_netherland_logo.png",                          name: "NBSO Netherlands" },
+  { file: "new-logo.png",                                      name: "Cape Peninsula University of Technology" },
+  { file: "partner_new-1.jpg",                                 name: "IADD" },
+  { file: "payUMoney.png",                                     name: "PayUmoney" },
+  { file: "pca-img04.jpg",                                     name: "The Institution of Engineers (India)" },
+  { file: "perfect_Edumedia.jpg",                              name: "Perfect Edumedia" },
+  { file: "publication-2.svg",                                 name: "Publication Partner" },
+  { file: "publication-3.svg",                                 name: "Publication Partner" },
+  { file: "publication-4.svg",                                 name: "Publication Partner" },
+  { file: "publication-5.svg",                                 name: "Publication Partner" },
+  { file: "publication-6.svg",                                 name: "Publication Partner" },
+  { file: "sitg.png",                                          name: "SABAR Institute of Technology for Girls" },
+  { file: "springer.png",                                      name: "Springer" },
+  { file: "springer_nature.jpg",                               name: "Springer Nature" },
+  { file: "trinity.png",                                       name: "Trinity University" },
+  { file: "unified-brainz.jpg",                                name: "Unified Brainz" },
+  { file: "yudiz.png",                                         name: "Yudiz Solutions Private Limited" },
+  { file: "zbMATH.png",                                        name: "zbMATH Open" },
 ];
 
-/* ── Logo Card ───────────────────────────────────────────────── */
-function LogoCard({ file, name, index }: { file: string; name: string; index: number }) {
+function LogoItem({ file, name, folder = "conf logo" }: { file: string; name: string; folder?: string }) {
   const [failed, setFailed] = useState(false);
-
   return (
-    <motion.div
-      variants={scaleIn}
-      custom={index}
-      whileHover={{ y: -4, scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl cursor-default select-none"
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        padding: "28px 20px",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
-        transition: "border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.borderColor = "rgba(82,3,128,0.45)";
-        el.style.boxShadow = "0 8px 32px rgba(82,3,128,0.18), 0 0 0 1px rgba(82,3,128,0.12)";
-        el.style.background = "rgba(82,3,128,0.06)";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.borderColor = "rgba(255,255,255,0.07)";
-        el.style.boxShadow = "none";
-        el.style.background = "rgba(255,255,255,0.03)";
-      }}
-    >
-      {/* Purple corner accent */}
-      <div
-        className="absolute top-0 right-0 w-12 h-12 rounded-bl-2xl rounded-tr-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{ background: "linear-gradient(135deg, rgba(82,3,128,0.4), rgba(124,58,237,0.2))" }}
-      />
-
-      {/* Logo */}
-      <div className="relative flex items-center justify-center w-full" style={{ height: 60 }}>
-        {failed ? (
-          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/30 text-center leading-tight px-2">
-            {name}
-          </span>
-        ) : (
-          <img
-            src={`/conf logo/${file}`}
-            alt={name}
-            draggable={false}
-            onError={() => setFailed(true)}
-            className="object-contain opacity-60 group-hover:opacity-90 transition-opacity duration-300"
-            style={{ maxHeight: 56, maxWidth: "100%", width: "auto", filter: "brightness(0) invert(1)" }}
-          />
-        )}
-      </div>
-
-      {/* Institution name */}
-      <p className="text-white/40 group-hover:text-white/70 text-[11px] font-semibold uppercase tracking-[0.1em] text-center leading-tight transition-colors duration-300">
-        {name}
-      </p>
-    </motion.div>
+    <div className="flex items-center justify-center px-6 py-5">
+      {failed ? (
+        <span className="text-[11px] font-bold uppercase tracking-wide text-gray-400 text-center">{name}</span>
+      ) : (
+        <img
+          src={`/${folder}/${file}`}
+          alt={name}
+          title={name}
+          onError={() => setFailed(true)}
+          draggable={false}
+          className="max-h-10 max-w-[120px] w-auto object-contain "
+        />
+      )}
+    </div>
   );
 }
 
-/* ── Main Section ─────────────────────────────────────────────── */
-export default function TrustedInstitutions() {
-  const [activeRegion, setActiveRegion] = useState("All");
-
-  const filtered =
-    activeRegion === "All"
-      ? institutions
-      : institutions.filter((inst) => inst.region === activeRegion);
-
+function SectionHeader({ label, title }: { label: string; title: string }) {
   return (
-    <section
-      id="trusted-institutions"
-      className="relative overflow-hidden"
-      style={{
-        background: "linear-gradient(180deg, #121212 0%, #0e0a18 40%, #120d1f 70%, #121212 100%)",
-        paddingTop: "7rem",
-        paddingBottom: "7rem",
-      }}
-    >
-      {/* ── Decorative glows ── */}
-      <div
-        aria-hidden
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 70% 100% at 50% 0%, rgba(82,3,128,0.14) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 65%)" }}
-      />
-      <div
-        aria-hidden
-        className="absolute top-1/2 left-0 -translate-y-1/2 w-[320px] h-[320px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(82,3,128,0.06) 0%, transparent 65%)" }}
-      />
+    <div className="flex flex-col items-center text-center mb-10">
+      <div className="flex items-center gap-2 mb-3">
+        <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
+        <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#520380]">{label}</span>
+      </div>
+      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">{title}</h2>
+    </div>
+  );
+}
 
-      {/* ── Top edge ── */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+export default function TrustedInstitutions() {
+  return (
+    <section id="trusted-institutions" className="w-full bg-gray-100 py-20 lg:py-28">
+      <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
 
-      <div className="relative z-10 max-w-[1300px] mx-auto px-6 lg:px-12">
-
-        {/* ── Header ── */}
+        {/* ── Institutional Partners ── */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          className="flex flex-col items-center text-center mb-16"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease }}
+          viewport={{ once: true, margin: "-80px" }}
+          className="mb-20"
         >
-          {/* Eyebrow */}
-          <motion.div variants={fadeUp} className="flex items-center gap-2 mb-5">
-            <span
-              className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] uppercase px-4 py-1.5 rounded-full"
-              style={{
-                color: "#a78bfa",
-                background: "rgba(82,3,128,0.15)",
-                border: "1px solid rgba(82,3,128,0.3)",
-              }}
-            >
-              <span style={{ color: "#520380" }}>♦</span>
-              Institutional Partners
-            </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h2
-            variants={fadeUp}
-            className="font-extrabold text-white leading-tight tracking-tight mb-5"
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(2rem, 3.8vw, 3.4rem)",
-            }}
-          >
-            Trusted by Institutions{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #a78bfa 0%, #7c3aed 55%, #520380 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Worldwide
-            </span>
-          </motion.h2>
-
-          {/* Divider bar */}
-          <motion.div
-            variants={{
-              hidden: { width: 0, opacity: 0 },
-              show: { width: 56, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-            }}
-            className="h-[3px] rounded-full mb-6"
-            style={{ background: "linear-gradient(90deg, #520380, #a78bfa)" }}
-          />
-
-          <motion.p
-            variants={fadeUp}
-            className="text-white/50 text-base lg:text-[17px] leading-relaxed max-w-2xl"
-          >
-            Leading universities, research bodies, and global institutions rely on GR Conferences
-            to advance scholarly collaboration and knowledge exchange across disciplines.
-          </motion.p>
-        </motion.div>
-
-        {/* ── Stats row ── */}
-        <motion.div
-          variants={staggerFast}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          className="grid grid-cols-2 md:grid-cols-4 gap-px mb-16 rounded-2xl overflow-hidden"
-          style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-        >
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.label}
-              variants={fadeUp}
-              className="flex flex-col items-center justify-center py-8 px-4 text-center"
-              style={{ background: "rgba(255,255,255,0.02)" }}
-            >
-              <span
-                className="font-extrabold leading-none mb-1.5"
-                style={{
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-                  background: "linear-gradient(135deg, #ffffff 0%, #a78bfa 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {stat.value}
-              </span>
-              <span className="text-white/35 text-[11px] font-bold uppercase tracking-[0.18em]">
-                {stat.label}
-              </span>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* ── Region filter tabs ── */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          className="flex flex-wrap items-center justify-center gap-2 mb-12"
-        >
-          {regions.map((region) => (
-            <button
-              key={region}
-              onClick={() => setActiveRegion(region)}
-              className="text-[11px] font-bold uppercase tracking-[0.16em] px-4 py-2 rounded-full transition-all duration-200"
-              style={
-                activeRegion === region
-                  ? {
-                      background: "linear-gradient(135deg, #520380, #3a025b)",
-                      color: "#ffffff",
-                      boxShadow: "0 4px 16px rgba(82,3,128,0.35)",
-                      border: "1px solid rgba(82,3,128,0.5)",
-                    }
-                  : {
-                      background: "rgba(255,255,255,0.04)",
-                      color: "rgba(255,255,255,0.4)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                    }
-              }
-            >
-              {region}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* ── Logo grid ── */}
-        <motion.div
-          key={activeRegion}
-          variants={staggerFast}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
-        >
-          {filtered.map((inst, i) => (
-            <LogoCard key={inst.file} file={inst.file} name={inst.name} index={i} />
-          ))}
-        </motion.div>
-
-        {/* ── Empty state ── */}
-        {filtered.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center justify-center py-20 text-center"
-          >
-            <p className="text-white/25 text-sm font-medium">No institutions in this region yet.</p>
-          </motion.div>
-        )}
-
-        {/* ── Bottom CTA strip ── */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          className="mt-16 flex flex-col sm:flex-row items-center justify-between gap-6 rounded-2xl px-8 py-6"
-          style={{
-            background: "rgba(82,3,128,0.08)",
-            border: "1px solid rgba(82,3,128,0.2)",
-          }}
-        >
-          <div>
-            <p className="text-white font-bold text-[15px] mb-1">
-              Is your institution not listed?
-            </p>
-            <p className="text-white/40 text-sm">
-              Join our growing network of global research institutions.
-            </p>
+          <SectionHeader label="Partners" title="Institutional Partners" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            {institutionalPartners.map((inst) => (
+              <LogoItem key={inst.file} file={inst.file} name={inst.name} folder="Institutional Partners" />
+            ))}
           </div>
-          <a
-            href="/join/partner"
-            className="shrink-0 inline-flex items-center gap-2.5 font-bold text-white text-[13px] tracking-wide uppercase px-7 py-3.5 rounded-xl transition-all duration-200"
-            style={{
-              background: "linear-gradient(135deg, #520380 0%, #3a025b 100%)",
-              boxShadow: "0 4px 20px rgba(82,3,128,0.35)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 8px 32px rgba(82,3,128,0.55)";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 20px rgba(82,3,128,0.35)";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-            }}
-          >
-            Partner With Us
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-              <path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
+        </motion.div>
+
+        {/* ── Participating Institutions ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease }}
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          <SectionHeader label="Network" title="Participating Institutions" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {institutions.map((inst) => (
+              <LogoItem key={inst.file} file={inst.file} name={inst.name} folder="Participating Institutions" />
+            ))}
+          </div>
         </motion.div>
 
       </div>
-
-      {/* ── Bottom edge ── */}
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>
   );
 }

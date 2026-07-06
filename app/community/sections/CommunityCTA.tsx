@@ -43,7 +43,7 @@ export default function CommunityCTA() {
 
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <a
-                  href="#choose-role"
+                  href="https://www.gr-connect.org/"
                   className="w-full sm:w-auto sm:min-w-[200px] inline-flex items-center justify-center gap-2.5 bg-[#520380] text-white font-bold text-[13px] tracking-wide uppercase px-7 py-[14px] rounded-xl hover:bg-[#3d0260] transition-colors shadow-[0_4px_14px_rgba(82,3,128,0.3)]"
                 >
                   Join the Community

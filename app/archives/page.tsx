@@ -1,15 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { HiMapPin, HiMagnifyingGlass } from "react-icons/hi2";
+import { useState, useMemo } from "react";
+import { HiMapPin, HiMagnifyingGlass, HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getCity as getGalleryBySlug } from "../lib/galleryData";
+import GlassSelect from "../components/GlassSelect";
 
 // Maps a specific conference edition (name + year) to its real event-photo gallery, so a photo
 // set never lands on the wrong year's card. Only the exact editions we have real photos for are listed.
 const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
   "WORLDS4|2022": "worlds4-2022",
   "ICTCS|2022": "ictcs-2022",
+};
+
+// Real city photos we have on file — keyed by city name (lower-cased). Only the cities
+// listed here get a real location shot; everything else falls back below.
+const CITY_IMAGES: Record<string, string> = {
+  ahmedabad: "/Country/Ahmedabad.jpg",
+  bangkok: "/Country/Bangkok.jpg",
+  london: "/Country/London.jpg",
+  cairo: "/Country/Cairo.webp",
+  jaipur: "/Country/jaipur.webp",
+  manila: "/Country/manila.jpg",
+  "las vegas": "/Country/lasvegas.webp",
+  goa : "/Country/goa.png",
+  chandigarh : "/Country/chandigarh.avif",
 };
 
 // `location` isn't uniformly formatted ("United Kingdom" vs "London, UK" vs "India") —
@@ -45,26 +60,27 @@ function formatCityCountry(location: string): string {
   return city ? `${city}, ${country}` : country;
 }
 
-const SEARCH_FIELDS = [
-  { value: "name", label: "Conference Name" },
-  { value: "year", label: "Year" },
-  { value: "city", label: "City" },
-] as const;
-
-type SearchField = (typeof SEARCH_FIELDS)[number]["value"];
-
 export default function ArchivesPage() {
   const pastConferences = archiveConferences.filter(c => c.year <= 2025);
 
-  const [searchField, setSearchField] = useState<SearchField>("name");
+  const allNames = useMemo(() => Array.from(new Set(pastConferences.map(c => c.name))).sort(), [pastConferences]);
+  const allYears = useMemo(() => Array.from(new Set(pastConferences.map(c => String(c.year)))).sort((a, b) => Number(b) - Number(a)), [pastConferences]);
+  const allCities = useMemo(() => Array.from(new Set(pastConferences.map(c => getCity(c.location)).filter(Boolean))).sort(), [pastConferences]);
+
   const [query, setQuery] = useState("");
+  const [filterName, setFilterName] = useState("");
+  const [filterYear, setFilterYear] = useState("");
+  const [filterCity, setFilterCity] = useState("");
+
+  const hasFilters = query || filterName || filterYear || filterCity;
 
   const visibleConferences = pastConferences.filter((c) => {
     const q = query.trim().toLowerCase();
-    if (!q) return true;
-    if (searchField === "name") return c.name.toLowerCase().includes(q) || c.fullName.toLowerCase().includes(q);
-    if (searchField === "year") return String(c.year).includes(q);
-    return getCity(c.location).toLowerCase().includes(q);
+    const matchQuery = !q || c.name.toLowerCase().includes(q) || c.fullName.toLowerCase().includes(q);
+    const matchName = !filterName || c.name === filterName;
+    const matchYear = !filterYear || String(c.year) === filterYear;
+    const matchCity = !filterCity || getCity(c.location) === filterCity;
+    return matchQuery && matchName && matchYear && matchCity;
   });
 
   const fallbackImages = [
@@ -116,36 +132,44 @@ export default function ArchivesPage() {
 
         {/* Search Section */}
         <section className="max-w-[1200px] mx-auto px-6 mb-12">
-          <div
-            className="flex flex-col sm:flex-row items-stretch gap-3 p-4 rounded-2xl"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              backdropFilter: "blur(24px) saturate(180%)",
-              WebkitBackdropFilter: "blur(24px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.3)",
-              boxShadow: "0 8px 32px rgba(82,3,128,0.06), inset 0 1px 1px rgba(255,255,255,0.35)",
-            }}
-          >
-            <div className="relative sm:w-[220px] shrink-0">
-              <select
-                value={searchField}
-                onChange={(e) => setSearchField(e.target.value as SearchField)}
-                className="w-full h-full appearance-none px-4 py-3 rounded-xl bg-white border border-gray-200 text-[13px] font-semibold text-[#520380] outline-none focus:border-[#520380]/50 focus:ring-4 focus:ring-[#520380]/10 cursor-pointer"
-              >
-                {SEARCH_FIELDS.map((f) => (
-                  <option key={f.value} value={f.value}>Search by {f.label}</option>
-                ))}
-              </select>
-            </div>
-            <div className="relative flex-1">
-              <HiMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-[#520380]/50" size={16} />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={`Search by ${SEARCH_FIELDS.find(f => f.value === searchField)?.label.toLowerCase()}…`}
-                className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-gray-200 text-[13px] text-gray-800 placeholder-gray-400 outline-none focus:border-[#520380]/50 focus:ring-4 focus:ring-[#520380]/10 transition-all"
+          <div className="bg-white/95 backdrop-blur-2xl rounded-sm border border-white/80 shadow-[0_8px_32px_rgba(82,3,128,0.08)] p-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative flex-1 min-w-[220px]">
+                <HiMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#520380]/50" size={16} />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search conferences…"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-[13px] text-gray-800 placeholder-gray-400 outline-none focus:border-[#520380]/50 focus:ring-4 focus:ring-[#520380]/10 transition-all"
+                />
+              </div>
+              <GlassSelect
+                value={filterName}
+                onChange={setFilterName}
+                placeholder="Conference Name"
+                options={allNames.map(n => ({ label: n, value: n }))}
               />
+              <GlassSelect
+                value={filterYear}
+                onChange={setFilterYear}
+                placeholder="Year"
+                options={allYears.map(y => ({ label: y, value: y }))}
+              />
+              <GlassSelect
+                value={filterCity}
+                onChange={setFilterCity}
+                placeholder="City"
+                options={allCities.map(c => ({ label: c, value: c }))}
+              />
+              {hasFilters && (
+                <button
+                  onClick={() => { setQuery(""); setFilterName(""); setFilterYear(""); setFilterCity(""); }}
+                  className="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[12px] font-bold text-[#520380] bg-white border border-[#520380]/20 hover:bg-[#f3e8ff] transition-all whitespace-nowrap"
+                >
+                  <HiXMark size={13} /> Clear all
+                </button>
+              )}
             </div>
           </div>
         </section>
@@ -162,6 +186,7 @@ export default function ArchivesPage() {
               const currentEdition = conferences.find(c => c.name === archive.name);
               const gallerySlug = CONFERENCE_GALLERY_SLUG[`${archive.name}|${archive.year}`];
               const galleryCover = gallerySlug ? getGalleryBySlug(gallerySlug)?.cover : undefined;
+              const cityImage = CITY_IMAGES[getCity(archive.location).toLowerCase()];
               return (
                 <div
                   key={archive.id}
@@ -177,38 +202,26 @@ export default function ArchivesPage() {
                   {/* Image */}
                   <div className="w-full aspect-square md:aspect-[4/5] lg:aspect-square relative overflow-hidden">
                     <img
-                      src={galleryCover ?? fallbackImages[index % fallbackImages.length]}
+                      src={galleryCover ?? cityImage ?? fallbackImages[index % fallbackImages.length]}
                       alt={archive.name}
                       loading="lazy"
                       className="w-full h-full object-cover"
                     />
-                    {/* <div className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/10 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-full">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 text-white text-[11px] font-semibold">
                       <HiMapPin className="w-3.5 h-3.5" />
                       {formatCityCountry(archive.location)}
-                    </div> */}
+                    </div>
                   </div>
 
                   {/* Content */}
                   <div className="p-7 flex flex-col flex-1">
                     <h3 className="text-[19px] font-bold text-[#111] mb-3 tracking-tight">
-                      {archive.name} {getCountry(archive.location)}, {archive.year}
+                      {archive.name}
+                      {archive.name.toUpperCase().includes(getCountry(archive.location).toUpperCase())
+                        ? ""
+                        : ` ${getCountry(archive.location)}`}, {archive.year}
                     </h3>
-
-                    {/* City / Country / Venue */}
-                    <dl className="grid grid-cols-3 gap-2 mb-4 text-center">
-                      <div className="rounded-lg bg-[#520380]/5 py-2 px-1">
-                        <dt className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">City</dt>
-                        <dd className="text-[12px] font-bold text-[#111] truncate">{getCity(archive.location) || "—"}</dd>
-                      </div>
-                      <div className="rounded-lg bg-[#520380]/5 py-2 px-1">
-                        <dt className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">Country</dt>
-                        <dd className="text-[12px] font-bold text-[#111] truncate">{getCountry(archive.location)}</dd>
-                      </div>
-                      <div className="rounded-lg bg-[#520380]/5 py-2 px-1">
-                        <dt className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">Venue</dt>
-                        <dd className="text-[12px] font-bold text-[#111] truncate">{archive.venueName || "TBA"}</dd>
-                      </div>
-                    </dl>
 
                     <p className="text-[13px] text-gray-600 leading-[1.7] font-medium mb-2">
                       Explore the event gallery and access the{" "}
@@ -220,15 +233,7 @@ export default function ArchivesPage() {
                       >
                         Publication Details
                       </a>{" "}
-                      from this edition, or view the{" "}
-                      <a
-                        href={`${archive.website}#gallery`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"
-                      >
-                        Gallery
-                      </a>.
+                      from this edition.
                     </p>
                     {currentEdition && (
                       <a

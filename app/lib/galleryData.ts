@@ -19,9 +19,10 @@ const CAIRO_IMAGES = [
 ];
 
 const BANGKOK_IMAGES = [
-  "/Thailand/Physical%20Data/0.jpg",
   "/Thailand/Physical%20Data/1.jpg",
+  "/Thailand/Physical%20Data/2.jpg",
   "/Thailand/Physical%20Data/3.jpg",
+  "/Thailand/Physical%20Data/4.jpg",
   "/Thailand/Physical%20Data/12.jpg",
   "/Thailand/Physical%20Data/14.jpg",
   "/Thailand/Physical%20Data/21.jpg",
@@ -52,7 +53,6 @@ const BANGKOK_IMAGES = [
   "/Thailand/Physical%20Data/102.jpg",
   "/Thailand/Physical%20Data/103.jpg",
   "/Thailand/Physical%20Data/105.jpg",
-  "/Thailand/Physical%20Data/115.jpg",
   "/Thailand/Physical%20Data/125.jpg",
   "/Thailand/Physical%20Data/128.jpg",
   "/Thailand/Physical%20Data/132.jpg",
@@ -119,6 +119,7 @@ const WORLDS4_2022_IMAGES = [
 ];
 
 const ICTCS_2022_IMAGES = [
+  "/7th%20ICTCS%202022/Physical%20Data/1.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/5.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/DSC03628.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/DSC03629.jpg",
@@ -151,7 +152,6 @@ const ICTCS_2022_IMAGES = [
   "/7th%20ICTCS%202022/Physical%20Data/DSC03929.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/DSC03931.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/DSC03932.jpg",
-  "/7th%20ICTCS%202022/Physical%20Data/DSC03938.jpg",
   "/7th%20ICTCS%202022/Physical%20Data/DSC03943.jpg",
 ];
 
@@ -159,15 +159,17 @@ function toGallery(images: string[]): GalleryImage[] {
   return images.map((src) => ({ src, type: "conference" as const }));
 }
 
-// Each gallery's cover/thumb1/thumb2 are hand-picked (not just images[0..2]) so the city-card
-// mosaic always reads as: 1) City/venue establishing shot, 2) conference photo with people,
-// 3) venue/hall shot — per the requested "City, People, Venue" preview order.
+// Each gallery's cover/thumb1/thumb2 follow a fixed mosaic order:
+// 1) cover  — the /Country city-establishing shot (falls back to a curated photo when no
+//    matching file exists yet in /public/Country for that gallery's city)
+// 2) thumb1 — the file literally named "1.*" in that gallery's own photo folder
+// 3) thumb2 — another representative photo from the set
 export const cities: CityGallery[] = [
   {
     slug: "cairo",
     city: "Cairo",
     country: "Egypt",
-    cover: "/cairo/4.jpeg",
+    cover: "/Country/Cairo.webp",
     thumb1: "/cairo/1.jpeg",
     thumb2: "/cairo/6.jpeg",
     images: toGallery(CAIRO_IMAGES),
@@ -176,26 +178,28 @@ export const cities: CityGallery[] = [
     slug: "bangkok",
     city: "Bangkok",
     country: "Thailand",
-    cover: "/Thailand/Physical%20Data/0.jpg",
-    thumb1: "/Thailand/Physical%20Data/58.jpg",
+    cover: "/Country/Bangkok.jpg",
+    thumb1: "/Thailand/Physical%20Data/1.jpg",
     thumb2: "/Thailand/Physical%20Data/128.jpg",
     images: toGallery(BANGKOK_IMAGES),
   },
   {
-    slug: "worlds4-2022",
-    city: "WORLDS4 2022",
+    slug: "london",
+    city: "London",
     country: "United Kingdom",
-    cover: "/6th%20Worlds4%202022/Physical%20Data/5A2A6902.jpg",
-    thumb1: "/6th%20Worlds4%202022/Physical%20Data/5A2A7139.jpg",
-    thumb2: "/6th%20Worlds4%202022/Physical%20Data/5A2A6911.jpg",
+    // No /Country photo for the UK yet — falls back to the conference banner shot.
+    cover: "/Country/London.jpg",
+    thumb1: "/6th%20Worlds4%202022/Physical%20Data/1.jpg",
+    thumb2: "/6th%20Worlds4%202022/Physical%20Data/5A2A7139.jpg",
     images: toGallery(WORLDS4_2022_IMAGES),
   },
   {
     slug: "ictcs-2022",
     city: "Chandigarh",
     country: "India",
-    cover: "/7th%20ICTCS%202022/Physical%20Data/DSC03628.jpg",
-    thumb1: "/7th%20ICTCS%202022/Physical%20Data/DSC03743.jpg",
+    // No /Country photo for Chandigarh yet — falls back to the venue banner shot.
+    cover: "/Country/chandigarh.avif",
+    thumb1: "/7th%20ICTCS%202022/Physical%20Data/1.jpg",
     thumb2: "/7th%20ICTCS%202022/Physical%20Data/DSC03899.jpg",
     images: toGallery(ICTCS_2022_IMAGES),
   },

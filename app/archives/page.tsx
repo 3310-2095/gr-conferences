@@ -224,9 +224,18 @@ export default function ArchivesPage() {
                     </h3>
 
                     <p className="text-[13px] text-gray-600 leading-[1.7] font-medium mb-2">
-                      Explore the event gallery and access the{" "}
+                      Explore the{" "}
                       <a
-                        href={archive.website}
+                        href={`${archive.website}#gallery`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"
+                      >
+                        event gallery
+                      </a>{" "}
+                      and access the{" "}
+                      <a
+                        href={`${archive.website}#publication`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"
@@ -236,24 +245,14 @@ export default function ArchivesPage() {
                       from this edition.
                     </p>
                     {currentEdition && (
-                      <div className="mt-auto pt-2 flex items-center gap-4">
-                        <a
-                          href={`${currentEdition.website}#gallery`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
-                        >
-                          Gallery →
-                        </a>
-                        <a
-                          href={`${currentEdition.website}#publication`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
-                        >
-                          Publication →
-                        </a>
-                      </div>
+                      <a
+                        href={currentEdition.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-auto pt-2 text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
+                      >
+                        View current edition website →
+                      </a>
                     )}
                   </div>
                 </div>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cities } from "../../lib/galleryData";
+import SkeletonImage from "../SkeletonImage";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -49,33 +50,36 @@ export default function GalleryCities() {
             >
               <Link href={`/gallery/${c.slug}`} className="group block">
                 {/* Mosaic preview */}
-                <div className="relative flex gap-1 h-[260px] rounded-2xl overflow-hidden">
-                  <div className="relative flex-[1.6] overflow-hidden">
-                    <img
-                      src={c.cover}
-                      alt={c.city}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="relative flex-1 flex flex-col gap-1">
-                    <div className="relative flex-1 overflow-hidden">
-                      <img
-                        src={c.thumb1}
-                        alt=""
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  <div className="relative flex gap-1 h-[260px] rounded-2xl overflow-hidden">
+                    <div className="relative flex-[1.6] overflow-hidden">
+                      <SkeletonImage
+                        src={c.cover}
+                        alt={c.city}
+                        fill
+                        sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 25vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
-                    <div className="relative flex-1 overflow-hidden">
-                      <img
-                        src={c.thumb2}
-                        alt=""
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                    <div className="relative flex-1 flex flex-col gap-1">
+                      <div className="relative flex-1 overflow-hidden">
+                        <SkeletonImage
+                          src={c.thumb1}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 40vw, 15vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="relative flex-1 overflow-hidden">
+                        <SkeletonImage
+                          src={c.thumb2}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 40vw, 15vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
                     </div>
-                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-transparent group-hover:from-black/10 transition-colors duration-300 pointer-events-none" />
                 </div>
 

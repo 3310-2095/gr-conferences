@@ -1,19 +1,58 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { HiArrowLeft, HiMapPin } from "react-icons/hi2";
 import { getCity } from "../../lib/galleryData";
+import SkeletonImage from "../SkeletonImage";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 // Cycle through a few heights so the masonry columns feel organic, Pinterest-style
 const HEIGHTS = ["h-56", "h-72", "h-64", "h-80", "h-60", "h-96"];
 
+// Renders a batch at a time instead of mounting every photo (some galleries have 90+
+// full-resolution images) — keeps the number of concurrent image requests down.
+const BATCH_SIZE = 24;
+
 export default function CityGalleryPage() {
   const params = useParams<{ slug: string }>();
   const city = getCity(params.slug);
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const isLoadingRef = useRef(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+  }, [params.slug]);
+
+  const total = city?.images.length ?? 0;
+  const hasMore = visibleCount < total;
+
+  const loadMore = useCallback(() => {
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
+    // Small delay so the loader is visible instead of an instant, jarring pop-in.
+    setTimeout(() => {
+      setVisibleCount((c) => Math.min(c + BATCH_SIZE, total));
+      isLoadingRef.current = false;
+    }, 400);
+  }, [total]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel || !hasMore) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: "400px" }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loadMore]);
 
   if (!city) {
     return (
@@ -65,7 +104,7 @@ export default function CityGalleryPage() {
       {/* Pinterest-style masonry */}
       <section className="max-w-[1400px] mx-auto px-6 lg:px-12 pb-24">
         <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
-          {city.images.map((img, i) => (
+          {city.images.slice(0, visibleCount).map((img, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -74,16 +113,26 @@ export default function CityGalleryPage() {
               viewport={{ once: true, margin: "-40px" }}
               className={`relative mb-3 rounded-xl overflow-hidden break-inside-avoid group ${HEIGHTS[i % HEIGHTS.length]}`}
             >
-              <img
+              <SkeletonImage
                 src={img.src}
                 alt={`${city.city} ${img.type}`}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
+
+        {hasMore && (
+          <div ref={sentinelRef} className="flex justify-center items-center py-10">
+            <span
+              className="w-6 h-6 rounded-full border-2 border-[#520380]/20 border-t-[#520380] animate-spin"
+              aria-label="Loading more photos"
+            />
+          </div>
+        )}
       </section>
     </main>
   );

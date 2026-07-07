@@ -18,8 +18,7 @@ const footerLinks = {
   ],
   Organization: [
     { label: "GRS Global",                        href: "#" },
-    { label: "Policies",                          href: "#" },
-    { label: "FAQs",                              href: "#" },
+    { label: "Policies",                          href: "/policies" },
     { label: "Get in Touch",                      href: "/get-in-touch" },
   ],
 };
@@ -50,7 +49,7 @@ export default function Footer() {
                 <FaLinkedinIn className="text-[#520380] text-base group-hover:scale-110 transition-transform" />
               </a>
               <a href="https://www.gr-connect.org/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl overflow-hidden hover:-translate-y-1 shadow-lg transition-all" title="GR Connect">
-                <Image src="/connect.jpeg" alt="GR Connect" width={36} height={36} className="w-full h-full object-cover" />
+                <Image src="/connect.png" alt="GR Connect" width={36} height={36} className="w-full h-full object-cover" />
               </a>
             </div>
           </div>
@@ -89,8 +88,8 @@ export default function Footer() {
         <div className="pt-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-3">
           <p className="text-[#9CA3AF] text-[12px]">© {new Date().getFullYear()} GR Foundation. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-5 text-[#9CA3AF] text-[12px]">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <Link href="/policies#privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/policies#terms" className="hover:text-white transition-colors">Terms of Service</Link>
             <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
             <a href="#" className="hover:text-white transition-colors">Sitemap</a>
           </div>

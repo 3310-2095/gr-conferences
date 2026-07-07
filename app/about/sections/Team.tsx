@@ -37,18 +37,11 @@ const sections = [
     members: executive,
   },
   {
-    id: "operations-team",
+    id: "conferences-team",
     eyebrow: "Conference Operations",
-    title: "Operations Team",
+    title: "Conferences Team",
     description: "Managing and supporting the complete conference cycle — from submission and review coordination to event delivery and post-conference support.",
-    members: operations,
-  },
-  {
-    id: "tech-team",
-    eyebrow: "Technology",
-    title: "IT & Digital Team",
-    description: "Powering the platforms, tools, and digital infrastructure that keep GR Conferences running seamlessly.",
-    members: tech,
+    members: [...operations, ...tech],
   },
 ];
 

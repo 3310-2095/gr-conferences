@@ -1,16 +1,32 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
 import { HiMapPin, HiMagnifyingGlass, HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getCity as getGalleryBySlug } from "../lib/galleryData";
 import GlassSelect from "../components/GlassSelect";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13, delayChildren: 0.2 } },
+};
+const heroFadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
+};
 
 // Maps a specific conference edition (name + year) to its real event-photo gallery, so a photo
 // set never lands on the wrong year's card. Only the exact editions we have real photos for are listed.
 const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
   "WORLDS4|2022": "worlds4-2022",
   "ICTCS|2022": "ictcs-2022",
+  "ICTIS AHMEDABAD|2024": "ictis-ahmedabad-2024",
+  "SMARTCOM|2024": "smartcom-2024",
+  "ICT4SD|2025": "ict4sd-2025",
+  "ICTCS|2023": "ictcs-2023",
+  "ICTIS THAILAND|2026": "bangkok",
 };
 
 // Real city photos we have on file — keyed by city name (lower-cased). Only the cities
@@ -94,40 +110,91 @@ export default function ArchivesPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[#f8f5fb] pt-[140px] pb-32 font-sans overflow-hidden">
-        
+      <main className="min-h-screen bg-[#f8f5fb] pb-32 font-sans overflow-hidden">
+
         {/* Hero Section */}
-        <section className="max-w-[1100px] mx-auto px-6 mb-28 relative">
-          <div className="relative flex flex-col md:flex-row mt-4 md:mt-16 justify-end items-center md:items-stretch">
-            
-            {/* Map Image (Background/Left) */}
-            <div className="w-full md:w-[60%] h-[300px] md:h-auto relative z-0 md:absolute md:left-0 md:-top-16 md:-bottom-16 md:-translate-x-10 mix-blend-multiply opacity-40 shadow-sm">
-              <img 
-                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop" 
-                alt="Map"
-                className="w-full h-full object-cover object-center grayscale-[30%] contrast-[0.9]"
-              />
-            </div>
-            
-            {/* Content Box (Right/Overlapping) */}
+        <section className="relative overflow-hidden mb-16" style={{ minHeight: "70svh", paddingTop: 72 }}>
+          {/* Full-bleed background image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/archive.avif"
+              alt=""
+              className="w-full h-full object-cover object-center scale-105"
+              style={{ filter: "brightness(0.4) saturate(1.1)" }}
+            />
             <div
-              className="w-full md:w-[55%] px-10 py-12 md:px-16 md:py-16 z-10 relative mt-[-60px] md:mt-0 md:mb-12 md:ml-auto"
+              className="absolute inset-0"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                backdropFilter: "blur(32px) saturate(180%)",
-                WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                border: "1px solid rgba(255,255,255,0.3)",
-                boxShadow: "0 8px 40px rgba(82,3,128,0.06), inset 0 1px 1px rgba(255,255,255,0.35)",
+                background:
+                  "linear-gradient(120deg, rgba(30,5,60,0.85) 0%, rgba(10,2,30,0.68) 50%, rgba(60,10,100,0.58) 100%)",
               }}
-            >
-              <h1 className="text-3xl md:text-[42px] font-bold text-[#520380] mb-6 tracking-tight leading-tight">
-                Conference Archives
-              </h1>
-              <p className="text-gray-600 text-[15px] leading-[1.9] font-medium max-w-[450px]">
-                Explore the legacy of GR Conferences through past editions, featuring conference proceedings and event galleries from our global conference portfolio.
-              </p>
-            </div>
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(to top, #121212 0%, transparent 40%)" }}
+            />
           </div>
+
+          <div
+            aria-hidden
+            className="absolute bottom-0 right-0 w-[600px] h-[400px] pointer-events-none z-[1]"
+            style={{ background: "radial-gradient(ellipse at bottom right, rgba(124,58,237,0.25) 0%, transparent 65%)" }}
+          />
+
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 h-full flex items-center">
+            <motion.div
+              variants={heroContainer}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col max-w-3xl py-20 lg:py-28"
+            >
+              <motion.div variants={heroFadeUp} className="flex items-center gap-3 mb-7">
+                <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-white/60">
+                  Archives
+                </span>
+              </motion.div>
+
+              <motion.h1
+                variants={heroFadeUp}
+                className="font-extrabold text-white leading-[1.06] tracking-tight mb-6"
+                style={{ fontSize: "clamp(2.2rem, 4.2vw, 4rem)", fontFamily: "'Playfair Display', serif" }}
+              >
+                Conference
+                <br />
+                <span
+                  style={{
+                    background: "linear-gradient(90deg, #a78bfa 0%, #7c3aed 50%, #520380 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  Archives
+                </span>
+              </motion.h1>
+
+              <motion.div
+                variants={{
+                  hidden: { width: 0, opacity: 0 },
+                  show: { width: 56, opacity: 1, transition: { duration: 0.8, ease, delay: 0.1 } },
+                }}
+                className="h-[3px] bg-[#520380] rounded-full mb-7"
+              />
+
+              <motion.p
+                variants={heroFadeUp}
+                className="text-[#D1D5DB] text-base lg:text-lg leading-[1.85] max-w-xl"
+              >
+                Explore the legacy of GR Conferences through past editions, featuring conference proceedings and event galleries from our global conference portfolio.
+              </motion.p>
+            </motion.div>
+          </div>
+
+          <div
+            aria-hidden
+            className="absolute bottom-0 inset-x-0 h-28 pointer-events-none"
+            style={{ background: "linear-gradient(to top, #121212, transparent)" }}
+          />
         </section>
 
         {/* Search Section */}
@@ -190,13 +257,10 @@ export default function ArchivesPage() {
               return (
                 <div
                   key={archive.id}
-                  className="flex flex-col hover:-translate-y-1 transition-transform duration-300"
+                  className="flex flex-col hover:-translate-y-1 transition-transform duration-300 bg-white rounded-xl overflow-hidden"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    backdropFilter: "blur(32px) saturate(180%)",
-                    WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    boxShadow: "0 8px 32px rgba(82,3,128,0.06), inset 0 1px 1px rgba(255,255,255,0.35)",
+                    border: "1px solid rgba(82,3,128,0.08)",
+                    boxShadow: "0 4px 24px rgba(82,3,128,0.06)",
                   }}
                 >
                   {/* Image */}

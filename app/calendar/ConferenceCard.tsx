@@ -88,9 +88,9 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
               href={conf.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
+              className="px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
             >
-              Visit Website
+              Register Now
             </a>
             <a
               href={conf.website}
@@ -104,15 +104,25 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
         </div>
 
         {/* Deadlines */}
-        <div className="flex flex-wrap gap-8 mb-5">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Paper Submission</p>
-            <p className="text-[13px] font-semibold text-gray-700">{conf.submissionDeadline || "TBA"}</p>
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-5">
+          <div className="flex flex-wrap gap-8">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Paper Submission</p>
+              <p className="text-[13px] font-semibold text-gray-700">{conf.submissionDeadline || "TBA"}</p>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Registration</p>
+              <p className="text-[13px] font-semibold text-gray-700">{conf.registrationDeadline || "TBA"}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Registration</p>
-            <p className="text-[13px] font-semibold text-gray-700">{conf.registrationDeadline || "TBA"}</p>
-          </div>
+          <a
+            href={conf.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-[#520380] hover:text-[#38015c] transition-colors"
+          >
+            Visit Website <HiArrowRight className="w-3.5 h-3.5" />
+          </a>
         </div>
 
         <div className="w-full h-px border-t border-dashed border-gray-200 mb-4" />
@@ -144,7 +154,7 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
               ))}
             </ul>
           ) : (
-            <p className="text-[12px] text-gray-400">No previous editions recorded.</p>
+            <p className="text-[12px] text-gray-400">This is the first edition</p>
           )}
         </div>
 

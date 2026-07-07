@@ -76,27 +76,45 @@ export function buildIcsCalendar(entries: { conf: Conference; range: DateRange }
 
 export type StatusBadge = { label: string; dotClass: string; pillClass: string };
 
+// Every label gets its own distinct color — nothing shares a swatch with another status,
+// so "Completed" reads as clearly different from e.g. "Registration Closed" at a glance.
+const STATUS_STYLES: Record<string, { dotClass: string; pillClass: string }> = {
+  "Completed": { dotClass: "bg-gray-500", pillClass: "bg-gray-800 text-white" },
+  "Registration Closed": { dotClass: "bg-red-500", pillClass: "bg-red-50 text-red-600" },
+  "Registration Open": { dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" },
+  "Paper Submission Open": { dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" },
+  "Paper Submission closed": { dotClass: "bg-orange-500", pillClass: "bg-orange-50 text-orange-700" },
+  "Registration Ongoing": { dotClass: "bg-blue-500", pillClass: "bg-blue-50 text-blue-700" },
+  "First Deadline Approaching": { dotClass: "bg-rose-500", pillClass: "bg-rose-50 text-rose-700" },
+  "Registration Not Yet Open": { dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-500" },
+  "Upcoming": { dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" },
+};
+
+function badge(label: keyof typeof STATUS_STYLES): StatusBadge {
+  return { label, ...STATUS_STYLES[label] };
+}
+
 /** Derives a status badge from real fields — compares deadlines against `today` so a
  *  submissionDeadline/registrationDeadline that has already passed shows as closed. */
 export function getStatusBadge(conf: Conference, today: Date = new Date()): StatusBadge {
   if (conf.status === "past") {
-    return { label: "Completed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
+    return badge("Completed");
   }
   if (conf.submissionDeadline) {
     const range = parseConferenceDateRange(conf.submissionDeadline, conf.year);
     if (range && range.end < today) {
-      return { label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
+      return badge("Paper Submission closed");
     }
-    return { label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" };
+    return badge("Paper Submission Open");
   }
   if (conf.registrationDeadline) {
     const range = parseConferenceDateRange(conf.registrationDeadline, conf.year);
     if (range && range.end < today) {
-      return { label: "Registration Closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" };
+      return badge("Registration Closed");
     }
-    return { label: "Registration Open", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
+    return badge("Registration Open");
   }
-  return { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" };
+  return badge("Upcoming");
 }
 
 const FIRST_DEADLINE_APPROACHING_DAYS = 30;
@@ -107,7 +125,7 @@ const FIRST_DEADLINE_APPROACHING_DAYS = 30;
  *  secondary status applies. */
 export function getStatusBadges(conf: Conference, today: Date = new Date()): StatusBadge[] {
   if (conf.status === "past") {
-    return [{ label: "Completed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }];
+    return [badge("Completed")];
   }
 
   const submissionRange = conf.submissionDeadline
@@ -122,40 +140,34 @@ export function getStatusBadges(conf: Conference, today: Date = new Date()): Sta
   if (conf.registrationDeadline) {
     const range = parseConferenceDateRange(conf.registrationDeadline, conf.year);
     if (range && range.end < today) {
-      return [{ label: "Registration Closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }];
+      return [badge("Registration Closed")];
     }
-    const registrationOpen: StatusBadge = { label: "Registration Open", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
+    const registrationOpen = badge("Registration Open");
     if (submissionStatus === "open") {
-      return [{ label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" }, registrationOpen];
+      return [badge("Paper Submission Open"), registrationOpen];
     }
     if (submissionStatus === "closed") {
-      return [{ label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }, registrationOpen];
+      return [badge("Paper Submission closed"), registrationOpen];
     }
     return [registrationOpen];
   }
 
   if (submissionStatus === "open") {
-    const badges: StatusBadge[] = [{ label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" }];
+    const badges: StatusBadge[] = [badge("Paper Submission Open")];
     if (submissionRange) {
       const daysLeft = Math.ceil((submissionRange.end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
       if (daysLeft <= FIRST_DEADLINE_APPROACHING_DAYS) {
-        badges.push({ label: "First Deadline Approaching", dotClass: "bg-rose-500", pillClass: "bg-rose-50 text-rose-700" });
+        badges.push(badge("First Deadline Approaching"));
       }
     }
     return badges;
   }
 
   if (submissionStatus === "closed") {
-    return [
-      { label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" },
-      { label: "Registration Ongoing", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" },
-    ];
+    return [badge("Paper Submission closed"), badge("Registration Ongoing")];
   }
 
-  return [
-    { label: "Registration Not Yet Open", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" },
-    { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" },
-  ];
+  return [badge("Registration Not Yet Open"), badge("Upcoming")];
 }
 
 export function downloadIcs(filename: string, content: string) {

@@ -13,9 +13,21 @@ export default function CommunityCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease }}
           viewport={{ once: true, margin: "-80px" }}
-          className="w-full bg-white rounded-sm shadow-[0_12px_40px_rgba(82,3,128,0.08)] border border-gray-100 py-12 px-8 md:px-16"
+          className="relative w-full bg-white rounded-sm shadow-[0_12px_40px_rgba(82,3,128,0.08)] border border-gray-100 py-12 overflow-hidden"
         >
-          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+          {/* Background watermark */}
+          <motion.img
+            src="/connect1.png"
+            alt=""
+            aria-hidden="true"
+            initial={{ x: "80px", opacity: 0 }}
+            whileInView={{ x: 0, opacity: 0.04 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease }}
+            className="hidden md:block absolute bottom-0 right-0 h-40 lg:h-52 w-auto pointer-events-none select-none brightness-0 mb-7"
+          />
+
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-16">
             {/* LEFT: Image */}
             <div className="flex-1 w-full flex justify-center md:justify-end shrink-0 max-w-[280px] md:max-w-[340px]">
               <img

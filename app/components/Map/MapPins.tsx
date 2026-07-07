@@ -5,6 +5,7 @@ import { Marker } from "react-simple-maps";
 import { destinations, type Destination } from "./destinations";
 
 const LABEL_CYCLE_MS = 1400;
+const SIMULTANEOUS = 3;
 
 interface MapPinsProps {
   visibleCount: number;
@@ -49,6 +50,69 @@ interface ClusterPinProps {
   activeCity: string | null;
 }
 
+const LABEL_PLACEMENT: Record<string, "above" | "below" | "left" | "right"> = {
+  "Ahmedabad":  "left",
+  "Udaipur":    "below",
+  "Chandigarh": "above",
+  "Almaty":     "above",
+  "Goa":        "left",
+};
+
+function getLabelPos(city: string, lat: number, ph: number, s: number) {
+  const side = LABEL_PLACEMENT[city] ?? (lat > 20 ? "above" : "below");
+  switch (side) {
+    case "above": return { x: -60 * s, y: -ph - 22 * s, align: "center" as const };
+    case "below": return { x: -60 * s, y: s * 2,         align: "center" as const };
+    case "left":  return { x: -130 * s, y: -ph + 4 * s,  align: "right"  as const };
+    case "right": return { x: 10 * s,   y: -ph + 4 * s,  align: "left"   as const };
+  }
+}
+
+function CityLabel({ city, lat, ph, s }: { city: string; lat: number; ph: number; s: number }) {
+  const { x, y, align } = getLabelPos(city, lat, ph, s);
+  const transform =
+    align === "right" ? "translateX(-100%)" :
+    align === "left"  ? "translateX(0)" :
+    "translateX(-50%)";
+  const marginLeft = align === "center" ? "50%" : 0;
+
+  return (
+    <AnimatePresence>
+      <motion.g
+        key={city}
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.7 }}
+        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+        style={{ originX: "0px", originY: "0px" }}
+      >
+        <foreignObject
+          x={x}
+          y={y}
+          width={120 * s}
+          height={30 * s}
+          style={{ overflow: "visible", pointerEvents: "none" }}
+        >
+          <div style={{ display: "inline-block", transform, marginLeft, whiteSpace: "nowrap" }}>
+            <span
+              style={{
+                color: "#3a015c",
+                fontWeight: 700,
+                fontSize: 11 * s,
+                letterSpacing: "-0.01em",
+                whiteSpace: "nowrap",
+                textShadow: "0 1px 2px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.9)",
+              }}
+            >
+              {city}
+            </span>
+          </div>
+        </foreignObject>
+      </motion.g>
+    </AnimatePresence>
+  );
+}
+
 function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinProps) {
   const [hovered, setHovered] = useState(false);
   const { lat, lng, cities } = cluster;
@@ -56,15 +120,11 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
   const isMulti = cities.length > 1;
   const gradId = `pg-${index}-${cities[0].replace(/\s/g, "")}`;
 
-  // Scale pin inversely with zoom so it stays the same visual size
-  // Base size at zoom=1, shrinks proportionally as zoom increases
   const s = 1 / zoom;
-
-  // Pin dimensions in SVG units (scaled)
-  const pw = 11 * s;   // pin width  (half = 5.5s)
-  const ph = 14 * s;   // pin height
-  const pr = 3.5 * s;  // circle radius inside pin
-  const tipY = ph;     // tip of pin at y=ph (anchor point)
+  const pw = 11 * s;
+  const ph = 14 * s;
+  const pr = 3.5 * s;
+  const tipY = ph;
 
   return (
     <Marker coordinates={[lng, lat]}>
@@ -73,31 +133,15 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
         onMouseLeave={() => setHovered(false)}
         style={{ cursor: "pointer" }}
       >
-        {/* Pulse ring — only on hover */}
         {hovered && (
-          <circle
-            cx={0}
-            cy={-tipY + pr}
-            r={pw * 0.9}
-            fill="none"
-            stroke="rgba(139,92,246,0.5)"
-            strokeWidth={s * 1.5}
-          >
+          <circle cx={0} cy={-tipY + pr} r={pw * 0.9} fill="none" stroke="rgba(139,92,246,0.5)" strokeWidth={s * 1.5}>
             <animate attributeName="r" from={pw * 0.9} to={pw * 2.2} dur="0.8s" repeatCount="indefinite" />
             <animate attributeName="opacity" from="0.6" to="0" dur="0.8s" repeatCount="indefinite" />
           </circle>
         )}
 
-        {/* Ground shadow */}
-        <ellipse
-          cx={0}
-          cy={0}
-          rx={pw * 0.55}
-          ry={s * 1.2}
-          fill="rgba(82,3,128,0.18)"
-        />
+        <ellipse cx={0} cy={0} rx={pw * 0.55} ry={s * 1.2} fill="rgba(82,3,128,0.18)" />
 
-        {/* Pin body — SVG teardrop, tip at (0,0), body above */}
         <motion.g
           initial={{ scale: 0, opacity: 0 }}
           animate={visible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
@@ -110,20 +154,14 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
         >
           <defs>
             <linearGradient id={gradId} x1="0" y1={-tipY} x2="0" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor={hovered ? "#a78bfa" : "#c084fc"} />
+              <stop offset="0%"   stopColor={hovered ? "#a78bfa" : "#c084fc"} />
               <stop offset="100%" stopColor={hovered ? "#5b21b6" : "#4c0080"} />
             </linearGradient>
             <filter id={`shadow-${index}`} x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow
-                dx="0"
-                dy={s * 2}
-                stdDeviation={s * 3}
-                floodColor="rgba(82,3,128,0.6)"
-              />
+              <feDropShadow dx="0" dy={s * 2} stdDeviation={s * 3} floodColor="rgba(82,3,128,0.6)" />
             </filter>
           </defs>
 
-          {/* Teardrop: tip at (0,0), circle center at (0, -tipY + pr) */}
           <path
             d={`
               M 0 0
@@ -136,29 +174,10 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
             filter={`url(#shadow-${index})`}
           />
 
-          {/* Inner white ring */}
-          <circle
-            cx={0}
-            cy={-tipY + pr}
-            r={pr * 0.65}
-            fill="none"
-            stroke="white"
-            strokeWidth={s * 1.2}
-            opacity={0.9}
-          />
+          <circle cx={0} cy={-tipY + pr} r={pr * 0.65} fill="none" stroke="white" strokeWidth={s * 1.2} opacity={0.9} />
 
-          {/* Count or dot */}
           {isMulti ? (
-            <text
-              x={0}
-              y={-tipY + pr + s * 2.2}
-              textAnchor="middle"
-              fill="white"
-              fontSize={s * 5}
-              fontWeight="bold"
-              fontFamily="sans-serif"
-              opacity={0.95}
-            >
+            <text x={0} y={-tipY + pr + s * 2.2} textAnchor="middle" fill="white" fontSize={s * 5} fontWeight="bold" fontFamily="sans-serif" opacity={0.95}>
               {cities.length}
             </text>
           ) : (
@@ -166,58 +185,11 @@ function ClusterPin({ cluster, index, visible, zoom, activeCity }: ClusterPinPro
           )}
         </motion.g>
 
-        {/* Invisible hit area for easier hover */}
-        <rect
-          x={-pw}
-          y={-ph - s * 2}
-          width={pw * 2}
-          height={ph + s * 2}
-          fill="transparent"
-        />
+        <rect x={-pw} y={-ph - s * 2} width={pw * 2} height={ph + s * 2} fill="transparent" />
 
-        {/* Auto-cycling city label — small floating text, no popup card */}
-        <AnimatePresence>
-          {isActive && (
-            <motion.g
-              key={activeCity}
-              initial={{ opacity: 0, scale: 0.7, y: 4 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.7, y: 4 }}
-              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-              style={{ originX: "0px", originY: "0px" }}
-            >
-              <foreignObject
-                x={-60 * s}
-                y={lat > 30 ? s * 1 : (-ph - 22 * s)}
-                width={120 * s}
-                height={30 * s}
-                style={{ overflow: "visible", pointerEvents: "none" }}
-              >
-                <div
-                  style={{
-                    display: "inline-block",
-                    transform: "translateX(-50%)",
-                    marginLeft: "50%",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: "#3a015c",
-                      fontWeight: 700,
-                      fontSize: 11 * s,
-                      letterSpacing: "-0.01em",
-                      whiteSpace: "nowrap",
-                      textShadow: "0 1px 2px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.9)",
-                    }}
-                  >
-                    {activeCity}
-                  </span>
-                </div>
-              </foreignObject>
-            </motion.g>
-          )}
-        </AnimatePresence>
+        {isActive && activeCity && (
+          <CityLabel city={activeCity} lat={lat} ph={ph} s={s} />
+        )}
       </g>
     </Marker>
   );
@@ -230,17 +202,24 @@ export default function MapPins({ visibleCount, zoom = 1 }: MapPinsProps) {
   );
 
   const allRevealed = visibleCount >= destinations.length;
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
     if (!allRevealed) return;
-    const id = setInterval(() => {
-      setActiveIdx((i) => (i + 1) % destinations.length);
-    }, LABEL_CYCLE_MS);
+    const id = setInterval(() => setTick((t) => t + 1), LABEL_CYCLE_MS);
     return () => clearInterval(id);
   }, [allRevealed]);
 
-  const activeCity = allRevealed ? destinations[activeIdx].city : null;
+  const activeCities = useMemo(() => {
+    if (!allRevealed) return new Set<string>();
+    const n = destinations.length;
+    const step = Math.floor(n / SIMULTANEOUS);
+    return new Set(
+      Array.from({ length: SIMULTANEOUS }, (_, k) =>
+        destinations[(tick + k * step) % n].city
+      )
+    );
+  }, [tick, allRevealed]);
 
   return (
     <>
@@ -251,7 +230,7 @@ export default function MapPins({ visibleCount, zoom = 1 }: MapPinsProps) {
           index={i}
           visible={cluster.revealIndex < visibleCount}
           zoom={zoom}
-          activeCity={activeCity}
+          activeCity={cluster.cities.find((c) => activeCities.has(c)) ?? null}
         />
       ))}
     </>

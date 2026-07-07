@@ -1,6 +1,7 @@
   "use client";
 import Link from "next/link";
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGlobe } from "react-icons/fa6";
+import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa6";
+import Image from "next/image";
 
 const footerLinks = {
   Conferences: [
@@ -15,8 +16,7 @@ const footerLinks = {
     { label: "GR Quotient",           href: "#" },
     { label: "GR Author Services",    href: "#" },
   ],
-  Resources: [
-    { label: "Organization",                      href: "#" },
+  Organization: [
     { label: "GRS Global",                        href: "#" },
     { label: "Policies",                          href: "#" },
     { label: "FAQs",                              href: "#" },
@@ -49,8 +49,8 @@ export default function Footer() {
               <a href="#" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
                 <FaLinkedinIn className="text-[#520380] text-base group-hover:scale-110 transition-transform" />
               </a>
-              <a href="https://www.gr-connect.org/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group" title="GR Connect">
-                <FaGlobe className="text-[#520380] text-base group-hover:scale-110 transition-transform" />
+              <a href="https://www.gr-connect.org/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl overflow-hidden hover:-translate-y-1 shadow-lg transition-all" title="GR Connect">
+                <Image src="/connect.jpeg" alt="GR Connect" width={36} height={36} className="w-full h-full object-cover" />
               </a>
             </div>
           </div>

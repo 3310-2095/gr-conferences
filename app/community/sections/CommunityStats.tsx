@@ -17,7 +17,7 @@ const stats: { value: number; suffix: string; label: string; Icon: IconType }[] 
   { value: 4200,   suffix: "+", label: "Reviewers",       Icon: HiOutlineDocumentMagnifyingGlass },
   { value: 200,    suffix: "+", label: "Speakers",        Icon: HiOutlineMicrophone },
   { value: 950,    suffix: "+", label: "Session Chairs",  Icon: HiOutlineUserGroup },
-  { value: 125,    suffix: "+", label: "Countries",       Icon: HiOutlineGlobeAlt },
+  { value: 150,    suffix: "+", label: "Countries",       Icon: HiOutlineGlobeAlt },
   { value: 350000, suffix: "+", label: "Total Community", Icon: HiOutlineUsers },
 ];
 

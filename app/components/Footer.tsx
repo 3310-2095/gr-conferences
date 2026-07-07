@@ -1,6 +1,6 @@
-"use client";
+  "use client";
 import Link from "next/link";
-import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa6";
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGlobe } from "react-icons/fa6";
 
 const footerLinks = {
   Conferences: [
@@ -16,10 +16,11 @@ const footerLinks = {
     { label: "GR Author Services",    href: "#" },
   ],
   Resources: [
-   
-    { label: "FAQs",                              href: "#" },
+    { label: "Organization",                      href: "#" },
+    { label: "GRS Global",                        href: "#" },
     { label: "Policies",                          href: "#" },
-    { label: "Contact",                           href: "#" },
+    { label: "FAQs",                              href: "#" },
+    { label: "Get in Touch",                      href: "/get-in-touch" },
   ],
 };
 
@@ -47,6 +48,9 @@ export default function Footer() {
             <div className="flex gap-3">
               <a href="#" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group">
                 <FaLinkedinIn className="text-[#520380] text-base group-hover:scale-110 transition-transform" />
+              </a>
+              <a href="https://www.gr-connect.org/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center hover:-translate-y-1 shadow-lg transition-all group" title="GR Connect">
+                <FaGlobe className="text-[#520380] text-base group-hover:scale-110 transition-transform" />
               </a>
             </div>
           </div>

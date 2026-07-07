@@ -46,7 +46,7 @@ const pillars: { tag: string; Icon: IconType; title: string; desc: string }[] = 
     tag: "Chronicle",
     Icon: LuNewspaper,
     title: "GR Chronicle",
-    desc: "Our quarterly flagship magazine highlighting GR's vision, research ecosystem, conferences, innovations, and global impact — distributed digitally and in print.",
+    desc: "Our quarterly magazine covering ecosystem news, conference updates, interviews, research highlights, and milestones from across the GR network.",
   },
 ];
 

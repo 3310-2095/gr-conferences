@@ -65,9 +65,14 @@ export default function WhySection() {
               className="relative w-full aspect-[4/5] rounded-sm overflow-hidden shadow-xl"
             >
               <img
-                src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y29uZmVyZW5jZSUyMG5ldHdvcmtpbmd8ZW58MHx8MHx8fDA%3D"
+                src="/Home banner.avif"
                 alt="Conference networking"
                 className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: "brightness(0.92) saturate(1.1)" }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(120deg, rgba(30,5,60,0.55) 0%, rgba(10,2,30,0.38) 50%, rgba(60,10,100,0.32) 100%)" }}
               />
 
               {/* Floating badge */}

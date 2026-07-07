@@ -236,14 +236,24 @@ export default function ArchivesPage() {
                       from this edition.
                     </p>
                     {currentEdition && (
-                      <a
-                        href={currentEdition.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-auto pt-2 text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
-                      >
-                        View current edition →
-                      </a>
+                      <div className="mt-auto pt-2 flex items-center gap-4">
+                        <a
+                          href={`${currentEdition.website}#gallery`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
+                        >
+                          Gallery →
+                        </a>
+                        <a
+                          href={`${currentEdition.website}#publication`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[12.5px] font-bold text-[#520380] hover:text-[#3A025B] transition-colors"
+                        >
+                          Publication →
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>

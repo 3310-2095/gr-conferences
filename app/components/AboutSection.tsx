@@ -257,7 +257,7 @@ export default function AboutSection() {
                   >
                     We bring together researchers, academicians, institutions,
                     and industry leaders to create meaningful connections and
-                    opportunities across 125+ countries.
+                    opportunities across 150+ countries.
                   </motion.span>
                 </motion.h2>
               </div>

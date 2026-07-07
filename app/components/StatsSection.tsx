@@ -5,10 +5,10 @@ import { motion, useInView } from "framer-motion";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
-  { value: 125, suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
-  { value: 350000, suffix: "+",  title: "Researchers", desc: "Empowering a growing global network of academic professionals." },
-  { value: 15000, suffix: "+",  title: "Researcher Papers",   desc: "High-quality academic publications and impactful journals." },
-  { value: 400000,  suffix: "+", title: "Community Members",    desc: "A rapidly growing community of dedicated researchers." },
+  { value: 150, suffix: "+",  title: "Countries Reached", desc: "A truly international presence connecting diverse institutions." },
+  { value: 100000, suffix: "+",  title: "Authors ", desc: "Empowering a growing global network of academic professionals." },
+  { value: 25000, suffix: "+",  title: "Researcher Papers",   desc: "High-quality academic publications and impactful journals." },
+  { value: 350000,  suffix: "+", title: "Community Members",    desc: "A rapidly growing community of dedicated researchers." },
 ];
 
 function fadeUp(delay = 0) {
@@ -98,7 +98,7 @@ export default function StatsSection() {
               style={{ minHeight: 280 }}
             >
               <img
-                src="/ourgrowingnetwork.jpg"
+                src="/sideimg.avif"
                 alt="Conference Audience"
                 className="w-full h-full object-cover object-center"
                 style={{ display: "block", minHeight: 280 }}

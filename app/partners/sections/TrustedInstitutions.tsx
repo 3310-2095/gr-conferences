@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -86,21 +86,27 @@ const institutions = [
   { file: "York University, Canada.jpg", name: "York University, Canada" },
 ];
 
-// Real institutional partner logos — a distinct set/section from the broader
-// "Participating Institutions" network above. A few filenames are duplicates
-// of the same logo (img02/img06/img07 etc.) — only one copy of each is listed.
+// Publication partners — indexing/publishing bodies, shown in their own tab.
+const publicationPartners = [
+  { file: "springer.png",                                      name: "Springer" },
+  { file: "springer_nature.jpg",                               name: "Springer Nature" },
+  { file: "IeeeUK&IrelandSection.gif",                         name: "IEEE" },
+  { file: "SCOPUS.png",                                        name: "Scopus" },
+  { file: "SCImago.png",                                       name: "SCImago" },
+  { file: "INSPEC.png",                                        name: "(IET) Inspec" },
+  { file: "DBLP.png",                                          name: "DBLP" },
+];
+
+// Real institutional partner logos — a distinct set/tab from Author Institutions and
+// Publication Partners above. A few filenames are duplicates of the same logo
+// (img02/img06/img07 etc.) — only one copy of each is listed.
 const institutionalPartners = [
   { file: "AACCI.jpg",                                        name: "Asian-African Chamber of Commerce & Industry" },
   { file: "Activatelearning.jpg",                              name: "Activate Learning" },
   { file: "AssociationPartner.png",                            name: "Delta Epsilon Society of Engineers" },
-  { file: "DBLP.png",                                          name: "DBLP" },
   { file: "EI-Compendex.png",                                  name: "Ei Compendex" },
-  { file: "INSPEC.png",                                        name: "IET Inspec" },
-  { file: "IeeeUK&IrelandSection.gif",                         name: "IEEE United Kingdom and Ireland Section" },
   { file: "Japanese-Science-and-Technology-Agency-(JST).png",  name: "Japan Science and Technology Agency (JST)" },
   { file: "Numibiauniversityofscienceandtechnology.jpg",       name: "Namibia University of Science and Technology" },
-  { file: "SCImago.png",                                       name: "SCImago" },
-  { file: "SCOPUS.png",                                        name: "Scopus" },
   { file: "Supporting-Local-Partner.jpg",                      name: "Global Chamber London" },
   { file: "UniversityPartner.png",                             name: "Samar State University" },
   { file: "WTI-Frankfurt-eG.png",                              name: "WTI AG" },
@@ -128,8 +134,6 @@ const institutionalPartners = [
   { file: "publication-5.svg",                                 name: "Publication Partner" },
   { file: "publication-6.svg",                                 name: "Publication Partner" },
   { file: "sitg.png",                                          name: "SABAR Institute of Technology for Girls" },
-  { file: "springer.png",                                      name: "Springer" },
-  { file: "springer_nature.jpg",                               name: "Springer Nature" },
   { file: "trinity.png",                                       name: "Trinity University" },
   { file: "unified-brainz.jpg",                                name: "Unified Brainz" },
   { file: "yudiz.png",                                         name: "Yudiz Solutions Private Limited" },
@@ -156,53 +160,93 @@ function LogoItem({ file, name, folder = "conf logo" }: { file: string; name: st
   );
 }
 
-function SectionHeader({ label, title }: { label: string; title: string }) {
-  return (
-    <div className="flex flex-col items-center text-center mb-10">
-      <div className="flex items-center gap-2 mb-3">
-        <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
-        <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#520380]">{label}</span>
-      </div>
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">{title}</h2>
-    </div>
-  );
-}
+type TabKey = "author" | "publication" | "institutional";
+
+const TABS: { key: TabKey; label: string; data: { file: string; name: string }[]; folder: string; cols: string }[] = [
+  {
+    key: "author",
+    label: "Author Institutions",
+    data: institutions,
+    folder: "Participating Institutions",
+    cols: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5",
+  },
+  {
+    key: "publication",
+    label: "Publication Partners",
+    data: publicationPartners,
+    folder: "Institutional Partners",
+    cols: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4",
+  },
+  {
+    key: "institutional",
+    label: "Institutional Partners",
+    data: institutionalPartners,
+    folder: "Institutional Partners",
+    cols: "grid-cols-2 sm:grid-cols-3 md:grid-cols-6",
+  },
+];
 
 export default function TrustedInstitutions() {
+  const [activeTab, setActiveTab] = useState<TabKey>("author");
+  const active = TABS.find((t) => t.key === activeTab)!;
+
   return (
     <section id="trusted-institutions" className="w-full bg-gray-100 py-20 lg:py-28">
       <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
 
-        {/* ── Institutional Partners ── */}
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease }}
           viewport={{ once: true, margin: "-80px" }}
-          className="mb-20"
+          className="flex flex-col items-center text-center mb-8"
         >
-          <SectionHeader label="Partners" title="Institutional Partners" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-            {institutionalPartners.map((inst) => (
-              <LogoItem key={inst.file} file={inst.file} name={inst.name} folder="Institutional Partners" />
-            ))}
+          <div className="flex items-center gap-2 mb-3">
+            <span style={{ color: "#520380", fontSize: 12 }}>♦</span>
+            <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#520380]">Partners & Network</span>
           </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">Trusted By The World's Best</h2>
         </motion.div>
 
-        {/* ── Participating Institutions ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          <SectionHeader label="Network" title="Participating Institutions" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {institutions.map((inst) => (
-              <LogoItem key={inst.file} file={inst.file} name={inst.name} folder="Participating Institutions" />
+        {/* ── Tabs ── */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative px-5 py-2.5 rounded-full text-[13px] font-bold transition-colors duration-200 ${
+                activeTab === tab.key ? "text-white" : "text-gray-500 hover:text-[#520380]"
+              }`}
+            >
+              {activeTab === tab.key && (
+                <motion.span
+                  layoutId="trusted-institutions-tab-pill"
+                  className="absolute inset-0 rounded-xl bg-[#520380]"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* ── Active tab grid ── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active.key}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.3, ease }}
+            className={`grid ${active.cols} gap-4`}
+          >
+            {active.data.map((inst) => (
+              <LogoItem key={inst.file} file={inst.file} name={inst.name} folder={active.folder} />
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>

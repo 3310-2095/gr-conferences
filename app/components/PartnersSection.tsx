@@ -206,12 +206,12 @@ export default function PartnersSection() {
 
             <motion.div variants={fadeUp} className="flex items-center gap-8 mb-10">
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">125+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">150+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Countries</p>
               </div>
               <div className="w-px h-10 bg-white/10" />
               <div>
-                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">5000+</p>
+                <p className="text-white text-3xl font-extrabold tracking-tight leading-none mb-1">7500+</p>
                 <p className="text-white/35 text-xs uppercase tracking-widest">Institutions</p>
               </div>
             </motion.div>
@@ -241,7 +241,7 @@ export default function PartnersSection() {
 
           {/* Row label */}
           <div className="px-8 lg:px-12 flex items-center justify-between gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Institutional Partners</span>
+            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/70">Publication Partners</span>
             <a href="/partners" className="group flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white/40 hover:text-[#a259ff] transition-colors whitespace-nowrap">
               See All
               <FaArrowRight size={9} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -268,7 +268,7 @@ export default function PartnersSection() {
 
           {/* Row label */}
           <div className="px-8 lg:px-12 mt-14 flex items-center justify-between gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Participating Institutions</span>
+            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/70">Author Institutions</span>
             <a href="/partners" className="group flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white/40 hover:text-[#a259ff] transition-colors whitespace-nowrap">
               See All
               <FaArrowRight size={9} className="transition-transform duration-300 group-hover:translate-x-1" />

@@ -99,6 +99,65 @@ export function getStatusBadge(conf: Conference, today: Date = new Date()): Stat
   return { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" };
 }
 
+const FIRST_DEADLINE_APPROACHING_DAYS = 30;
+
+/** Derives up to two status badges — a primary submission/registration state plus a
+ *  secondary contextual one — driven purely by the configured deadlines vs `today`, so
+ *  they advance automatically as dates pass. Falls back to a single badge when no
+ *  secondary status applies. */
+export function getStatusBadges(conf: Conference, today: Date = new Date()): StatusBadge[] {
+  if (conf.status === "past") {
+    return [{ label: "Completed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }];
+  }
+
+  const submissionRange = conf.submissionDeadline
+    ? parseConferenceDateRange(conf.submissionDeadline, conf.year)
+    : null;
+  const submissionStatus: "open" | "closed" | "none" = !conf.submissionDeadline
+    ? "none"
+    : submissionRange && submissionRange.end < today
+    ? "closed"
+    : "open";
+
+  if (conf.registrationDeadline) {
+    const range = parseConferenceDateRange(conf.registrationDeadline, conf.year);
+    if (range && range.end < today) {
+      return [{ label: "Registration Closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }];
+    }
+    const registrationOpen: StatusBadge = { label: "Registration Open", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" };
+    if (submissionStatus === "open") {
+      return [{ label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" }, registrationOpen];
+    }
+    if (submissionStatus === "closed") {
+      return [{ label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" }, registrationOpen];
+    }
+    return [registrationOpen];
+  }
+
+  if (submissionStatus === "open") {
+    const badges: StatusBadge[] = [{ label: "Paper Submission Open", dotClass: "bg-emerald-500", pillClass: "bg-emerald-50 text-emerald-700" }];
+    if (submissionRange) {
+      const daysLeft = Math.ceil((submissionRange.end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      if (daysLeft <= FIRST_DEADLINE_APPROACHING_DAYS) {
+        badges.push({ label: "First Deadline Approaching", dotClass: "bg-rose-500", pillClass: "bg-rose-50 text-rose-700" });
+      }
+    }
+    return badges;
+  }
+
+  if (submissionStatus === "closed") {
+    return [
+      { label: "Paper Submission closed", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" },
+      { label: "Registration Ongoing", dotClass: "bg-amber-500", pillClass: "bg-amber-50 text-amber-700" },
+    ];
+  }
+
+  return [
+    { label: "Registration Not Yet Open", dotClass: "bg-gray-400", pillClass: "bg-gray-100 text-gray-600" },
+    { label: "Upcoming", dotClass: "bg-[#520380]", pillClass: "bg-[#f3e8ff] text-[#520380]" },
+  ];
+}
+
 export function downloadIcs(filename: string, content: string) {
   const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);

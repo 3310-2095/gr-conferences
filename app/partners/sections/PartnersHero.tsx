@@ -22,16 +22,16 @@ export default function PartnersHero() {
       {/* Full-bleed background image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/ourgrowingnetwork.jpg"
+          src="/Partners  Banner.jpg"
           alt=""
           className="w-full h-full object-cover object-center scale-105"
-          style={{ filter: "brightness(0.45) saturate(1.1)" }}
+          style={{ filter: "brightness(0.92) saturate(1.1)" }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(120deg, rgba(30,5,60,0.82) 0%, rgba(10,2,30,0.65) 50%, rgba(60,10,100,0.55) 100%)",
+              "linear-gradient(120deg, rgba(30,5,60,0.55) 0%, rgba(10,2,30,0.38) 50%, rgba(60,10,100,0.32) 100%)",
           }}
         />
         <div

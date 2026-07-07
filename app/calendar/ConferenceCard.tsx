@@ -1,21 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  HiMapPin, HiCalendarDays, HiChevronDown,
-} from "react-icons/hi2";
+import { motion } from "framer-motion";
+import { HiMapPin, HiCalendarDays, HiArrowRight } from "react-icons/hi2";
 import type { Conference } from "../lib/conferenceData";
 import { conferences, archiveConferences } from "../lib/conferenceData";
-import { getDomainPillClasses } from "../lib/domainColors";
-import { getStatusBadge } from "../lib/calendarUtils";
+import { getStatusBadges } from "../lib/calendarUtils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const allConferenceEntries = [...conferences, ...archiveConferences];
 
-// Stable generic city images for fallback to make it look premium
 const genericCityImages = [
   "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=600",
   "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&q=80&w=600",
@@ -24,15 +19,13 @@ const genericCityImages = [
 ];
 
 export default function ConferenceCard({ conf, index }: { conf: Conference; index: number }) {
-  const [historyOpen, setHistoryOpen] = useState(false);
-
   const editionHistory = allConferenceEntries
     .filter((c) => c.name === conf.name && c.id !== conf.id)
     .sort((a, b) => b.year - a.year)
     .slice(0, 5);
 
   const cityImage = genericCityImages[conf.id % genericCityImages.length];
-  const badge = getStatusBadge(conf);
+  const badges = getStatusBadges(conf);
 
   return (
     <motion.div
@@ -40,144 +33,121 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease, delay: index * 0.05 }}
-      className="bg-white w-full rounded-2xl border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 flex flex-col md:flex-row md:items-start overflow-hidden relative group scroll-mt-32"
+      className="bg-white w-full rounded-2xl border border-gray-100 shadow-[0_4px_24px_rgba(82,3,128,0.03)] hover:shadow-[0_12px_40px_rgba(82,3,128,0.08)] transition-shadow duration-300 overflow-hidden scroll-mt-32 group flex flex-col md:flex-row"
     >
-      {/* Left Banner Image — fixed portrait ratio at every breakpoint, matches the homepage conference card proportions */}
-      <div className="relative w-full md:w-[260px] shrink-0 self-start bg-gray-100 flex flex-col justify-end p-5 lg:p-6 overflow-hidden" style={{ height: 360 }}>
+      {/* ── Left Image — stretches full card height ── */}
+      <div className="relative w-full md:w-[220px] lg:w-[240px] shrink-0 self-stretch overflow-hidden">
         <img
           src={cityImage}
           alt={conf.name}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111]/90 via-[#111]/20 to-transparent" />
-        
-        <div className="relative z-10 text-white flex flex-col">
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-white/90 mb-1.5">
-            <HiMapPin className="w-3.5 h-3.5" /> {conf.location}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+        <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+          <div className="flex items-center gap-1.5 text-xs text-white/80 mb-1">
+            <HiMapPin className="w-3 h-3 shrink-0" /> {conf.location}
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-white/90 mb-4">
-            <HiCalendarDays className="w-3.5 h-3.5" /> {conf.date}
+          <div className="flex items-center gap-1.5 text-xs text-white/80 mb-3">
+            <HiCalendarDays className="w-3 h-3 shrink-0" /> {conf.date}
           </div>
-          <h3 className="text-3xl font-extrabold font-serif mb-1 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {conf.name}
-          </h3>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-white/80">
-            {conf.domains[0]} & {conf.domains[1] || "INTELLIGENT SYSTEMS"}
+          <h3 className="text-2xl font-bold leading-tight mb-1">{conf.name}</h3>
+          <p className="text-[10px] uppercase tracking-widest text-white/60 font-semibold">
+            {conf.domains[0]}{conf.domains[1] ? ` & ${conf.domains[1]}` : ""}
           </p>
         </div>
       </div>
 
-      {/* Right Content */}
-      <div className="flex-1 p-5 lg:p-7 flex flex-col relative bg-white">
+      {/* ── Right Content ── */}
+      <div className="flex-1 p-5 lg:p-7 flex flex-col">
 
-        {/* Top row: Domains + Status badges */}
+        {/* Domains + Status */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap gap-2">
             {conf.domains.slice(0, 3).map((d) => (
-              <span key={d} className={`text-[10px] font-bold px-2.5 py-1 rounded-md bg-[#f5efff] text-[#520380]`}>
+              <span key={d} className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-[#f5efff] text-[#520380]">
                 {d}
               </span>
             ))}
           </div>
-
           <div className="flex flex-wrap items-center gap-2">
-            <div className={`${badge.pillClass} text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full`}>
-              {badge.label}
-            </div>
+            {badges.map((badge) => (
+              <span key={badge.label} className={`${badge.pillClass} text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full`}>
+                {badge.label}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Title, Full Name & Buttons */}
+        {/* Full name + Buttons */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-extrabold text-[#111] font-serif" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {conf.fullName}
-            </h2>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <h2 className="text-xl font-extrabold text-[#111] font-serif max-w-2xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {conf.fullName}
+          </h2>
+          <div className="flex flex-wrap gap-3 shrink-0">
             <a
               href={conf.website}
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2 rounded-lg border border-gray-200 text-[12px] font-bold text-gray-700 hover:border-[#520380] hover:text-[#520380] transition-colors"
             >
-              Visit Current Edition Website
+              Visit Website
             </a>
             <a
               href={conf.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
             >
-              Submit Paper
+              Submit Paper <HiArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
 
         {/* Deadlines */}
-        <div className="flex flex-wrap gap-8 mb-6">
+        <div className="flex flex-wrap gap-8 mb-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Paper Submission Deadline</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Paper Submission</p>
             <p className="text-[13px] font-semibold text-gray-700">{conf.submissionDeadline || "TBA"}</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Registration Deadline</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Registration</p>
             <p className="text-[13px] font-semibold text-gray-700">{conf.registrationDeadline || "TBA"}</p>
           </div>
         </div>
 
-        {/* Divider */}
         <div className="w-full h-px border-t border-dashed border-gray-200 mb-4" />
 
-        {/* Edition History — last 5 editions only */}
+        {/* Edition History — always visible */}
         <div className="mt-auto">
-          <button
-            type="button"
-            onClick={() => setHistoryOpen((v) => !v)}
-            className="flex items-center gap-1.5 text-[12px] font-bold text-[#520380] hover:underline"
-          >
-            <HiChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? "rotate-180" : "-rotate-90"}`} />
-            Edition History
-          </button>
-          <AnimatePresence>
-            {historyOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25, ease }}
-                className="overflow-hidden"
-              >
-                <ul className="pt-3 pb-1 flex flex-col gap-2">
-                  {editionHistory.length > 0 ? (
-                    editionHistory.map((edition) => (
-                      <li key={edition.id} className="text-[12px] text-gray-600">
-                        {edition.edition} &middot; {edition.date} &middot; {edition.location.split(",")[0].trim()}
-                        {" "}&middot;{" "}
-                        <Link href="/archives" className="text-[#520380] font-bold hover:underline">
-                          Publication History
-                        </Link>
-                        {" "}&middot;{" "}
-                        <a
-                          href={`${edition.website}#gallery`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#520380] font-bold hover:underline"
-                        >
-                          Gallery
-                        </a>
-                      </li>
-                    ))
-                  ) : (
-                    <li className="text-[12px] text-gray-400 font-medium">No previous editions recorded.</li>
-                  )}
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Edition History</p>
+          {editionHistory.length > 0 ? (
+            <ul className="flex flex-col gap-2">
+              {editionHistory.map((edition) => (
+                <li key={edition.id} className="text-[12px] text-gray-600">
+                  <span className="font-medium">{edition.edition}</span>
+                  {" · "}{edition.date}
+                  {" · "}{edition.location.split(",")[0].trim()}
+                  {" · "}
+                  <Link href="/archives" className="text-[#520380] font-bold hover:underline">
+                    Publication History
+                  </Link>
+                  {" · "}
+                  <a
+                    href={`${edition.website}#gallery`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#520380] font-bold hover:underline"
+                  >
+                    Gallery
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[12px] text-gray-400">No previous editions recorded.</p>
+          )}
         </div>
+
       </div>
     </motion.div>
   );

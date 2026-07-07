@@ -96,7 +96,7 @@ export default function GlassSelect({
                 minWidth: Math.max(coords.width, 160),
                 zIndex: 9999,
               }}
-              className="w-max max-w-[260px] bg-white rounded-2xl border border-gray-100 shadow-[0_16px_48px_rgba(82,3,128,0.16)]"
+              className="w-max max-w-[320px] bg-white rounded-2xl border border-gray-100 shadow-[0_16px_48px_rgba(82,3,128,0.16)]"
             >
               <div
                 className="max-h-[240px] overflow-y-auto flex flex-col p-1.5 gap-0.5"

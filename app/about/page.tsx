@@ -3,7 +3,7 @@
 import AboutHero from "./sections/AboutHero";
 // import OurStory from "./sections/OurStory";
 import VisionMission from "./sections/VisionMission";
-import GlobalPresenceMap from "./sections/GlobalPresenceMap";
+// import GlobalPresenceMap from "./sections/GlobalPresenceMap";
 import ConferenceJourney from "./sections/ConferenceJourney";
 import Ecosystem from "./sections/Ecosystem";
 import Team from "./sections/Team";
@@ -14,7 +14,7 @@ export default function AboutPage() {
       <AboutHero />
       {/* <OurStory /> */}
       <VisionMission />
-      <GlobalPresenceMap />
+      {/* <GlobalPresenceMap /> */}
       <ConferenceJourney />
       <Ecosystem />
       <Team />

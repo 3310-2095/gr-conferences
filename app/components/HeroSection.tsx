@@ -111,7 +111,7 @@ export default function HeroSection() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <Image
-          src="/banner.jpeg"
+          src="/banner.jpg"
           alt=""
           fill
           priority
@@ -119,8 +119,8 @@ export default function HeroSection() {
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
 
-        {/* Deep dark overlay */}
-        <div className="absolute inset-0" style={{ background: "rgba(5,0,15,0.72)" }} />
+        {/* Dark overlay — community banner opacity */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(120deg, rgba(30,5,60,0.55) 0%, rgba(10,2,30,0.38) 50%, rgba(60,10,100,0.32) 100%)" }} />
 
         {/* Bottom vignette for text readability */}
         <div
@@ -241,7 +241,7 @@ export default function HeroSection() {
             className="text-white/60 text-base lg:text-lg leading-relaxed max-w-2xl"
           >
             One platform connecting researchers, reviewers, speakers and institutions
-            through a growing ecosystem of international academic conferences across 125+ countries.
+            through a growing ecosystem of international academic conferences across 150+ countries.
           </motion.p>
 
         </motion.div>

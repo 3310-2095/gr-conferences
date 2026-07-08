@@ -53,7 +53,8 @@ const pillars: { tag: string; Icon: IconType; title: string; desc: string }[] = 
 export default function Ecosystem() {
   return (
     <section
-      className="relative w-full py-24 lg:py-32 overflow-hidden bg-white"
+      id="ecosystem"
+      className="relative w-full py-24 lg:py-32 overflow-hidden bg-white scroll-mt-24"
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 

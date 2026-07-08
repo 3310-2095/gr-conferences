@@ -1,8 +1,8 @@
 "use client";
 
 const executive = [
-  { name: "Amit Joshi",  role: "Director",  img: "/team/amit_joshi.png" },
-  { name: "Mihir Chauhan", role: "Director", img: "/team/mihir_chauhan.png" },
+  { name: "Amit Joshi",  role: "Executive Director",  img: "/team/amit_joshi.png" },
+  { name: "Mihir Chauhan", role: "Executive Director", img: "/team/mihir_chauhan.png" },
 ];
 
 const operations = [
@@ -62,7 +62,7 @@ function MemberCard({ name, role, img }: { name: string; role: string; img: stri
 
 export default function Team() {
   return (
-    <div className="team-root">
+    <div id="team" className="team-root scroll-mt-24">
 
     
 

@@ -14,7 +14,7 @@ const footerLinks = {
     { label: "GR Journals",           href: "#" },
     { label: "GR Connect",            href: "#" },
     { label: "GR Quotient",           href: "#" },
-    { label: "GR Author Services",    href: "#" },
+    { label: "GR Author Services",    href: "https://gr-journals.com/author-services" },
   ],
   Organization: [
     { label: "GRS Global",                        href: "#" },

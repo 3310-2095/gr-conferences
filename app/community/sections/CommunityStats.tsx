@@ -8,7 +8,7 @@ import {
   HiOutlineUserGroup, HiOutlineGlobeAlt, HiOutlineUsers,
 } from "react-icons/hi2";
 import { IconType } from "react-icons";
-import { featuredMembers } from "../../lib/communityMembers";
+import { featuredMembers } from "../../lib/featuredMembers";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

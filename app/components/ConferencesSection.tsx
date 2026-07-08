@@ -191,19 +191,24 @@ export default function ConferencesSection() {
   }, [isInView, goNext]);
 
   // ── Drag / swipe handlers ──────────────────────────────────────────────────
+  // Pointer capture is deferred until real drag movement is confirmed — capturing
+  // immediately on pointerdown steals the click event from the nested <a> cards,
+  // which is why a plain click on a card would silently do nothing.
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
     isPausedRef.current = true;
     lastDragDelta.current = 0;
     dragRef.current = { startX: e.clientX, startTrackX: currentXRef.current, moved: false };
-    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
   }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragRef.current || !trackRef.current) return;
     const delta = e.clientX - dragRef.current.startX;
     lastDragDelta.current = delta;
-    if (Math.abs(delta) > 5) dragRef.current.moved = true;
+    if (Math.abs(delta) > 5 && !dragRef.current.moved) {
+      dragRef.current.moved = true;
+      (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+    }
     if (!dragRef.current.moved) return;
     const newX = dragRef.current.startTrackX + delta;
     currentXRef.current = newX;
@@ -297,7 +302,7 @@ export default function ConferencesSection() {
               }}
             >
               <motion.a
-                href="#conferences"
+                href="/calendar"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm self-start"
                 style={{ background: "linear-gradient(135deg, #520380 0%, #3A025B 100%)", boxShadow: "0 6px 24px rgba(82,3,128,0.35)" }}
                 whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(82,3,128,0.50)" }}

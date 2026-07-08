@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { HiMapPin, HiMagnifyingGlass, HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
-import { getCity as getGalleryBySlug } from "../lib/galleryData";
+import { getCity as getGalleryBySlug, CONFERENCE_GALLERY_SLUG } from "../lib/galleryData";
 import GlassSelect from "../components/GlassSelect";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -15,18 +15,6 @@ const heroContainer = {
 const heroFadeUp = {
   hidden: { opacity: 0, y: 32 },
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
-};
-
-// Maps a specific conference edition (name + year) to its real event-photo gallery, so a photo
-// set never lands on the wrong year's card. Only the exact editions we have real photos for are listed.
-const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
-  "WORLDS4|2022": "worlds4-2022",
-  "ICTCS|2022": "ictcs-2022",
-  "ICTIS AHMEDABAD|2024": "ictis-ahmedabad-2024",
-  "SMARTCOM|2024": "smartcom-2024",
-  "ICT4SD|2025": "ict4sd-2025",
-  "ICTCS|2023": "ictcs-2023",
-  "ICTIS THAILAND|2026": "bangkok",
 };
 
 // Real city photos we have on file — keyed by city name (lower-cased). Only the cities
@@ -41,6 +29,7 @@ const CITY_IMAGES: Record<string, string> = {
   "las vegas": "/Country/lasvegas.webp",
   goa : "/Country/goa-city.png",
   chandigarh : "/Country/chandigarh.avif",
+  pune: "/Country/pune.jpg",
 };
 
 // `location` isn't uniformly formatted ("United Kingdom" vs "London, UK" vs "India") —
@@ -281,18 +270,13 @@ export default function ArchivesPage() {
                   {/* Content */}
                   <div className="p-7 flex flex-col flex-1">
                     <h3 className="text-[19px] font-bold text-[#111] mb-3 tracking-tight">
-                      {archive.name}
-                      {archive.name.toUpperCase().includes(getCountry(archive.location).toUpperCase())
-                        ? ""
-                        : ` ${getCountry(archive.location)}`}, {archive.year}
+                      {archive.name}, {formatCityCountry(archive.location)} {archive.year}
                     </h3>
 
                     <p className="text-[13px] text-gray-600 leading-[1.7] font-medium mb-2">
                       Explore the{" "}
                       <a
-                        href={`${archive.website}#gallery`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={gallerySlug ? `/gallery/${gallerySlug}` : `/gallery`}
                         className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"
                       >
                         event gallery

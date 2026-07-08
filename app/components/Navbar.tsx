@@ -15,6 +15,17 @@ const navLinks = [
   { label: "Partners",    href: "/partners" },
 ];
 
+// Jump-to-section links shown in the "About" dropdown — hashes match the
+// `id` attributes added to each corresponding section on the About page.
+const ABOUT_SECTIONS = [
+  { label: "Overview", hash: "overview" },
+  { label: "Vision",   hash: "vision" },
+  { label: "Mission",  hash: "mission" },
+  { label: "Timeline", hash: "timeline" },
+  { label: "Ecosystem", hash: "ecosystem" },
+  { label: "Team",     hash: "team" },
+];
+
 // Pages with a full-bleed hero image behind the navbar get the transparent
 // overlay treatment; everything else (light backgrounds) stays solid always.
 const TRANSPARENT_HERO_PATHS = ["/", "/about", "/calendar", "/community", "/partners", "/gallery"];
@@ -66,11 +77,15 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <NavLink key={link.label} href={link.href} solid={solid}>
-              {link.label}
-            </NavLink>
-          ))}
+          {navLinks.map((link) =>
+            link.label === "About" ? (
+              <AboutNavLink key={link.label} href={link.href} solid={solid} />
+            ) : (
+              <NavLink key={link.label} href={link.href} solid={solid}>
+                {link.label}
+              </NavLink>
+            )
+          )}
         </nav>
 
         {/* Desktop right side */}
@@ -207,6 +222,82 @@ function NavLink({ href, children, solid }: { href: string; children: React.Reac
     >
       {children}
     </Tag>
+  );
+}
+
+function AboutNavLink({ href, solid }: { href: string; solid: boolean }) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <Link
+        href={href}
+        className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+        style={{
+          color: isActive ? "#520380" : solid ? "#1a1a2e" : "rgba(255,255,255,0.92)",
+          background: isActive ? "rgba(82,3,128,0.08)" : "transparent",
+          fontWeight: isActive ? 700 : undefined,
+        }}
+        onMouseEnter={(e) => {
+          if (isActive) return;
+          (e.currentTarget as HTMLElement).style.color = solid ? "#520380" : "#ffffff";
+          (e.currentTarget as HTMLElement).style.background = solid ? "rgba(82,3,128,0.07)" : "rgba(255,255,255,0.14)";
+        }}
+        onMouseLeave={(e) => {
+          if (isActive) return;
+          (e.currentTarget as HTMLElement).style.color = solid ? "#1a1a2e" : "rgba(255,255,255,0.92)";
+          (e.currentTarget as HTMLElement).style.background = "transparent";
+        }}
+      >
+        About
+        <svg
+          width={12} height={12} viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" strokeWidth={2.5}
+          strokeLinecap="round" strokeLinejoin="round"
+          className="transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </Link>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute top-full left-0 pt-3"
+          >
+            <div
+              className="grid grid-cols-2 gap-x-6 gap-y-1 p-4 rounded-xl bg-white"
+              style={{
+                boxShadow: "0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                border: "1px solid rgba(0,0,0,0.06)",
+                minWidth: 260,
+              }}
+            >
+              {ABOUT_SECTIONS.map((section) => (
+                <Link
+                  key={section.hash}
+                  href={`/about#${section.hash}`}
+                  className="px-3 py-2 rounded-lg text-sm font-medium text-[#1a1a2e] whitespace-nowrap transition-colors duration-150 hover:bg-[rgba(82,3,128,0.07)] hover:text-[#520380]"
+                >
+                  {section.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 

@@ -18,7 +18,8 @@ const fadeUp = {
 export default function AboutHero() {
   return (
     <section
-      className="relative overflow-hidden"
+      id="overview"
+      className="relative overflow-hidden scroll-mt-24"
       style={{ minHeight: "100svh", paddingTop: 72 }}
     >
       {/* ── Full-bleed background image ── */}

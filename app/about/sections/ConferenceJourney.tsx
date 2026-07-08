@@ -136,7 +136,7 @@ export default function ConferenceJourney() {
   const activeColor = milestones.find((m) => m.year === activeYear)?.color || "#a855f7";
 
   return (
-    <section className="relative bg-[#12131A] w-full">
+    <section id="timeline" className="relative bg-[#12131A] w-full scroll-mt-24">
 
       {/* ── Ambient Background Glow (Sticky) ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">

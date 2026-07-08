@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { HiOutlineEye, HiOutlineRocketLaunch, HiOutlineCheck } from "react-icons/hi2";
 
@@ -57,11 +58,12 @@ export default function VisionMission() {
           
           {/* Vision Bento - Span 7 */}
           <motion.div
+            id="vision"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease }}
             viewport={{ once: true }}
-            className="lg:col-span-7 bg-white rounded-xl p-10 lg:p-14 shadow-[0_8px_32px_rgba(82,3,128,0.08),0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:shadow-[0_16px_48px_rgba(82,3,128,0.14),0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-500"
+            className="lg:col-span-7 bg-white rounded-xl p-10 lg:p-14 shadow-[0_8px_32px_rgba(82,3,128,0.08),0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:shadow-[0_16px_48px_rgba(82,3,128,0.14),0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-500 scroll-mt-24"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-purple-100/60 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
             
@@ -108,10 +110,13 @@ export default function VisionMission() {
           >
             {/* Inner clipped image wrapper */}
             <div className="absolute inset-0 rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
+              <Image
+                src="/ourvision.jpg"
                 alt="Global research and collaboration"
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                fill
+                loading="lazy"
+                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                sizes="(max-width: 1024px) 100vw, 42vw"
               />
               {/* Soft gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 via-[#111111]/20 to-transparent opacity-90" />
@@ -148,11 +153,12 @@ export default function VisionMission() {
 
           {/* Mission Bento - Span 12 */}
           <motion.div
+            id="mission"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.3 }}
             viewport={{ once: true }}
-            className="lg:col-span-12 bg-white rounded-xl p-10 lg:p-16 shadow-[0_8px_32px_rgba(82,3,128,0.08),0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:shadow-[0_16px_48px_rgba(82,3,128,0.14),0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-20"
+            className="lg:col-span-12 bg-white rounded-xl p-10 lg:p-16 shadow-[0_8px_32px_rgba(82,3,128,0.08),0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:shadow-[0_16px_48px_rgba(82,3,128,0.14),0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-20 scroll-mt-24"
           >
             <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-l from-indigo-50/80 to-transparent rounded-full opacity-50 blur-2xl group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
 

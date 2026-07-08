@@ -9,6 +9,18 @@ export type CityGallery = {
   images: GalleryImage[];
 };
 
+// Maps a specific conference edition (name + year) to its real event-photo gallery, so a photo
+// set never lands on the wrong year's card. Only the exact editions we have real photos for are listed.
+export const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
+  "WORLDS4|2022": "london",
+  "ICTCS|2022": "ictcs-2022",
+  "ICTIS AHMEDABAD|2024": "ictis-ahmedabad-2024",
+  "SMARTCOM|2024": "smartcom-2024",
+  "ICT4SD|2025": "ict4sd-2025",
+  "ICTCS|2023": "ictcs-2023",
+  "ICTIS THAILAND|2026": "bangkok",
+};
+
 const CAIRO_IMAGES = [
   "/cairo/1.jpeg",
   "/cairo/2.jpeg",

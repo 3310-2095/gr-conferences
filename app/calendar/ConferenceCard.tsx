@@ -6,6 +6,7 @@ import { HiMapPin, HiCalendarDays, HiArrowRight } from "react-icons/hi2";
 import type { Conference } from "../lib/conferenceData";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getStatusBadges } from "../lib/calendarUtils";
+import { CONFERENCE_GALLERY_SLUG } from "../lib/galleryData";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -142,14 +143,16 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
                     Publication History
                   </Link>
                   {" · "}
-                  <a
-                    href={`${edition.website}#gallery`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={
+                      CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]
+                        ? `/gallery/${CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]}`
+                        : "/gallery"
+                    }
                     className="text-[#520380] font-bold hover:underline"
                   >
                     Gallery
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

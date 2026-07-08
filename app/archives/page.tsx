@@ -39,7 +39,7 @@ const CITY_IMAGES: Record<string, string> = {
   jaipur: "/Country/jaipur.webp",
   manila: "/Country/manila.jpg",
   "las vegas": "/Country/lasvegas.webp",
-  goa : "/Country/goa.png",
+  goa : "/Country/goa-city.png",
   chandigarh : "/Country/chandigarh.avif",
 };
 

@@ -88,13 +88,13 @@ const institutions = [
 
 // Publication partners — indexing/publishing bodies, shown in their own tab.
 const publicationPartners = [
-  { file: "springer.png",                                      name: "Springer" },
-  { file: "springer_nature.jpg",                               name: "Springer Nature" },
-  { file: "IeeeUK&IrelandSection.gif",                         name: "IEEE" },
-  { file: "SCOPUS.png",                                        name: "Scopus" },
-  { file: "SCImago.png",                                       name: "SCImago" },
-  { file: "INSPEC.png",                                        name: "(IET) Inspec" },
-  { file: "DBLP.png",                                          name: "DBLP" },
+  { file: "springer-seeklogo.svg",       name: "Springer" },
+  { file: "Springer_Nature_Logo.svg",    name: "Springer Nature" },
+  { file: "IEEE_logo.svg",               name: "IEEE" },
+  { file: "Scopus_logo.svg",             name: "Scopus" },
+  { file: "SCImago_idRaeTB19O_1.svg",    name: "SCImago" },
+  { file: "IET_Logo.svg",                name: "(IET) Inspec" },
+  { file: "DBLP.png",                    name: "DBLP" },
 ];
 
 // Real institutional partner logos — a distinct set/tab from Author Institutions and
@@ -174,7 +174,7 @@ const TABS: { key: TabKey; label: string; data: { file: string; name: string }[]
     key: "publication",
     label: "Publication Partners",
     data: publicationPartners,
-    folder: "Institutional Partners",
+    folder: "Publication Partners/Publication Partners",
     cols: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4",
   },
   {

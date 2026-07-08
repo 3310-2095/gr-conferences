@@ -89,13 +89,13 @@ const institutions = [
 // "Participating Institutions" wall above. A few filenames are duplicates of
 // the same logo (img02/img06/img07 etc.) — only one copy of each is listed.
 const institutionalPartners = [
-  { file: "img02.jpg",           name: "Springer",       folder: "Publication Partners/Publication Partners" },
-  { file: "springer_nature.jpg", name: "Springer Nature", folder: "Publication Partners/Publication Partners" },
-  { file: "img06.jpg",           name: "IEEE",            folder: "Publication Partners/Publication Partners" },
-  { file: "SCOPUS.png",          name: "Scopus",          folder: "Publication Partners/Publication Partners" },
-  { file: "SCImago.png",         name: "SCImago",         folder: "Publication Partners/Publication Partners" },
-  { file: "INSPEC.png",          name: "(IET) Inspec",    folder: "Publication Partners/Publication Partners" },
-  { file: "DBLP.png",            name: "DBLP",            folder: "Publication Partners/Publication Partners" },
+  { file: "springer-seeklogo.svg",       name: "Springer",        folder: "Publication Partners/Publication Partners" },
+  { file: "Springer_Nature_Logo.svg",    name: "Springer Nature", folder: "Publication Partners/Publication Partners" },
+  { file: "IEEE_logo.svg",               name: "IEEE",            folder: "Publication Partners/Publication Partners" },
+  { file: "Scopus_logo.svg",             name: "Scopus",          folder: "Publication Partners/Publication Partners" },
+  { file: "SCImago_idRaeTB19O_1.svg",    name: "SCImago",         folder: "Publication Partners/Publication Partners" },
+  { file: "IET_Logo.svg",                name: "(IET) Inspec",    folder: "Publication Partners/Publication Partners" },
+  { file: "DBLP.png",                    name: "DBLP",            folder: "Publication Partners/Publication Partners" },
 ] as { file: string; name: string; folder?: string }[];
 
 const maskStyle: React.CSSProperties = {
@@ -219,12 +219,12 @@ export default function PartnersSection() {
                 background: "radial-gradient(ellipse 55% 100% at 0% 50%, rgba(139,61,255,0.13) 0%, rgba(82,3,128,0.07) 35%, transparent 70%)",
               }}
             />
-            <div className="flex items-center w-max" style={{ animation: "scroll-left 70s linear infinite" }}
+            <div className="flex items-center w-max" style={{ animation: "scroll-left 8s linear infinite" }}
               onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
               onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
             >
               {[...institutionalPartners, ...institutionalPartners].map((inst, i) => (
-                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} folder="Institutional Partners" />
+                <InstitutionLogoItem key={i} file={inst.file} name={inst.name} folder={inst.folder} />
               ))}
             </div>
           </div>

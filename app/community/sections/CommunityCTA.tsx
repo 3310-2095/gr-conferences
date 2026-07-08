@@ -24,7 +24,7 @@ export default function CommunityCTA() {
             whileInView={{ x: 0, opacity: 0.04 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.2, ease }}
-            className="hidden md:block absolute bottom-0 right-0 h-40 lg:h-52 w-auto pointer-events-none select-none brightness-0 mb-7"
+            className="hidden md:block absolute bottom-0 right-0 h-40 lg:h-52 w-auto pointer-events-none select-none brightness-0 mb-4"
           />
 
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-16">

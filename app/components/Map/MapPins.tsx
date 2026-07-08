@@ -63,7 +63,7 @@ function getLabelPos(city: string, lat: number, ph: number, s: number) {
   switch (side) {
     case "above": return { x: -60 * s, y: -ph - 22 * s, align: "center" as const };
     case "below": return { x: -60 * s, y: s * 2,         align: "center" as const };
-    case "left":  return { x: -130 * s, y: -ph + 4 * s,  align: "right"  as const };
+    case "left":  return { x: -10 * s,  y: -ph + 4 * s,  align: "right"  as const };
     case "right": return { x: 10 * s,   y: -ph + 4 * s,  align: "left"   as const };
   }
 }

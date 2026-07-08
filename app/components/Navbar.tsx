@@ -277,11 +277,11 @@ function AboutNavLink({ href, solid }: { href: string; solid: boolean }) {
             className="absolute top-full left-0 pt-3"
           >
             <div
-              className="grid grid-cols-2 gap-x-6 gap-y-1 p-4 rounded-xl bg-white"
+              className="flex flex-col gap-y-1 p-4 rounded-xl bg-white"
               style={{
                 boxShadow: "0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
                 border: "1px solid rgba(0,0,0,0.06)",
-                minWidth: 260,
+                minWidth: 160,
               }}
             >
               {ABOUT_SECTIONS.map((section) => (

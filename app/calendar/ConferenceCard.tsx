@@ -85,22 +85,42 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
             {conf.fullName}
           </h2>
           <div className="flex flex-wrap gap-3 shrink-0">
-            <a
-              href={conf.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
-            >
-              Register Now
-            </a>
-            <a
-              href={conf.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
-            >
-              Submit Paper <HiArrowRight className="w-3.5 h-3.5" />
-            </a>
+            {conf.registerUrl ? (
+              <a
+                href={conf.registerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
+              >
+                Register Now
+              </a>
+            ) : (
+              <span
+                aria-disabled="true"
+                title="Registration not open yet"
+                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-400 text-[12px] font-bold cursor-not-allowed"
+              >
+                Register Now
+              </span>
+            )}
+            {conf.submitPaperUrl ? (
+              <a
+                href={conf.submitPaperUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#520380] text-white text-[12px] font-bold hover:bg-[#38015c] transition-colors"
+              >
+                Submit Paper <HiArrowRight className="w-3.5 h-3.5" />
+              </a>
+            ) : (
+              <span
+                aria-disabled="true"
+                title="Paper submission not open yet"
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-gray-200 text-gray-400 text-[12px] font-bold cursor-not-allowed"
+              >
+                Submit Paper <HiArrowRight className="w-3.5 h-3.5" />
+              </span>
+            )}
           </div>
         </div>
 

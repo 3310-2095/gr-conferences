@@ -40,9 +40,7 @@ export default function CommunityDirectory() {
               All Community Members
             </h3>
           </div>
-          <span className="text-[13px] text-gray-400 font-medium">
-            {sorted.length.toLocaleString()} members &middot; page {page} of {totalPages}
-          </span>
+         
         </div>
 
         {/* Cards */}

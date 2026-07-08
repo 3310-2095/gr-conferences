@@ -10,7 +10,6 @@ const milestones = [
     points: [
       "Launched our first conference initiative, creating a platform for global research exchange.",
     ],
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200",
     color: "#D4AF37", // Bright Purple
   },
   {
@@ -19,7 +18,6 @@ const milestones = [
     points: [
       "Expanded our international conference footprint and global research community.",
     ],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200",
     color: "#3b82f6",
   },
   {
@@ -28,7 +26,6 @@ const milestones = [
     points: [
       "Expanded participation and collaborations with researchers and academic institutions worldwide.",
     ],
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
     color: "#10b981", // Bright Emerald
   },
   {
@@ -37,7 +34,6 @@ const milestones = [
     points: [
       "Introduced hybrid conference formats, enabling global participation through physical and virtual platforms.",
     ],
-    image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=1200",
     color: "#ec4899",
   },
   {
@@ -46,7 +42,6 @@ const milestones = [
     points: [
       "Redefined conference experiences with flexible, globally connected participation.",
     ],
-    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=1200",
     color: "#f59e0b",
   },
   {
@@ -55,7 +50,6 @@ const milestones = [
     points: [
       "Expanded our international presence with multiple flagship conferences across countries.",
     ],
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
     color: "#8b5cf6",
   },
   {
@@ -64,7 +58,6 @@ const milestones = [
     points: [
       "Expanded into new research domains while strengthening our global academic network.",
     ],
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
     color: "#10b981",
   },
 ];
@@ -96,20 +89,7 @@ function MilestoneSection({
 
   return (
     <div ref={ref} className="min-h-[55vh] flex flex-col justify-center py-8 px-6 md:px-10 lg:px-16">
-      <div className="w-full max-w-4xl mx-auto space-y-10 md:space-y-12 transition-opacity duration-700" style={{ opacity: isActive ? 1 : 0.4 }}>
-
-        {/* Clean Rounded Image Container */}
-        <div
-          className="relative rounded-sm overflow-hidden aspect-[16/7]"
-        >
-          {/* Subtle gradient to blend text cleanly */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 via-transparent to-transparent z-10 pointer-events-none" />
-          <img
-            src={milestone.image}
-            alt={milestone.heading}
-            className="w-full h-full object-cover opacity-90"
-          />
-        </div>
+      <div className="w-full max-w-2xl mx-auto space-y-6 md:space-y-8 transition-opacity duration-700" style={{ opacity: isActive ? 1 : 0.4 }}>
 
         {/* Content Section */}
         <div className="space-y-6 md:space-y-8">
@@ -120,7 +100,7 @@ function MilestoneSection({
             {milestone.heading}
           </h3>
 
-          <div className="space-y-5 md:space-y-6 max-w-3xl">
+          <div className="space-y-5 md:space-y-6">
             {milestone.points.map((point, idx) => (
               <div key={idx} className="flex items-start gap-4 md:gap-5">
                 <div

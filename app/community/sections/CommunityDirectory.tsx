@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { HiMapPin, HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import { communityMembers } from "../../lib/communityMembers";
+import { authors } from "../../lib/authors";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const PER_PAGE = 48;
@@ -12,7 +12,7 @@ export default function CommunityDirectory() {
   const [page, setPage] = useState(1);
 
   const sorted = useMemo(
-    () => [...communityMembers].sort((a, b) => a.name.localeCompare(b.name)),
+    () => [...authors].sort((a, b) => a.name.localeCompare(b.name)),
     []
   );
 
@@ -46,7 +46,7 @@ export default function CommunityDirectory() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {pageItems.map((member, i) => (
             <motion.div
               key={`${member.name}-${start + i}`}
@@ -54,16 +54,24 @@ export default function CommunityDirectory() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease, delay: (i % 12) * 0.03 }}
               viewport={{ once: true, margin: "-40px" }}
-              className="flex flex-col gap-1.5 bg-white rounded-xl px-5 py-4 border border-gray-100 hover:border-[#520380]/20 hover:shadow-[0_8px_24px_rgba(82,3,128,0.08)] transition-all duration-200"
+              className="group flex flex-col items-center text-center bg-white rounded-2xl pt-6 pb-4 px-3 border border-gray-100 hover:border-[#520380]/25 hover:shadow-[0_12px_32px_rgba(82,3,128,0.10)] hover:-translate-y-1 transition-all duration-200"
             >
-              <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#520380]/60 w-fit">
-                {member.tag}
-              </span>
-              <h4 className="text-[14px] font-semibold text-[#111] leading-snug">{member.name}</h4>
-              <p className="text-[12px] text-gray-500 leading-snug">{member.institution}</p>
-              <div className="flex items-center gap-1 text-[11px] text-gray-400">
-                <HiMapPin className="w-3 h-3" /> {member.country}
+              <div className="relative mb-3">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f3eeff] to-[#e8d5ff] p-0.5">
+                  <img
+                    src={member.img}
+                    alt={member.name}
+                    className="w-full h-full rounded-full object-cover bg-[#f3eeff]"
+                  />
+                </div>
               </div>
+              <h4 className="text-[13px] font-semibold text-[#111] leading-snug line-clamp-2 w-full">{member.name}</h4>
+              {member.country && (
+                <div className="flex items-center justify-center gap-1 mt-1 text-[11px] text-[#520380]/60 font-medium">
+                  <HiMapPin className="w-3 h-3 shrink-0" />
+                  <span className="truncate max-w-[90px]">{member.country}</span>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>

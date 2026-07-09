@@ -11,9 +11,9 @@ const footerLinks = {
     { label: "Partners",  href: "partners" },
   ],
   "GR Ecosystem": [
-    { label: "GR Journals",           href: "#" },
-    { label: "GR Connect",            href: "#" },
-    { label: "GR Quotient",           href: "#" },
+    { label: "GR Journals",           href: "https://gr-journals.com/" },
+    { label: "GR Connect",            href: "https://www.gr-connect.org/" },
+    { label: "GR Quotient",           href: "https://www.gr-connect.org/gr-quotient" },
     { label: "GR Author Services",    href: "https://gr-journals.com/author-services" },
   ],
   Organization: [

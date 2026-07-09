@@ -12,7 +12,7 @@ export type Conference = {
   year: number;
   /** Renders as "TBA" until a real date is supplied for that conference. */
   submissionDeadline?: string;
-  /** Not yet published for any conference — renders as "TBA" until real dates are supplied. */
+  /** Renders as "TBA" until a real date is supplied for that conference. */
   registrationDeadline?: string;
   /** Building/venue name — not yet known for any conference; the map link is derived from `location` instead. */
   venueName?: string;
@@ -36,6 +36,7 @@ export const conferences: Conference[] = [
     status: "upcoming",
     year: 2026,
     submissionDeadline: "23 March 2026",
+    registrationDeadline: "8 July 2026",
   },
   {
     id: 2,
@@ -686,17 +687,18 @@ export const archiveConferences: Conference[] = [
     status: "past",
     year: 2021,
   },
-  {
-    id: 50,
-    name: "SMARTCOM",
-    fullName: "International Conference on Smart Trends in Computing and Communications",
-    edition: "6th Edition",
-    date: "Date TBA",
-    location: "India",
-    domains: ["Smart Computing", "AI", "Communication"],
-    website: "https://www.smartcomconference.com",
-    logo: "/SMARTCOM.jpg",
-    status: "past",
-    year: 2021,
-  },
+  // Hidden from UI — date was never confirmed ("Date TBA").
+  // {
+  //   id: 50,
+  //   name: "SMARTCOM",
+  //   fullName: "International Conference on Smart Trends in Computing and Communications",
+  //   edition: "6th Edition",
+  //   date: "Date TBA",
+  //   location: "India",
+  //   domains: ["Smart Computing", "AI", "Communication"],
+  //   website: "https://www.smartcomconference.com",
+  //   logo: "/SMARTCOM.jpg",
+  //   status: "past",
+  //   year: 2021,
+  // },
 ];

@@ -7,6 +7,7 @@ import type { Conference } from "../lib/conferenceData";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getStatusBadges } from "../lib/calendarUtils";
 import { CONFERENCE_GALLERY_SLUG } from "../lib/galleryData";
+import { getEditionLinks } from "../lib/editionLinks";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -153,28 +154,53 @@ export default function ConferenceCard({ conf, index }: { conf: Conference; inde
           <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Edition History</p>
           {editionHistory.length > 0 ? (
             <ul className="flex flex-col gap-2">
-              {editionHistory.map((edition) => (
-                <li key={edition.id} className="text-[12px] text-gray-600">
-                  <span className="font-medium">{edition.edition}</span>
-                  {" · "}{edition.date}
-                  {" · "}{edition.location.split(",")[0].trim()}
-                  {" · "}
-                  <Link href="/archives" className="text-[#520380] font-bold hover:underline">
-                    Publication History
-                  </Link>
-                  {" · "}
-                  <Link
-                    href={
-                      CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]
-                        ? `/gallery/${CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]}`
-                        : "/gallery"
-                    }
-                    className="text-[#520380] font-bold hover:underline"
-                  >
-                    Gallery
-                  </Link>
-                </li>
-              ))}
+              {editionHistory.map((edition) => {
+                const links = getEditionLinks(edition.name, edition.year);
+                return (
+                  <li key={edition.id} className="text-[12px] text-gray-600">
+                    <span className="font-medium">{edition.edition}</span>
+                    {" · "}{edition.date}
+                    {" · "}{edition.location.split(",")[0].trim()}
+                    {" · "}
+                    {links.publication ? (
+                      <a
+                        href={links.publication}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#520380] font-bold hover:underline"
+                      >
+                        Publication History
+                      </a>
+                    ) : (
+                      <Link href="/archives" className="text-[#520380] font-bold hover:underline">
+                        Publication History
+                      </Link>
+                    )}
+                    {" · "}
+                    {links.gallery ? (
+                      <a
+                        href={links.gallery}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#520380] font-bold hover:underline"
+                      >
+                        Gallery
+                      </a>
+                    ) : (
+                      <Link
+                        href={
+                          CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]
+                            ? `/gallery/${CONFERENCE_GALLERY_SLUG[`${edition.name}|${edition.year}`]}`
+                            : "/gallery"
+                        }
+                        className="text-[#520380] font-bold hover:underline"
+                      >
+                        Gallery
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-[12px] text-gray-400">This is the first edition</p>

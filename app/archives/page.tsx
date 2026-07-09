@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { HiMapPin, HiMagnifyingGlass, HiXMark } from "react-icons/hi2";
 import { conferences, archiveConferences } from "../lib/conferenceData";
 import { getCity as getGalleryBySlug, CONFERENCE_GALLERY_SLUG } from "../lib/galleryData";
+import { getEditionLinks } from "../lib/editionLinks";
 import GlassSelect from "../components/GlassSelect";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -242,6 +243,9 @@ export default function ArchivesPage() {
               const currentEdition = conferences.find(c => c.name === archive.name);
               const gallerySlug = CONFERENCE_GALLERY_SLUG[`${archive.name}|${archive.year}`];
               const galleryCover = gallerySlug ? getGalleryBySlug(gallerySlug)?.cover : undefined;
+              const editionLinks = getEditionLinks(archive.name, archive.year);
+              const galleryHref = editionLinks.gallery ?? (gallerySlug ? `/gallery/${gallerySlug}` : `/gallery`);
+              const publicationHref = editionLinks.publication ?? `${archive.website}#publication`;
               const cityImage = CITY_IMAGES[getCity(archive.location).toLowerCase()];
               return (
                 <div
@@ -276,14 +280,16 @@ export default function ArchivesPage() {
                     <p className="text-[13px] text-gray-600 leading-[1.7] font-medium mb-2">
                       Explore the{" "}
                       <a
-                        href={gallerySlug ? `/gallery/${gallerySlug}` : `/gallery`}
+                        href={galleryHref}
+                        target={editionLinks.gallery ? "_blank" : undefined}
+                        rel={editionLinks.gallery ? "noopener noreferrer" : undefined}
                         className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"
                       >
                         event gallery
                       </a>{" "}
                       and access the{" "}
                       <a
-                        href={`${archive.website}#publication`}
+                        href={publicationHref}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline decoration-[#520380]/40 underline-offset-4 hover:decoration-[#520380] hover:text-[#520380] transition-colors"

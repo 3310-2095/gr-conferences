@@ -5,10 +5,23 @@ import { HiArrowRight, HiEnvelope } from "react-icons/hi2";
 export default function NewsletterStrip() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (!email) return;
+    setError(null);
+    try {
+      const res = await fetch("/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ form: "newsletter", data: { email } }),
+      });
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -81,6 +94,7 @@ export default function NewsletterStrip() {
                     Subscribe
                     <HiArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </button>
+                  {error && <p className="text-red-300 text-xs w-full">{error}</p>}
                 </form>
               ) : (
                 <div className="flex items-center gap-3 px-5 py-4 rounded-xl bg-white/10 border border-white/20">

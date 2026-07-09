@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { COUNTRIES, CONFERENCE_PARTNERSHIP_OPTIONS } from "../../lib/formData";
 import { SectionHeader, Field, Input, Select } from "../_shared/FormFields";
+import { SuccessScreen } from "../_shared/SuccessScreen";
 
 type F = {
   fullName: string; designation: string; organization: string;
@@ -26,6 +27,7 @@ export default function ConferencePage() {
   const [form, setForm]           = useState<F>(EMPTY);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const set = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(p => ({ ...p, [e.target.name]: e.target.value }));
@@ -47,37 +49,33 @@ export default function ConferencePage() {
       otherPartnership: p.partnerships.includes("Any Other") ? "" : p.otherPartnership,
     }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ form: "conference", data: form }),
+      });
+      if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 1200);
+    } catch {
+      setError("Something went wrong submitting your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /* ── Success ── */
   if (submitted) {
     return (
-      <div className="bg-[#FAFAFC] min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden" style={{ paddingTop: 72 }}>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[80px] rounded-full z-0 pointer-events-none" />
-        <div className="max-w-md w-full p-10 md:p-14 bg-white/80 backdrop-blur-2xl border border-white/40 rounded-xl text-center relative z-10 shadow-[0_20px_60px_-15px_rgba(82,3,128,0.1)]">
-          <div className="w-24 h-24 rounded-xl flex items-center justify-center mx-auto mb-8 bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 relative shadow-inner">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-4">Request Received</p>
-          <h2 className="text-4xl font-heading text-[#1A1A2E] mb-5">Thank You!</h2>
-          <p className="text-gray-500 text-base leading-relaxed mb-10">
-            Your partnership request has been submitted. Our team will get in touch with you within 2–3 business days.
-          </p>
-          <a href="/" className="inline-flex items-center justify-center w-full bg-primary hover:bg-primary-hover text-white font-semibold py-4 rounded-xl shadow-[0_8px_20px_rgba(82,3,128,0.25)] transition-all hover:-translate-y-1 text-sm tracking-wide uppercase">
-            Return to Home
-          </a>
-        </div>
-      </div>
+      <SuccessScreen
+        eyebrow="Request Received"
+        message="Your partnership request has been submitted. Our team will get in touch with you within 2–3 business days."
+      />
     );
   }
 
@@ -289,13 +287,16 @@ export default function ConferencePage() {
 
             {/* Submit footer */}
             <div className="px-8 md:px-14 py-8 bg-gray-50/80 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8 backdrop-blur-md">
-              <div className="flex items-start gap-3 text-sm text-gray-500 max-w-md">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5 opacity-70">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <p>
-                  Fields marked with <span className="text-primary font-bold">*</span> are required. Your data is handled securely and in accordance with our privacy policy.
-                </p>
+              <div className="flex flex-col gap-2 max-w-md">
+                <div className="flex items-start gap-3 text-sm text-gray-500">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5 opacity-70">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  <p>
+                    Fields marked with <span className="text-primary font-bold">*</span> are required. Your data is handled securely and in accordance with our privacy policy.
+                  </p>
+                </div>
+                {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
               </div>
               <button
                 type="submit"

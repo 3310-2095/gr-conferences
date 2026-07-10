@@ -19,6 +19,7 @@ export const CONFERENCE_GALLERY_SLUG: Record<string, string> = {
   "ICT4SD|2025": "ict4sd-2025",
   "ICTCS|2023": "ictcs-2023",
   "ICTIS THAILAND|2026": "bangkok",
+  "ICTIS LV|2024": "lasvegas",
 };
 
 const CAIRO_IMAGES = [
@@ -79,6 +80,47 @@ const WORLDS4_2022_IMAGES = [
   "https://hel1.your-objectstorage.com/hana/gr-conferance/6thWorlds42022/10.jpg",
   "https://hel1.your-objectstorage.com/hana/gr-conferance/6thWorlds42022/12.jpg",
   "https://hel1.your-objectstorage.com/hana/gr-conferance/6thWorlds42022/13.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/0.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/0.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/1.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/12.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/130.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/145.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/15.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/16.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/2.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/214.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/31.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/41.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/47.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/6.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/7.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/91.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/95.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/96.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DPB_1093.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DSC0108.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DSC0421.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DSC0462.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DSC_7147.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/DSC_7460.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/_DSC2656.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/crop%20(2).jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/crop%20(3).jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/crop%20(4).jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/crop%20(5).jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/crop.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/front1.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/front2.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2024-1.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2024-20.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2024-22.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2024-32.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2024-39.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2025-10.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2025-2.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2025-4.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/London/p-2025-5.jpg",
 ];
 
 const ICTCS_2022_IMAGES = [
@@ -169,6 +211,62 @@ const ICTIS_AHMEDABAD_2024_IMAGES = [
   "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/20240523_173335.jpg",
   "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/20240523_173358.jpg",
   "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/sddefault.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/1%20(1).jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/1.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/2.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/4.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/6.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/DSC_4788.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/DSC_4825.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/DSC_4887.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/DSC_4934.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/DSC_5294.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_4720.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_4916.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_4929%20(1).jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_5062.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_5065.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/SPV_5225.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/front1.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Ahmedabad/front2.jpg",
+];
+
+const LASVEGAS_IMAGES = [
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/2.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/22.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/3.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/4.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/5.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/6.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/front1.jpg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/front2.jpg",
+];
+
+const MANILA_IMAGES = [
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/1.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/2.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/21.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/22.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/40.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/51.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/60.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/74.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/IMG_4596.JPG",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/IMG_4867.JPG",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/front1.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/front2.jpeg",
+];
+
+const NEWYORK_IMAGES = [
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/0%20(1).jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/06816.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/12.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/5341.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/5448.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/6.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/_5429.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/front1.jpeg",
+  "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/front2.jpeg",
 ];
 
 const SMARTCOM_2024_IMAGES = [
@@ -371,6 +469,30 @@ function toGallery(images: string[]): GalleryImage[] {
   return images.map((src) => ({ src, type: "conference" as const }));
 }
 
+// Spreads a handful of real /Country destination photos through the conference-photo
+// set — evenly interleaved, not clustered at the start or end — so each gallery is
+// actually a mix of "destination views and conference moments" as the page copy says.
+function withDestinationImages(conferenceImages: string[], destinationImages: string[]): GalleryImage[] {
+  const conference = toGallery(conferenceImages);
+  if (destinationImages.length === 0) return conference;
+
+  const step = Math.max(1, Math.round(conference.length / (destinationImages.length + 1)));
+  const result: GalleryImage[] = [];
+  let destIndex = 0;
+  conference.forEach((img, i) => {
+    result.push(img);
+    if (destIndex < destinationImages.length && (i + 1) % step === 0) {
+      result.push({ src: destinationImages[destIndex], type: "destination" });
+      destIndex++;
+    }
+  });
+  while (destIndex < destinationImages.length) {
+    result.push({ src: destinationImages[destIndex], type: "destination" });
+    destIndex++;
+  }
+  return result;
+}
+
 // Each gallery's cover/thumb1/thumb2 follow a fixed mosaic order:
 // 1) cover  — the /Country city-establishing shot (falls back to a curated photo when no
 //    matching file exists yet in /public/Country for that gallery's city)
@@ -381,74 +503,100 @@ export const cities: CityGallery[] = [
     slug: "ictis-ahmedabad-2024",
     city: "Ahmedabad",
     country: "India",
-    cover: "/Country/Ahmedabad.jpg",
-    thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/1.jpg",
+    cover: "/Country/ahmedabad/ahmedabad-1.jpg",
+    thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/0.jpg",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTIS2024/20240523_173358.jpg",
-    images: toGallery(ICTIS_AHMEDABAD_2024_IMAGES),
+    images: withDestinationImages(ICTIS_AHMEDABAD_2024_IMAGES, ["/Country/ahmedabad/ahmedabad-2.jpg", "/Country/ahmedabad/ahmedabad-3.webp"]),
   },
   {
     slug: "bangkok",
     city: "Bangkok",
     country: "Thailand",
-    cover: "/Country/Bangkok.jpg",
+    cover: "/Country/bangkok/bangkok-1.jpg",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/11thICTISThailand2026/0.jpg",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/11thICTISThailand2026/196.jpg",
-    images: toGallery(ICTIS_THAILAND_2026_IMAGES),
+    images: withDestinationImages(ICTIS_THAILAND_2026_IMAGES, ["/Country/bangkok/bangkok-2.jpg", "/Country/bangkok/bangkok-3.jpg"]),
   },
   {
     slug: "cairo",
     city: "Cairo",
     country: "Egypt",
-    cover: "/Country/Cairo.webp",
+    cover: "/Country/cairo/cairo-1.webp",
     thumb1: "/cairo/1.jpeg",
     thumb2: "/cairo/6.jpeg",
-    images: toGallery(CAIRO_IMAGES),
+    images: withDestinationImages(CAIRO_IMAGES, ["/Country/cairo/le-caire.webp"]),
   },
   {
     slug: "ictcs-2022",
     city: "Chandigarh",
     country: "India",
-    // No /Country photo for Chandigarh yet — falls back to the venue banner shot.
-    cover: "/Country/chandigarh.avif",
+    cover: "/Country/chandigarh/chandigarh-1.avif",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTCS2022/5.jpg",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/7thICTCS2022/DSC03899.jpg",
-    images: toGallery(ICTCS_2022_IMAGES),
+    images: withDestinationImages(ICTCS_2022_IMAGES, ["/Country/chandigarh/chandigarh-2.jpg", "/Country/chandigarh/chandigarh-3.jpg"]),
   },
   {
     slug: "ict4sd-2025",
     city: "Goa",
     country: "India",
-    cover: "/Country/goa-city.png",
+    cover: "/Country/goa/goa-1.png",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/10thICT4SD2025/image_0007.jpg",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/10thICT4SD2025/image_0339.jpg",
-    images: toGallery(ICT4SD_2025_IMAGES),
+    images: withDestinationImages(ICT4SD_2025_IMAGES, ["/Country/goa/goa-2.jpg", "/Country/goa/goa-3.jpg"]),
   },
   {
     slug: "ictcs-2023",
     city: "Jaipur",
     country: "India",
-    cover: "/Country/jaipur.webp",
+    cover: "/Country/jaipur/jaipur-1.webp",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/8thICTCS%202023/0.JPG",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/8thICTCS%202023/73.JPG",
-    images: toGallery(ICTCS_2023_IMAGES),
+    images: withDestinationImages(ICTCS_2023_IMAGES, ["/Country/jaipur/jaipur-2.jpg", "/Country/jaipur/jaipur-3.jpg"]),
   },
   {
     slug: "london",
     city: "London",
     country: "United Kingdom",
-    cover: "/Country/London.jpg",
+    cover: "/Country/london/london-1.jpg",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/6thWorlds42022/1.jpg",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/6thWorlds42022/5A2A7139.jpg",
-    images: toGallery(WORLDS4_2022_IMAGES),
+    images: withDestinationImages(WORLDS4_2022_IMAGES, ["/Country/london/london-2.avif", "/Country/london/london-3.jpg", "/Country/london/london-4.avif"]),
   },
   {
     slug: "smartcom-2024",
     city: "Pune",
     country: "India",
-    cover: "/Country/pune.jpg",
+    cover: "/Country/pune/pune-1.jpg",
     thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/8thSmartCom2024/1.JPG",
     thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/8thSmartCom2024/161.JPG",
-    images: toGallery(SMARTCOM_2024_IMAGES),
+    images: withDestinationImages(SMARTCOM_2024_IMAGES, ["/Country/pune/pune-2.jpg", "/Country/pune/pune-3.jpg"]),
+  },
+  {
+    slug: "lasvegas",
+    city: "Las Vegas",
+    country: "USA",
+    cover: "/Country/lasvegas/lasvegas-1.webp",
+    thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/front1.jpg",
+    thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/LasVegas/front2.jpg",
+    images: withDestinationImages(LASVEGAS_IMAGES, ["/Country/lasvegas/lasvegas-2.jpg", "/Country/lasvegas/lasvegas-3.jpg", "/Country/lasvegas/lasvegas-4.webp", "/Country/lasvegas/lasvegas-5.jpg"]),
+  },
+  {
+    slug: "manila",
+    city: "Manila",
+    country: "Philippines",
+    cover: "/Country/manila/manila-1.jpg",
+    thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/front1.jpeg",
+    thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/MANILA/front2.jpeg",
+    images: withDestinationImages(MANILA_IMAGES, ["/Country/manila/manila-2.jpg", "/Country/manila/manila-3.jpg", "/Country/manila/manila-4.jpg", "/Country/manila/manila-5.jpg"]),
+  },
+  {
+    slug: "newyork",
+    city: "New York",
+    country: "USA",
+    cover: "/Country/newyork/newyork-1.webp",
+    thumb1: "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/front1.jpeg",
+    thumb2: "https://hel1.your-objectstorage.com/hana/gr-conferance/Newyork/front2.jpeg",
+    images: withDestinationImages(NEWYORK_IMAGES, ["/Country/newyork/newyork-2.avif"]),
   },
 ];
 

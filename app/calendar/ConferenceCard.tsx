@@ -23,8 +23,7 @@ const genericCityImages = [
 export default function ConferenceCard({ conf, index }: { conf: Conference; index: number }) {
   const editionHistory = allConferenceEntries
     .filter((c) => c.name === conf.name && c.id !== conf.id)
-    .sort((a, b) => b.year - a.year)
-    .slice(0, 5);
+    .sort((a, b) => b.year - a.year);
 
   const cityImage = genericCityImages[conf.id % genericCityImages.length];
   const badges = getStatusBadges(conf);

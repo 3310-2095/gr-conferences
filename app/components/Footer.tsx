@@ -17,7 +17,7 @@ const footerLinks = {
     { label: "GR Author Services",    href: "https://gr-journals.com/author-services" },
   ],
   Organization: [
-    { label: "GRS Global",                        href: "#" },
+    { label: "GRS Global",                        href: "https://grsglobal.org/" },
     { label: "Policies",                          href: "/policies" },
     { label: "Get in Touch",                      href: "/get-in-touch" },
   ],

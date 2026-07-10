@@ -20,6 +20,8 @@ export type Conference = {
   registerUrl?: string;
   /** Real per-conference paper-submission (EasyChair) link. Omitted when not yet functional — the button renders disabled/grey in that case. */
   submitPaperUrl?: string;
+  /** Hides this entry from the Archives page while still showing it in calendar edition history. */
+  hideFromArchives?: boolean;
 };
 
 export const conferences: Conference[] = [
@@ -687,18 +689,18 @@ export const archiveConferences: Conference[] = [
     status: "past",
     year: 2021,
   },
-  // Hidden from UI — date was never confirmed ("Date TBA").
-  // {
-  //   id: 50,
-  //   name: "SMARTCOM",
-  //   fullName: "International Conference on Smart Trends in Computing and Communications",
-  //   edition: "6th Edition",
-  //   date: "Date TBA",
-  //   location: "India",
-  //   domains: ["Smart Computing", "AI", "Communication"],
-  //   website: "https://www.smartcomconference.com",
-  //   logo: "/SMARTCOM.jpg",
-  //   status: "past",
-  //   year: 2021,
-  // },
+  {
+    id: 50,
+    name: "SMARTCOM",
+    fullName: "International Conference on Smart Trends in Computing and Communications",
+    edition: "6th Edition",
+    date: "17–18 December 2021",
+    location: "India",
+    domains: ["Smart Computing", "AI", "Communication"],
+    website: "https://www.smartcomconference.com",
+    logo: "/SMARTCOM.jpg",
+    status: "past",
+    year: 2021,
+    hideFromArchives: true,
+  },
 ];

@@ -18,19 +18,21 @@ const heroFadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
 };
 
-// Real city photos we have on file — keyed by city name (lower-cased). Only the cities
-// listed here get a real location shot; everything else falls back below.
-const CITY_IMAGES: Record<string, string> = {
-  ahmedabad: "/Country/Ahmedabad.jpg",
-  bangkok: "/Country/Bangkok.jpg",
-  london: "/Country/London.jpg",
-  cairo: "/Country/Cairo.webp",
-  jaipur: "/Country/jaipur.webp",
-  manila: "/Country/manila.jpg",
-  "las vegas": "/Country/lasvegas.webp",
-  goa : "/Country/goa-city.png",
-  chandigarh : "/Country/chandigarh.avif",
-  pune: "/Country/pune.jpg",
+// Real city photos we have on file — keyed by city name (lower-cased), each with the
+// original shot plus the newer extras so repeat cards for the same city don't all show
+// the identical photo. Only the cities listed here get a real location shot; everything
+// else falls back below.
+const CITY_IMAGES: Record<string, string[]> = {
+  ahmedabad: ["/Country/ahmedabad/ahmedabad-1.jpg", "/Country/ahmedabad/ahmedabad-2.jpg", "/Country/ahmedabad/ahmedabad-3.webp"],
+  bangkok: ["/Country/bangkok/bangkok-1.jpg", "/Country/bangkok/bangkok-2.jpg", "/Country/bangkok/bangkok-3.jpg"],
+  london: ["/Country/london/london-1.jpg", "/Country/london/london-2.avif", "/Country/london/london-3.jpg", "/Country/london/london-4.avif"],
+  cairo: ["/Country/cairo/cairo-1.webp", "/Country/cairo/le-caire.webp"],
+  jaipur: ["/Country/jaipur/jaipur-1.webp", "/Country/jaipur/jaipur-2.jpg", "/Country/jaipur/jaipur-3.jpg"],
+  manila: ["/Country/manila/manila-1.jpg", "/Country/manila/manila-2.jpg", "/Country/manila/manila-3.jpg", "/Country/manila/manila-4.jpg", "/Country/manila/manila-5.jpg"],
+  "las vegas": ["/Country/lasvegas/lasvegas-1.webp", "/Country/lasvegas/lasvegas-2.jpg", "/Country/lasvegas/lasvegas-3.jpg", "/Country/lasvegas/lasvegas-4.webp", "/Country/lasvegas/lasvegas-5.jpg"],
+  goa: ["/Country/goa/goa-1.png", "/Country/goa/goa-2.jpg", "/Country/goa/goa-3.jpg"],
+  chandigarh: ["/Country/chandigarh/chandigarh-1.avif", "/Country/chandigarh/chandigarh-2.jpg", "/Country/chandigarh/chandigarh-3.jpg"],
+  pune: ["/Country/pune/pune-1.jpg", "/Country/pune/pune-2.jpg", "/Country/pune/pune-3.jpg"],
 };
 
 // `location` isn't uniformly formatted ("United Kingdom" vs "London, UK" vs "India") —
@@ -66,8 +68,17 @@ function formatCityCountry(location: string): string {
   return city ? `${city}, ${country}` : country;
 }
 
+// Archive card title is just "ACRONYM YEAR" — except ICTIS in 2024/2025, where two
+// differently-located ICTIS editions land in the same year, so the city qualifier
+// (already part of `name`, e.g. "ICTIS USA") is kept to tell them apart.
+function getArchiveCardTitle(name: string, year: number): string {
+  const acronym = name.split(" ")[0];
+  const keepQualifier = acronym === "ICTIS" && (year === 2024 || year === 2025);
+  return `${keepQualifier ? name : acronym} ${year}`;
+}
+
 export default function ArchivesPage() {
-  const pastConferences = archiveConferences.filter(c => c.year <= 2025);
+  const pastConferences = archiveConferences.filter(c => c.year <= 2025 && !c.hideFromArchives);
 
   const allNames = useMemo(() => Array.from(new Set(pastConferences.map(c => c.name))).sort(), [pastConferences]);
   const allYears = useMemo(() => Array.from(new Set(pastConferences.map(c => String(c.year)))).sort((a, b) => Number(b) - Number(a)), [pastConferences]);
@@ -246,7 +257,8 @@ export default function ArchivesPage() {
               const editionLinks = getEditionLinks(archive.name, archive.year);
               const galleryHref = editionLinks.gallery ?? (gallerySlug ? `/gallery/${gallerySlug}` : `/gallery`);
               const publicationHref = editionLinks.publication ?? `${archive.website}#publication`;
-              const cityImage = CITY_IMAGES[getCity(archive.location).toLowerCase()];
+              const cityImageOptions = CITY_IMAGES[getCity(archive.location).toLowerCase()];
+              const cityImage = cityImageOptions?.[archive.id % cityImageOptions.length];
               return (
                 <div
                   key={archive.id}
@@ -274,7 +286,7 @@ export default function ArchivesPage() {
                   {/* Content */}
                   <div className="p-7 flex flex-col flex-1">
                     <h3 className="text-[19px] font-bold text-[#111] mb-3 tracking-tight">
-                      {archive.name}, {formatCityCountry(archive.location)} {archive.year}
+                      {getArchiveCardTitle(archive.name, archive.year)}
                     </h3>
 
                     <p className="text-[13px] text-gray-600 leading-[1.7] font-medium mb-2">
@@ -319,3 +331,4 @@ export default function ArchivesPage() {
     </>
   );
 }
+``

@@ -36,7 +36,7 @@ const conferences = [
     subtitle: "TECHNOLOGY & BUSINESS",
     year: "22–24 June 2026",
     location: "Manila, Philippines",
-    img: "/Country/manila.jpg",
+    img: "/Country/manila/manila-1.jpg",
     link: "https://tibsconf.com",
   },
   {

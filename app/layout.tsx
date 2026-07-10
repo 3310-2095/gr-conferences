@@ -3,6 +3,7 @@ import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PageLoader from "./components/PageLoader";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -50,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("h-full antialiased", "font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">
+        <PageLoader />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
